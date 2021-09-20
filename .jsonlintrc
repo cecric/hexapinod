@@ -1,0 +1,7 @@
+{
+  "validate": "",
+  "ignore": ["node_modules/**/*"],
+  "indent": "",
+  "env": "json-schema-draft-04",
+  "pretty": true
+}
