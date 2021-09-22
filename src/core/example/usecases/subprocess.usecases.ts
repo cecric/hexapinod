@@ -1,10 +1,11 @@
-import { Service } from '@core/services/service';
-import servicemanager from '@core/services/servicemanager';
+import { Service } from '@core/hexapinod/services/service';
+import servicemanager from '@core/hexapinod/services/servicemanager';
+import { UseCases } from '@core/hexapinod/usecases/usecases';
 import terminal from '@lib/terminal/terminal';
 
 
 
-export class SubProcessUsecases {
+export class SubProcessUsecases extends UseCases {
 
 
   public static start (): void {

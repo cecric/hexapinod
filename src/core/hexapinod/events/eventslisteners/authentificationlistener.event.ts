@@ -1,4 +1,4 @@
-import { IUser } from '@core/interfaces/models/user.interface';
+import { IUser } from '@core/example/interfaces/models/user.interface';
 import terminal from '@lib/terminal/terminal';
 import { BaseEventListener } from '../baseeventlistener';
 

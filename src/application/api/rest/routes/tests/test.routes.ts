@@ -1,4 +1,4 @@
-import { TestUsecases } from '@core/usecases/test.usecases';
+import { TestUsecases } from '@core/example/usecases/test.usecases';
 import express from 'express';
 
 const router = express.Router();

@@ -1,6 +1,6 @@
-import AuthentificationListener from '@core/events/eventslisteners/authentificationlistener.event';
-import { EventsManager } from '@core/events/eventsmanager';
-import { IUser } from '@core/interfaces/models/user.interface';
+import AuthentificationListener from '@core/hexapinod/events/eventslisteners/authentificationlistener.event';
+import { EventsManager } from '@core/hexapinod/events/eventsmanager';
+import { IUser } from '@core/example/interfaces/models/user.interface';
 import terminal from '@lib/terminal/terminal';
 
 export class AuthentificationUsecases {

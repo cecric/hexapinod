@@ -1,13 +1,14 @@
-import ITest from '@core/interfaces/repositories/test.interface';
-import { Example } from '@core/models/example';
-import { RepositoriesService } from '@core/services/repositories.service';
-import ServiceManager from '@core/services/servicemanager';
-import { ValidatorService } from '@core/services/validator.service';
+import ITest from '@core/example/interfaces/repositories/test.interface';
+import { Example } from '@core/example/models/example';
+import { RepositoriesService } from '@core/hexapinod/services/repositories.service';
+import ServiceManager from '@core/hexapinod/services/servicemanager';
+import { ValidatorService } from '@core/hexapinod/services/validator.service';
+import { UseCases } from '@core/hexapinod/usecases/usecases';
 import terminal from '@lib/terminal/terminal';
 
 
 
-export class TestUsecases {
+export class TestUsecases extends UseCases {
 
   public static async testAction (): Promise<any> {
     const ex = new Example();

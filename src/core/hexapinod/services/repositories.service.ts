@@ -1,7 +1,7 @@
 import fs from 'fs';
-import IRepository from '@core/interfaces/repositories/repository.interface';
-import Model from '@core/models/model';
-import { GenericException } from '@core/exceptions/generic.exception';
+import IRepository from '@core/hexapinod/interfaces/repositories/repository.interface';
+import Model from '@core/hexapinod/models/model';
+import { GenericException } from '@core/hexapinod/exceptions/generic.exception';
 import { Service } from './service';
 
 

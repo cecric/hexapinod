@@ -1,4 +1,4 @@
-import Model from './model';
+import Model from '@core/hexapinod/models/model';
 
 export class Example extends Model {
   protected example: string;

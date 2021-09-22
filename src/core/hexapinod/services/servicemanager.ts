@@ -1,9 +1,7 @@
 import * as fs from 'fs';
-import * as dotenv from 'dotenv';
 import terminal from '@lib/terminal/terminal';
 import { Service } from './service';
-import { GenericException } from '@core/exceptions/generic.exception';
-dotenv.config({ path: __dirname + '/../../.env' });
+import { GenericException } from '@core/hexapinod/exceptions/generic.exception';
 
 /**
  */

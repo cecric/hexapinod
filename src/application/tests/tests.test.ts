@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-expressions */
-import { TestUsecases } from '@core/usecases/test.usecases';
+import { TestUsecases } from '@core/example/usecases/test.usecases';
 import { expect } from 'chai';
 
 describe('test usecase -> test action', () => {

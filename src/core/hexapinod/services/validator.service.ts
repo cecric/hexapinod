@@ -4,7 +4,7 @@ import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
 import addKeywords from 'ajv-keywords';
 import addErrors from 'ajv-errors';
-import { InvalidParametersException } from '@core/exceptions/invalidparameters.exception';
+import { InvalidParametersException } from '@core/hexapinod/exceptions/invalidparameters.exception';
 import terminal from '@lib/terminal/terminal';
 
 

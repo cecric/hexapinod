@@ -1,5 +1,5 @@
-import ITest from '@core/interfaces/repositories/test.interface';
-import { Example } from '@core/models/example';
+import ITest from '@core/example/interfaces/repositories/test.interface';
+import { Example } from '@core/example/models/example';
 
 
 export default class TestRepository implements ITest {
