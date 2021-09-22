@@ -37,6 +37,11 @@ module.exports = {
         use: 'ts-loader',
         exclude: /node_modules/,
       },
+      {
+        test: /\.md?$/,
+        use: 'null-loader',
+        exclude: /node_modules/,
+      }
     ],
   }
 };

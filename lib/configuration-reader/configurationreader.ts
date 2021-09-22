@@ -29,6 +29,7 @@ class ConfigurationReader {
   }
 
   protected readConfigurationFilepath (_configurationPath: string): Record<string, unknown> {
+    terminal.info('load configuration file ' + _configurationPath);
     let configuration = {};
     try {
       if (!fs.existsSync(_configurationPath)) {
