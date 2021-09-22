@@ -77,7 +77,7 @@ class App {
 
   public async launch(): Promise<void> {
     if (this.configuration['clustering']) {
-      if (cluster.isPrimary) {
+      if ((typeof cluster.isPrimary !== 'undefined' && cluster.isPrimary) || (typeof cluster.isMaster !== 'undefined' && cluster.isMaster)) {
         terminal.log(`Master ${process.pid} is running`);
         const nbSubProcess = Math.max(1, Math.round(os.cpus().length / 2));
         for (let i = 0; i < nbSubProcess; i++) {
