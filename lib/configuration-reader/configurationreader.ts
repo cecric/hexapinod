@@ -2,27 +2,49 @@ import fs from 'fs';
 import terminal from '../terminal/terminal';
 
 
-export class ConfigurationReader {
+class ConfigurationReader {
 
+  protected static instance: ConfigurationReader;
 
+  protected configurationDirectory: string;
 
-  public readConfigurationFilepath (_configurationPath: string): Record<string, unknown> {
+  /**
+   * Gets instance
+   * @returns instance
+   */
+  public static getInstance (): ConfigurationReader {
+    if (!ConfigurationReader.instance) {
+      ConfigurationReader.instance = new ConfigurationReader(__dirname + '/../../config/');
+    }
+    return ConfigurationReader.instance;
+  }
+
+  protected constructor(_configurationDirectory: string) {
+    // const confpath = __dirname + '/../../config/lib/mysql-manager.json';
+    this.configurationDirectory = _configurationDirectory;
+  }
+
+  public getConfiguration (_path: string): Record<string, unknown> {
+    return this.readConfigurationFilepath( this.configurationDirectory + _path + '.json');
+  }
+
+  protected readConfigurationFilepath (_configurationPath: string): Record<string, unknown> {
     let configuration = {};
     try {
       if (!fs.existsSync(_configurationPath)) {
-        terminal.warn('databases configuration not exists');
+        terminal.warn('configuration ' + _configurationPath + ' not exists');
       } else {
-        const rawdbconfs = fs.readFileSync(_configurationPath);
-        configuration = JSON.parse(rawdbconfs.toString());
+        const rawConf = fs.readFileSync(_configurationPath);
+        configuration = JSON.parse(rawConf.toString());
       }
     } catch (e) {
-      terminal.error('cannot load configuration with path : ', _configurationPath);
+      terminal.error('cannot load configuration with path : '+ _configurationPath);
       configuration = {};
     }
     return this.replaceByEnvironmentVars(configuration);
   }
 
-  public replaceByEnvironmentVars (_configuration: Record<string, unknown>): Record<string, unknown> {
+  protected replaceByEnvironmentVars (_configuration: Record<string, unknown>): Record<string, unknown> {
     for (const dbkey in _configuration) {
       if (typeof _configuration[dbkey] === 'string') {
         const valueConfiguration: string = _configuration[dbkey] as string;
@@ -38,3 +60,5 @@ export class ConfigurationReader {
   }
 
 }
+
+export default ConfigurationReader.getInstance();

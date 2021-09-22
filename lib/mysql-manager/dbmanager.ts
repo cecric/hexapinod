@@ -1,23 +1,11 @@
 import mysql from 'mysql';
 import util from 'util';
-import fs from 'fs';
 import terminal from '../terminal/terminal';
+import ConfigurationReader from '../configuration-reader/configurationreader';
 
 const connectionPools = {};
-const confpath = __dirname + '/../../config/lib/mysql-manager.json';
 // const databases = process.env.ENVIRONNEMENT_DATABASES === 'LOCAL' ? 'databases.locale' : process.env.ENVIRONNEMENT_DATABASES === 'REMOTE' ? 'databases.remote' : 'databases';
-let dbconfs = null;
-
-try {
-  if (!fs.existsSync(confpath)) {
-    terminal.warn('databases configuration not exists');
-  } else {
-    const rawdbconfs = fs.readFileSync(confpath);
-    dbconfs = JSON.parse(rawdbconfs.toString());
-  }
-} catch (e) {
-  terminal.error('cannot load configuration');
-}
+const dbconfs: Record<string, unknown> = ConfigurationReader.getConfiguration('lib/mysql-manager');
 
 
 function initializePoolsFromConfiguration (_conf): unknown {
@@ -90,21 +78,15 @@ const getConnectionPool = function(_instance = 'main'): any {
   if(!dbconfs || !dbconfs[_instance]) {
     throw Error('No db configurations defined for configuration : ' + _instance + '.');
   }
-  if(dbconfs[_instance] && !connectionPools[dbconfs[_instance].database]) {
-    for (const dbkey in dbconfs[_instance]) {
-      // eslint-disable-next-line prefer-named-capture-group
-      dbconfs[_instance][dbkey] = dbconfs[_instance][dbkey].replace(/\{\{process\.env\.([A-Za-z0-9_]+)\}\}/g, function (_repl, _envkey) {
-        return process.env[_envkey];
-      });
-    }
-    connectionPools[dbconfs[_instance].database] = initializePoolsFromConfiguration( dbconfs[_instance]);
-    const promquery = util.promisify(connectionPools[dbconfs[_instance].database].query).bind(connectionPools[dbconfs[_instance].database]);
-    connectionPools[dbconfs[_instance].database].promised =
+  if(dbconfs[_instance] && !connectionPools[dbconfs[_instance]['database']]) {
+    connectionPools[dbconfs[_instance]['database']] = initializePoolsFromConfiguration( dbconfs[_instance]);
+    const promquery = util.promisify(connectionPools[dbconfs[_instance]['database']].query).bind(connectionPools[dbconfs[_instance]['database']]);
+    connectionPools[dbconfs[_instance]['database']].promised =
       {
         'query': promquery
       };
   }
-  return connectionPools[dbconfs[_instance].database];
+  return connectionPools[dbconfs[_instance]['database']];
 };
 
 const getAsyncConnectionPool = function(_instance = 'main'): Promise<unknown> {
