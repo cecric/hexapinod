@@ -18,17 +18,32 @@ export class EventsManager {
 
   private constructor () {
     // nothing to do
-    this.readPath();
+    this.initializeListenersBundle();
   }
 
-  protected async readPath (): Promise<void> {
+  protected async initializeListenersBundle (): Promise<boolean> {
     terminal.info('[events manager] load events listeners...');
-    const eventListenerSociete = fs.readdirSync(__dirname + '/eventslisteners');
+    const list = fs.readdirSync(__dirname + '/../../', { withFileTypes: true });
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].isDirectory()) {
+        terminal.info('load bundle ' + list[i].name + ' listeners' );
+        await this.readPath (list[i].name + '/events/eventslisteners/');
+      }
+    }
+    terminal.success('[events manager] events successfully loaded');
+    return true;
+  }
+
+  protected async readPath (_bundlePath: string): Promise<void> {
+    if (!fs.existsSync(__dirname + '/' + _bundlePath)) {
+      return;
+    }
+    const eventListenerSociete = fs.readdirSync(__dirname + '/' + _bundlePath);
     for (let i = 0; i < eventListenerSociete.length; i++) {
       if (eventListenerSociete[i].indexOf('.event') !== -1) {
         terminal.info('Load listener ' + eventListenerSociete[i]);
         // const eventListenerSocieteName = eventListenerSociete[i].substr(0, eventListenerSociete[i].indexOf('.event'));
-        const moduleEventListener = await import(__dirname + '/eventslisteners/' + eventListenerSociete[i]);
+        const moduleEventListener = await import(__dirname + '/' + _bundlePath + eventListenerSociete[i]);
         const eventListener: BaseEventListener = new moduleEventListener.default();
         for(const managedEvent of eventListener.getManagedEvents()){
           if (!this.globalEventsListener) {
@@ -41,7 +56,6 @@ export class EventsManager {
         }
       }
     }
-    terminal.success('[events manager] events listeners successfully loaded');
   }
 
   public async asyncDispatch (_eventName: string, _data: unknown): Promise<unknown> {
