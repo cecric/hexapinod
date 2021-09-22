@@ -13,12 +13,15 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import winston from 'winston';
 import expressWinston from 'express-winston';
+import ConfigurationReader from '@lib/configuration-reader/configurationreader';
 
 class App {
   public app: express.Application;
+  protected configuration: Record<string, unknown>;
 
   constructor() {
     this.app = express();
+    this.configuration = ConfigurationReader.getConfiguration('application/api/server');
   }
 
   private async config(): Promise<void> {
@@ -73,8 +76,8 @@ class App {
   }
 
   public async launch(): Promise<void> {
-    if (process.env.CLUSTERING && process.env.CLUSTERING === 'true') {
-      if (cluster.isPrimary) {
+    if (this.configuration['clustering']) {
+      if ((typeof cluster.isPrimary !== 'undefined' && cluster.isPrimary) || (typeof cluster.isMaster !== 'undefined' && cluster.isMaster)) {
         terminal.log(`Master ${process.pid} is running`);
         const nbSubProcess = Math.max(1, Math.round(os.cpus().length / 2));
         for (let i = 0; i < nbSubProcess; i++) {
@@ -120,23 +123,23 @@ class App {
   }
 
   protected launchServer(): void {
-    if (process.env.USE_HTTPS && process.env.USE_HTTPS !== 'false') {
-      const privateKey = fs.readFileSync(process.env.HTTPS_PRIVATE_KEY, 'utf8');
-      const certificate = fs.readFileSync(process.env.HTTPS_PUBLIC_CERT, 'utf8');
+    if (this.configuration['https'] && this.configuration['https']['activated']) {
+      const privateKey = fs.readFileSync(this.configuration['https']['private_key_filepath'], 'utf8');
+      const certificate = fs.readFileSync(this.configuration['https']['public_cert_filepath'], 'utf8');
       const credentials = {key: privateKey, cert: certificate};
       const httpsServer = https.createServer(credentials, this.app);
       const ioServer = new Server(httpsServer);
       ioServer.on('connection', this.onSocketServer );
-      const port = process.env.SOCKET || 3443;
-      httpsServer.listen(port);
+      const port = this.configuration['port'] || 3443;
+      httpsServer.listen(this.configuration['host'] ? {'port': port, 'host': this.configuration['host']} : port);
       terminal.success(`API worker ${process.pid} listening on port ${port} (HTTPS)`);
     } else {
-      const port = process.env.SOCKET || 3000;
+      const port = this.configuration['port'] || 3000;
       // this.app.listen(port, () => terminal.success(`TRF api worker ${process.pid} listening on port ${port} (HTTP)`));
       const httpServer = http.createServer(this.app);
       const ioServer = new Server(httpServer);
       ioServer.on('connection', this.onSocketServer );
-      httpServer.listen(port);
+      httpServer.listen(this.configuration['host'] ? {'port': port, 'host': this.configuration['host']} : port);
       terminal.success(`API worker ${process.pid} listening on port ${port} (HTTP)`);
     }
   }
