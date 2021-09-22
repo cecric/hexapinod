@@ -1,10 +1,10 @@
 import terminal from '@lib/terminal/terminal';
 import {Request, Response} from 'express';
-import { InvalidAccessException } from '@core/exceptions/invalidaccess.exception';
-import { NotFoundException } from '@core/exceptions/notfound.exception';
-import { InvalidParametersException } from '@core/exceptions/invalidparameters.exception';
-import { NoContentException } from '@core/exceptions/nocontent.exception';
-import { AccessDeniedException } from '@core/exceptions/accessdenied.exception';
+import { InvalidAccessException } from '@core/hexapinod/exceptions/invalidaccess.exception';
+import { NotFoundException } from '@core/hexapinod/exceptions/notfound.exception';
+import { InvalidParametersException } from '@core/hexapinod/exceptions/invalidparameters.exception';
+import { NoContentException } from '@core/hexapinod/exceptions/nocontent.exception';
+import { AccessDeniedException } from '@core/hexapinod/exceptions/accessdenied.exception';
 
 // Ne pas supprimer le parametre next, il sert à express pour reconnaitre que ça catch l'erreur
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

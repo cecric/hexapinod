@@ -18,7 +18,7 @@ class ServiceManager {
 
   protected constructor() {
     this.persistentInstance = {};
-    this.initializeServicesClass();
+    this.initializeServiceBundle();
   }
 
   /**
@@ -32,19 +32,31 @@ class ServiceManager {
     return ServiceManager.instance;
   }
 
+  protected async initializeServiceBundle (): Promise<boolean> {
+    terminal.info('[service manager] initialization services started');
+    const list = fs.readdirSync(__dirname + '/../../', { withFileTypes: true });
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].isDirectory()) {
+        terminal.info('load bundle ' + list[i].name + ' services' );
+        await this.initializeServicesClass (list[i].name + '/services/');
+      }
+    }
+    terminal.success('[service manager] services successfully loaded');
+    return true;
+  }
+
   /**
    * @returns true if correctly init
    */
-  protected async initializeServicesClass (): Promise<boolean> {
-    terminal.info('[service manager] initialization services started');
+  protected async initializeServicesClass (_directory: string): Promise<boolean> {
     this.services = [];
-    const list = fs.readdirSync(__dirname + '');
-
+    const list = fs.readdirSync(__dirname + '/../../' + _directory);
     for (let i = 0; i < list.length; i++) {
       if (list[i].indexOf('.ts') === -1 || list[i].indexOf('.service.ts') === -1) {
         continue;
       }
-      const service = await import(__dirname + '/' + list[i]);
+      terminal.info('load service ' + list[i]);
+      const service = await import(__dirname + '/../../' + _directory + list[i]);
       const keyservices = Object.keys(service);
       const keyservice = keyservices.length > 0 ? keyservices[0] : 'default';
       const servname = list[i].substr(0, list[i].indexOf('.service'));
@@ -56,7 +68,6 @@ class ServiceManager {
         'service': service[keyservice]
       };
     }
-    terminal.success('[service manager] services successfully loaded');
     return true;
   }
 

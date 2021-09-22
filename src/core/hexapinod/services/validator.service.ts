@@ -23,19 +23,30 @@ export class ValidatorService extends Service {
       addFormats(this.instance);
       addKeywords(this.instance);
       addErrors(this.instance);
-      const list = fs.readdirSync(__dirname + '/validator');
-      for (let i = 0; i < list.length; i++) {
-        if (list[i].indexOf('.ts') === -1 || list[i].indexOf('.schema.ts') === -1) {
-          continue;
-        }
-        try {
-          const schema = await import(__dirname + '/validator/' + list[i]);
-          this.instance.addSchema(schema.default, list[i].substr(0, list[i].indexOf('.schema')));
-          terminal.log('init validation schema : ' + list[i].substr(0, list[i].indexOf('.schema')));
-        } catch (e) {
-          terminal.error('issue on load validation schema', e);
+      terminal.info('[service manager] initialization validators');
+      const bundles = fs.readdirSync(__dirname + '/../../', { withFileTypes: true });
+      for (let i = 0; i < bundles.length; i++) {
+        if (bundles[i].isDirectory()) {
+          terminal.info('load bundle ' + bundles[i].name + ' validators' );
+          if (!fs.existsSync(__dirname + '/../../' + bundles[i].name + '/services/validator')) {
+            continue;
+          }
+          const list = fs.readdirSync(__dirname + '/../../' + bundles[i].name + '/services/validator');
+          for (let j = 0; j < list.length; j++) {
+            if (list[i].indexOf('.ts') === -1 || list[j].indexOf('.schema.ts') === -1) {
+              continue;
+            }
+            try {
+              const schema = await import(__dirname + '/../../' + bundles[i].name + '/services/validator/' + list[j]);
+              this.instance.addSchema(schema.default, list[i].substr(0, list[i].indexOf('.schema')));
+              terminal.log('init validation schema : ' + list[i].substr(0, list[i].indexOf('.schema')));
+            } catch (e) {
+              terminal.error('issue on load validation schema', e);
+            }
+          }
         }
       }
+      terminal.success('[service manager] validators successfully loaded');
     }
 
     public async validate<T>(_name: string, _data: unknown, _throwError = true): Promise<boolean> {
