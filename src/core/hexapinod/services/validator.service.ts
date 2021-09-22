@@ -29,17 +29,18 @@ export class ValidatorService extends Service {
         if (bundles[i].isDirectory()) {
           terminal.info('load bundle ' + bundles[i].name + ' validators' );
           if (!fs.existsSync(__dirname + '/../../' + bundles[i].name + '/services/validator')) {
+            terminal.warn('path does\'t exists, no validator available for bundle: ' + __dirname + '/../../' + bundles[i].name + '/services/validator');
             continue;
           }
           const list = fs.readdirSync(__dirname + '/../../' + bundles[i].name + '/services/validator');
           for (let j = 0; j < list.length; j++) {
-            if (list[i].indexOf('.ts') === -1 || list[j].indexOf('.schema.ts') === -1) {
+            if (list[j].indexOf('.ts') === -1 || list[j].indexOf('.schema.ts') === -1) {
               continue;
             }
             try {
               const schema = await import(__dirname + '/../../' + bundles[i].name + '/services/validator/' + list[j]);
-              this.instance.addSchema(schema.default, list[i].substr(0, list[i].indexOf('.schema')));
-              terminal.log('init validation schema : ' + list[i].substr(0, list[i].indexOf('.schema')));
+              this.instance.addSchema(schema.default, list[j].substr(0, list[j].indexOf('.schema')));
+              terminal.info('init validation schema : ' + list[j].substr(0, list[j].indexOf('.schema')));
             } catch (e) {
               terminal.error('issue on load validation schema', e);
             }
