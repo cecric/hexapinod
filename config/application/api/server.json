@@ -1,0 +1,10 @@
+{
+  "https": {
+    "activated": false,
+    "private_key_filepath": "",
+    "public_cert_filepath": ""
+  },
+  "port": 3000,
+  "host": null,
+  "clustering": true
+}
