@@ -35,15 +35,15 @@ export class EventsManager {
   }
 
   protected async readPath (_bundlePath: string): Promise<void> {
-    if (!fs.existsSync(__dirname + '/' + _bundlePath)) {
+    if (!fs.existsSync(__dirname + '/../../' + _bundlePath)) {
       return;
     }
-    const eventListenerSociete = fs.readdirSync(__dirname + '/' + _bundlePath);
+    const eventListenerSociete = fs.readdirSync(__dirname + '/../../' + _bundlePath);
     for (let i = 0; i < eventListenerSociete.length; i++) {
       if (eventListenerSociete[i].indexOf('.event') !== -1) {
         terminal.info('Load listener ' + eventListenerSociete[i]);
         // const eventListenerSocieteName = eventListenerSociete[i].substr(0, eventListenerSociete[i].indexOf('.event'));
-        const moduleEventListener = await import(__dirname + '/' + _bundlePath + eventListenerSociete[i]);
+        const moduleEventListener = await import(__dirname + '/../../' + _bundlePath + eventListenerSociete[i]);
         const eventListener: BaseEventListener = new moduleEventListener.default();
         for(const managedEvent of eventListener.getManagedEvents()){
           if (!this.globalEventsListener) {
