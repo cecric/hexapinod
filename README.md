@@ -6,7 +6,7 @@ Hexagonal Architecture API Framework/Skeleton in TypeScript and using nodeJS wit
 
 Since I use typescript in my nodejs project, I didn't find a good architecture bootstrap or framework that suit my needs. And I practiced a lot the hexagonal architecture in projects and I thought it is a vey good architecture for code projects. All API project I made used expressJS, and all of them start with the same code. That's the reason why we add a preconfigured initialization of expressJS.
 
-## Prerequisites ?
+## Prerequisites
 
 NodeJS v 12 (it works on lower version but server clustering could be disabled), and that's it.
 The following commands are for linux debian, but it might work on windows and macosx too.
