@@ -4,9 +4,10 @@ The name of the class should end with service and have the same name than the na
 Example :
 The class RepositoriesService should be into the file repositories.service.ts to be loaded dynamically
 
-Then you should call the service in the usescases or other service with the service manager. It manage the instances of a regular service : 
-    import { RepositoriesService } from '@core/services/repositories.service';
-    import ServiceManager from '@core/services/servicemanager';
+Then you should call the service in the usescases or other service with the service manager. It manage the instances of a regular service :
+```typescript
+import { RepositoriesService } from '@core/services/repositories.service';
+import ServiceManager from '@core/services/servicemanager';
     
-    const repositoriesService: RepositoriesService = ServiceManager.get<RepositoriesService>(RepositoriesService.name);
-
+const repositoriesService: RepositoriesService = ServiceManager.get<RepositoriesService>(RepositoriesService.name);
+```
