@@ -9,28 +9,44 @@ Since I use typescript in my nodejs project, I didn't find a good architecture b
 ## How to install ?
 
 We didn't make an installer yet, so you have to pull the project.
-  git pull https://github.com/cecric/hexapinod.git
+```
+git pull https://github.com/cecric/hexapinod.git
+```
 
 You can also pull and extract into a folder :
-  git archive | tar -xzf
+```
+git archive | tar -xzf
+```
 
 Then you only have to install the package. The package.json is already made with the needed packages inside.
-  npm install
+```
+npm install
+```
 
 ## How to launch ?
 
 While you developp, you can launch the server in debug mod with the following command :
-  npm run serve
+```
+npm run serve
+```
 Or
-  npm run test
+```
+npm run test
+```
 
 If you want to launch the test :
-  npm run test
+```
+npm run test
+```
   
 If you want to launch the server in build mode, you have to compile first and the launch it with node :
-  npm run build
-  node dist/bundle.js server
+```
+npm run build
+node dist/bundle.js server
+```
 
 You can launch other command line that you defined by using other parameters in your call, for example :
-  node dist/bundle.js test
+```
+node dist/bundle.js test
+```
 
