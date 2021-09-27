@@ -1,11 +1,11 @@
-import { Service } from './service';
+import { Service } from '../../../dependencies/hexapinod-framework/service-manager/service';
 import fs from 'fs';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
 import addKeywords from 'ajv-keywords';
 import addErrors from 'ajv-errors';
 import { InvalidParametersException } from '@core/hexapinod/exceptions/invalidparameters.exception';
-import terminal from '@lib/terminal/terminal';
+import terminal from '@dependencies/terminal/terminal';
 
 
 export class ValidatorService extends Service {

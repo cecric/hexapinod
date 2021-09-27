@@ -1,9 +1,10 @@
-import AuthentificationListener from '@core/example/events/eventslisteners/authentificationlistener.event';
-import { EventsManager } from '@core/hexapinod/events/eventsmanager';
+import AuthentificationListener from '@core/example/eventslisteners/authentificationlistener.event';
+import { EventsManager } from '@dependencies/hexapinod-framework/events/eventsmanager';
 import { IUser } from '@core/example/interfaces/models/user.interface';
-import terminal from '@lib/terminal/terminal';
+import terminal from '@dependencies/terminal/terminal';
+import { UseCases } from '@dependencies/hexapinod-framework/usecases/usecases';
 
-export class AuthentificationUsecases {
+export class AuthentificationUsecases extends UseCases {
 
   public static async loginUser(_email: string, _password: string, _networkInfo: Array<string>): Promise<IUser> {
     await EventsManager.getInstance().asyncDispatch(AuthentificationListener.EVENT_AUTHENTIFICATION_LOGIN_ATTEMPT, {'email': _email, 'password': _password, 'networkInfo': _networkInfo});

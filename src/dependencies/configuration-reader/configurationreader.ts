@@ -1,5 +1,5 @@
 import fs from 'fs';
-import terminal from '../terminal/terminal';
+import terminal from '@dependencies/terminal/terminal';
 
 
 class ConfigurationReader {
@@ -14,7 +14,7 @@ class ConfigurationReader {
    */
   public static getInstance (): ConfigurationReader {
     if (!ConfigurationReader.instance) {
-      ConfigurationReader.instance = new ConfigurationReader(__dirname + '/../../config/');
+      ConfigurationReader.instance = new ConfigurationReader(__dirname + '/../../../config/');
     }
     return ConfigurationReader.instance;
   }

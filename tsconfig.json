@@ -70,8 +70,14 @@
         "@core/*": [
           "src/core/*"
         ],
-        "@lib/*": [
-          "lib/*"
+        "@dependencies/*": [
+          "src/dependencies/*"
+        ],
+        "@application/*": [
+          "src/application/*"
+        ],
+        "@infrastructure/*": [
+          "src/infrastructure/*"
         ]
     }
   },

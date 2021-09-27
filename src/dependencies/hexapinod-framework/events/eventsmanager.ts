@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { BaseEventListener } from './baseeventlistener';
-import terminal from '@lib/terminal/terminal';
+import terminal from '@dependencies/terminal/terminal';
 
 
 export class EventsManager {
@@ -23,11 +23,11 @@ export class EventsManager {
 
   protected async initializeListenersBundle (): Promise<boolean> {
     terminal.info('[events manager] load events listeners...');
-    const list = fs.readdirSync(__dirname + '/../../', { withFileTypes: true });
+    const list = fs.readdirSync(__dirname + '/../../../core/', { withFileTypes: true });
     for (let i = 0; i < list.length; i++) {
       if (list[i].isDirectory()) {
         terminal.info('load bundle ' + list[i].name + ' listeners' );
-        await this.readPath (list[i].name + '/events/eventslisteners/');
+        await this.readPath (list[i].name + '/eventslisteners/');
       }
     }
     terminal.success('[events manager] events successfully loaded');
@@ -35,15 +35,15 @@ export class EventsManager {
   }
 
   protected async readPath (_bundlePath: string): Promise<void> {
-    if (!fs.existsSync(__dirname + '/../../' + _bundlePath)) {
+    if (!fs.existsSync(__dirname + '/../../../core/' + _bundlePath)) {
       return;
     }
-    const eventListenerSociete = fs.readdirSync(__dirname + '/../../' + _bundlePath);
+    const eventListenerSociete = fs.readdirSync(__dirname + '/../../../core/' + _bundlePath);
     for (let i = 0; i < eventListenerSociete.length; i++) {
       if (eventListenerSociete[i].indexOf('.event') !== -1) {
         terminal.info('Load listener ' + eventListenerSociete[i]);
         // const eventListenerSocieteName = eventListenerSociete[i].substr(0, eventListenerSociete[i].indexOf('.event'));
-        const moduleEventListener = await import(__dirname + '/../../' + _bundlePath + eventListenerSociete[i]);
+        const moduleEventListener = await import(__dirname + '/../../../core/' + _bundlePath + eventListenerSociete[i]);
         const eventListener: BaseEventListener = new moduleEventListener.default();
         for(const managedEvent of eventListener.getManagedEvents()){
           if (!this.globalEventsListener) {

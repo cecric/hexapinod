@@ -2,7 +2,7 @@
 //import app from './src/application/graphQL/server';
 import * as dotenv from 'dotenv';
 import { Command } from 'commander';
-import terminal from '@lib/terminal/terminal';
+import terminal from '@dependencies/terminal/terminal';
 import { BaseCommand } from './src/application/cli/basecommand';
 import { SubProcessUsecases } from '@core/hexapinod/usecases/subprocess.usecases';
 dotenv.config({ path: process.env.PWD + '/.env' });

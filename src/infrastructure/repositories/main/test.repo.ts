@@ -1,6 +1,6 @@
 import ITest from '@core/example/interfaces/repositories/test.interface';
 import { Example } from '@core/example/models/example';
-import {DBManager} from '@lib/mysql-manager/dbmanager';
+import {DBManager} from '@dependencies/hexapinod-framework/orm/mysql-manager/dbmanager';
 
 
 export default class TestRepository extends DBManager implements ITest {

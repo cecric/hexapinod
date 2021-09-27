@@ -1,8 +1,8 @@
 import fs from 'fs';
 import IRepository from '@core/hexapinod/interfaces/repositories/repository.interface';
-import Model from '@core/hexapinod/models/model';
+import Model from '@dependencies/hexapinod-framework/orm/model';
 import { GenericException } from '@core/hexapinod/exceptions/generic.exception';
-import { Service } from './service';
+import { Service } from '@dependencies/hexapinod-framework/service-manager/service';
 
 
 export class RepositoriesService extends Service {

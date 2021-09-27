@@ -1,4 +1,4 @@
-import terminal from '@lib/terminal/terminal';
+import terminal from '@dependencies/terminal/terminal';
 import {Request, Response} from 'express';
 import { InvalidAccessException } from '@core/hexapinod/exceptions/invalidaccess.exception';
 import { NotFoundException } from '@core/hexapinod/exceptions/notfound.exception';

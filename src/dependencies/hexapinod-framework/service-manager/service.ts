@@ -1,6 +1,6 @@
 // import { Worker } from 'worker_threads';
 
-import terminal from '@lib/terminal/terminal';
+import terminal from '@dependencies/terminal/terminal';
 import { fork } from 'child_process';
 
 export abstract class Service {

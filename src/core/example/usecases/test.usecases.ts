@@ -1,12 +1,12 @@
 import ITest from '@core/example/interfaces/repositories/test.interface';
 import { Example } from '@core/example/models/example';
-import { EventsManager } from '@core/hexapinod/events/eventsmanager';
+import { EventsManager } from '@dependencies/hexapinod-framework/events/eventsmanager';
 import { RepositoriesService } from '@core/hexapinod/services/repositories.service';
-import ServiceManager from '@core/hexapinod/services/servicemanager';
+import ServiceManager from '@dependencies/hexapinod-framework/service-manager/servicemanager';
 import { ValidatorService } from '@core/hexapinod/services/validator.service';
-import { UseCases } from '@core/hexapinod/usecases/usecases';
-import terminal from '@lib/terminal/terminal';
-import AuthentificationListener from '../events/eventslisteners/authentificationlistener.event';
+import terminal from '@dependencies/terminal/terminal';
+import AuthentificationListener from '../eventslisteners/authentificationlistener.event';
+import { UseCases } from '@dependencies/hexapinod-framework/usecases/usecases';
 
 
 
