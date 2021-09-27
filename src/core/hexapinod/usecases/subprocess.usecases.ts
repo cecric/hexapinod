@@ -1,6 +1,6 @@
 import { Service } from '@dependencies/hexapinod-framework/service-manager/service';
 import servicemanager from '@dependencies/hexapinod-framework/service-manager/servicemanager';
-import { UseCases } from '@core/hexapinod/usecases/usecases';
+import { UseCases } from '@dependencies/hexapinod-framework/usecases/usecases';
 import terminal from '@dependencies/terminal/terminal';
 
 

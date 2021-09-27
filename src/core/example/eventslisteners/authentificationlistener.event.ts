@@ -1,6 +1,6 @@
 import { IUser } from '@core/example/interfaces/models/user.interface';
 import terminal from '@dependencies/terminal/terminal';
-import { BaseEventListener } from '@core/hexapinod/events/baseeventlistener';
+import { BaseEventListener } from '@dependencies/hexapinod-framework/events/baseeventlistener';
 
 
 export default class AuthentificationListener implements BaseEventListener {

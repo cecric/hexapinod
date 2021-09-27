@@ -34,7 +34,7 @@ src
         +-- interfaces
             +-- repositories : This describe the interface to be used by your repositories into the infrastructure
             +-- models : This could describe the interface for your models accepted and returned by the usecases (optionnal part)
-        +-- events : Contain the event listeners
+        +-- eventslisteners : Contain the event listeners
         +-- models : Contain the models classes that describe your data (for example, equivalent of an entity in Symfony PHP)
         +-- exceptions : Contain the exceptions.
 ```
