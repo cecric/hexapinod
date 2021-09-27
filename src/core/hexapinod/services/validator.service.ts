@@ -1,4 +1,4 @@
-import { Service } from './service';
+import { Service } from '../../../dependencies/hexapinod-framework/service-manager/service';
 import fs from 'fs';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';

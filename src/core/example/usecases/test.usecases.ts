@@ -2,7 +2,7 @@ import ITest from '@core/example/interfaces/repositories/test.interface';
 import { Example } from '@core/example/models/example';
 import { EventsManager } from '@core/hexapinod/events/eventsmanager';
 import { RepositoriesService } from '@core/hexapinod/services/repositories.service';
-import ServiceManager from '@core/hexapinod/services/servicemanager';
+import ServiceManager from '@dependencies/hexapinod-framework/service-manager/servicemanager';
 import { ValidatorService } from '@core/hexapinod/services/validator.service';
 import { UseCases } from '@core/hexapinod/usecases/usecases';
 import terminal from '@dependencies/terminal/terminal';
