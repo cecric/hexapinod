@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { BaseEventListener } from './baseeventlistener';
-import terminal from '@lib/terminal/terminal';
+import terminal from '@dependencies/terminal/terminal';
 
 
 export class EventsManager {

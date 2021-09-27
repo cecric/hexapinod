@@ -24,10 +24,10 @@ module.exports = {
     extensions: [ '.tsx', '.ts', '.js' ],
     plugins: [new TsconfigPathsPlugin()],
     alias: {
+      '@dependencies': path.resolve(__dirname + 'src/dependencies'),
       '@application': path.resolve(__dirname + 'src/application'),
       '@core': path.resolve(__dirname + 'src/core'),
-      '@infrastructure': path.resolve(__dirname + 'src/infrastructure'),
-      '@lib': path.resolve(__dirname + 'lib'),
+      '@infrastructure': path.resolve(__dirname + 'src/infrastructure')
     }
   },
   module: {

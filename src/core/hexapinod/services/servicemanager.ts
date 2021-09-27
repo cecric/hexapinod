@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import terminal from '@lib/terminal/terminal';
+import terminal from '@dependencies/terminal/terminal';
 import { Service } from './service';
 import { GenericException } from '@core/hexapinod/exceptions/generic.exception';
 

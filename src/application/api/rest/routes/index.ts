@@ -1,5 +1,5 @@
 
-import terminal from '@lib/terminal/terminal';
+import terminal from '@dependencies/terminal/terminal';
 import {Router} from 'express';
 import fs from 'fs';
 

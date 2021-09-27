@@ -1,4 +1,4 @@
-import terminal from '@lib/terminal/terminal';
+import terminal from '@dependencies/terminal/terminal';
 import { Command } from 'commander';
 import { BaseCommand } from './basecommand';
 

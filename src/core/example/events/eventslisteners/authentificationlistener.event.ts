@@ -1,5 +1,5 @@
 import { IUser } from '@core/example/interfaces/models/user.interface';
-import terminal from '@lib/terminal/terminal';
+import terminal from '@dependencies/terminal/terminal';
 import { BaseEventListener } from '@core/hexapinod/events/baseeventlistener';
 
 

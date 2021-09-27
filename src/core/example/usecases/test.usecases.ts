@@ -5,7 +5,7 @@ import { RepositoriesService } from '@core/hexapinod/services/repositories.servi
 import ServiceManager from '@core/hexapinod/services/servicemanager';
 import { ValidatorService } from '@core/hexapinod/services/validator.service';
 import { UseCases } from '@core/hexapinod/usecases/usecases';
-import terminal from '@lib/terminal/terminal';
+import terminal from '@dependencies/terminal/terminal';
 import AuthentificationListener from '../events/eventslisteners/authentificationlistener.event';
 
 

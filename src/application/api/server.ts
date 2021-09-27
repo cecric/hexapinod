@@ -2,7 +2,7 @@ import express from 'express';
 import errorMiddleware from './rest/middlewares/error.middleware';
 import middlewares from './rest/middlewares';
 import { initializeRoutes } from './rest/routes';
-import terminal from '@lib/terminal/terminal';
+import terminal from '@dependencies/terminal/terminal';
 import cluster from 'cluster';
 import fs from 'fs';
 import https from 'https';
@@ -13,7 +13,7 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import winston from 'winston';
 import expressWinston from 'express-winston';
-import ConfigurationReader from '@lib/configuration-reader/configurationreader';
+import ConfigurationReader from '@dependencies/configuration-reader/configurationreader';
 
 class App {
   public app: express.Application;

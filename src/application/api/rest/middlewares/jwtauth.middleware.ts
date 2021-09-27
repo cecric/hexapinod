@@ -1,7 +1,7 @@
 import { AccessDeniedException } from '@core/hexapinod/exceptions/accessdenied.exception';
 import { IUser } from '@core/example/interfaces/models/user.interface';
 import { AuthentificationUsecases } from '@core/example/usecases/authentification.usecases';
-import terminal from '@lib/terminal/terminal';
+import terminal from '@dependencies/terminal/terminal';
 import express from 'express';
 import jwt from 'jsonwebtoken';
 

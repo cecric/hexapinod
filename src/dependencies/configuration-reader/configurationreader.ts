@@ -1,5 +1,5 @@
 import fs from 'fs';
-import terminal from '../terminal/terminal';
+import terminal from '@dependencies/terminal/terminal';
 
 
 class ConfigurationReader {
