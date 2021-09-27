@@ -12,7 +12,7 @@ It doesn't involve any ORM currently, except a self made quite simple code to po
 
 ## Prerequisites
 
-NodeJS v12 (it could also works on lower version of node, but we did not test it), and that's it.
+NodeJS v12 or above (it could also works on lower version of node, but we did not test it), and that's it.
 The following commands are for linux debian, but it might work on Windows and MacOS too.
 
 ## Installation
