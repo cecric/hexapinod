@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get('/protected-path/example', jwtauthmiddleware, async function (_req, _res, _next) {
   try {
-    const responseContent = await ExampleUsecases.exampleAction();
+    const responseContent = await ExampleUsecases.exampleValidatorAction();
     _res.status(200).send(responseContent);
     return;
   } catch (e) {

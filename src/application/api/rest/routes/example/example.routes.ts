@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('/example', async function (_req, _res, _next) {
   try {
-    const responseContent = await ExampleUsecases.exampleAction();
+    const responseContent = await ExampleUsecases.exampleRepositoryAction();
     _res.status(200).send(responseContent);
     return;
   } catch (e) {
