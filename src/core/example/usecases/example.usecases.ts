@@ -1,4 +1,4 @@
-import ITest from '@core/example/interfaces/repositories/test.interface';
+import ITest from '@core/example/interfaces/repositories/example.interface';
 import { Example } from '@core/example/models/example';
 import { EventsManager } from '@dependencies/hexapinod-framework/events/eventsmanager';
 import { RepositoriesService } from '@core/hexapinod/services/repositories.service';
@@ -10,9 +10,9 @@ import { UseCases } from '@dependencies/hexapinod-framework/usecases/usecases';
 
 
 
-export class TestUsecases extends UseCases {
+export class ExampleUsecases extends UseCases {
 
-  public static async testAction (): Promise<any> {
+  public static async exampleAction (): Promise<any> {
     await EventsManager.getInstance().asyncDispatch(AuthentificationListener.EVENT_AUTHENTIFICATION_LOGIN_ATTEMPT, {'email': 'test@test.test', 'password': 'test', 'networkInfo': []});
     const ex = new Example();
     ex.setExample('yolo@yolo.fr');
@@ -22,7 +22,7 @@ export class TestUsecases extends UseCases {
     await validatorService.validate<Example>('example', ex.toObject());
     const repositoriesService: RepositoriesService = ServiceManager.get<RepositoriesService>(RepositoriesService.name);
     const repo = await repositoriesService.getRepositoryByName('test') as ITest;
-    const result = await repo.isTest();
+    const result = await repo.getExample();
     terminal.log(result.toObject());
     return {'ok': true};
   }

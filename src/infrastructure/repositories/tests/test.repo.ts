@@ -1,10 +1,10 @@
-import ITest from '@core/example/interfaces/repositories/test.interface';
+import IExample from '@core/example/interfaces/repositories/example.interface';
 import { Example } from '@core/example/models/example';
 
 
-export default class TestRepository implements ITest {
+export default class ExampleRepository implements IExample {
 
-  public isTest(): Promise<Example> {
+  public getExample(): Promise<Example> {
     return new Promise((resolve) => {
       resolve(new Example({'test': 'valid test'}));
     });

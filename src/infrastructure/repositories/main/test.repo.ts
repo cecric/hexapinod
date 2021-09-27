@@ -1,18 +1,15 @@
-import ITest from '@core/example/interfaces/repositories/test.interface';
+import IExample from '@core/example/interfaces/repositories/example.interface';
 import { Example } from '@core/example/models/example';
 import {DBManager} from '@dependencies/hexapinod-framework/orm/mysql-manager/dbmanager';
 
 
-export default class TestRepository extends DBManager implements ITest {
+export default class ExampleRepository extends DBManager implements IExample {
 
-  public async isTest(): Promise<Example> {
+  public async getExample(): Promise<Example> {
     const request = /*sql*/`
       SELECT 
-        username AS example
-      FROM user
-      WHERE 
-        email = ${this.escape('cedric@sublivin.com')}
-      LIMIT 1;
+        1 AS example
+      ;
     `;
     const result = await this.asyncQuery(request);
     const sample = new Example(result[0]);
