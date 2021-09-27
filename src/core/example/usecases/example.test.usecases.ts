@@ -27,10 +27,4 @@ export class ExampleTestUsecases extends UseCases {
     return {'ok': true};
   }
 
-  public static async testSubprocessAction (): Promise<any> {
-    const validatorService:ValidatorService = ServiceManager.get('validator');
-    await validatorService.fork({'test': true});
-    return {'ok': true};
-  }
-
 }
