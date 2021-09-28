@@ -11,13 +11,13 @@ import ExampleListener from '../eventslisteners/examplelistener.event';
 
 export class ExampleUsecases extends UseCases {
 
-  public static async exampleValidatorAction (): Promise<any> {
+  public static async exampleValidatorAction (): Promise<Example> {
     const ex = new Example();
     ex.setExample('sample@example.fr');
     ex.setDateExample(new Date());
     const validatorService: ValidatorService = ServiceManager.get<ValidatorService>(ValidatorService.name);
     await validatorService.validate<Example>('example', ex.toObject());
-    return {'ok': true};
+    return ex;
   }
 
   public static async exampleEventAction (): Promise<any> {
@@ -25,7 +25,7 @@ export class ExampleUsecases extends UseCases {
     return {'ok': true};
   }
 
-  public static async exampleRepositoryAction (): Promise<any> {
+  public static async exampleRepositoryAction (): Promise<Example> {
     const repositoriesService: RepositoriesService = ServiceManager.get<RepositoriesService>(RepositoriesService.name);
     const repo = await repositoriesService.getRepositoryByName('test') as ITest;
     const result = await repo.getExample();

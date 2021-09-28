@@ -1,17 +1,13 @@
+import { apiCallWrapper } from '@application/api/apicallwrapper';
+import { Example } from '@core/example/models/example';
 import { ExampleUsecases } from '@core/example/usecases/example.usecases';
 import express from 'express';
 
 const router = express.Router();
 
-
-router.get('/example', async function (_req, _res, _next) {
-  try {
-    const responseContent = await ExampleUsecases.exampleRepositoryAction();
-    _res.status(200).send(responseContent);
-    return;
-  } catch (e) {
-    _next(e);
-  }
-});
+router.get('/example', apiCallWrapper(async (_req, _res) => {
+  const content: Example = await ExampleUsecases.exampleValidatorAction();
+  _res.status(200).send(content.toObject());
+}));
 
 export default router;
