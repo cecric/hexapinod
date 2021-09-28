@@ -1,4 +1,4 @@
-import ITest from '@core/example/interfaces/repositories/example.interface';
+import IExample from '@core/example/interfaces/repositories/example.interface';
 import { Example } from '@core/example/models/example';
 import { EventsManager } from '@dependencies/hexapinod-framework/events/eventsmanager';
 import { RepositoriesService } from '@core/hexapinod/services/repositories.service';
@@ -27,7 +27,7 @@ export class ExampleUsecases extends UseCases {
 
   public static async exampleRepositoryAction (): Promise<Example> {
     const repositoriesService: RepositoriesService = ServiceManager.get<RepositoriesService>(RepositoriesService.name);
-    const repo = await repositoriesService.getRepositoryByName('test') as ITest;
+    const repo = await repositoriesService.getRepositoryByName('example') as IExample;
     const result = await repo.getExample();
     return result;
   }
