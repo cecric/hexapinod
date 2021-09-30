@@ -4,7 +4,7 @@ Hexagonal Architecture API Framework/Skeleton in TypeScript and using nodeJS wit
 
 ## Why this Framework/Skeleton ?
 
-Since I use typescript in my nodejs projects, I didn't find good architectures skeletons or frameworks that suit my needs. I practiced a lot the hexagonal architecture in projects and I think it is a vey good architecture for code projects to works with small/medium team. The aim of this project is to help developers to start a new REST API project (GraphQL will come soon) and concentrate only on their business code.
+Since I use typescript in my nodejs projects, I didn't find good architectures skeletons or frameworks that suit my needs. I practiced a lot the **hexagonal architecture** in projects and I think it is a vey good architecture for code projects to works with small/medium sized team. The aim of this project is to help developers to start a new REST API project (GraphQL will come soon) and concentrate only on their business code.
 All API project I made used expressJS, and all of them start with the same code. That's the reason why we add a preconfigured initialization of expressJS. 
 It use also the following projects for example (full list in package.json)
 - [Express JS](https://expressjs.com/)
@@ -13,11 +13,11 @@ It use also the following projects for example (full list in package.json)
 - [Chalk](https://github.com/chalk/chalk)
 - [AJV](https://ajv.js.org/) 
 
-We aim to use a **KISS** (**Keep It Simple, Stupid**) strategy to build it, so we didn't take all the the names and the required interfaces from the hexagonal architecture which could be very complicated to implement.
-We took the hexagonal structure in the following folders:
+We aim to use a **KISS** (**Keep It Simple, Stupid**) strategy to build it, so we didn't take all the the names and the required interfaces from the hexagonal architecture which could be very complex (if you want to explore the complete hexagonal architecture, I recommend to read the following post: [DDD, Hexagonal, Onion, Clean, CQRS, ... How I put it all together](https://herbertograca.com/2017/11/16/explicit-architecture-01-ddd-hexagonal-onion-clean-cqrs-how-i-put-it-all-together/) from @hgraca).
+We bring the hexagonal structure with the following folders:
 ```
 src
-+-- application : This contain the code of the adapters for your input part. In our case, we integrate the REST Api input and the CLI input. SocketIO and GraphQL will come later.
++-- application : This contain the code of the adapters for your input part. In our case, we integrate the REST Api input, the CLI input and the test input. SocketIO and GraphQL will come later.
 +-- infrastructure : This contain the code of your adapters for your infrastructure. Commonly, it contains repositories with the queries for your databases.
 +-- core : this contain your business core. It is also called 'Domain' in literature.
 +-- dependencies : This contain the dependencies libraries that could be used in the three previous part. It also contain the automatic loaders and the base class from the framework.

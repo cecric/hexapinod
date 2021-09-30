@@ -53,6 +53,9 @@ class ConfigurationReader {
         _configuration[dbkey] = valueConfiguration.replace(/\{\{process\.env\.([A-Za-z0-9_]+)\}\}/g, function (_repl, _envkey) {
           return process.env[_envkey];
         });
+        if (typeof _configuration[dbkey] === 'string' && (_configuration[dbkey] === 'true' || _configuration[dbkey] === 'false')) {
+          _configuration[dbkey] = _configuration[dbkey] === 'true';
+        }
       } else if (typeof _configuration[dbkey] === 'object') {
         _configuration[dbkey] = this.replaceByEnvironmentVars (_configuration[dbkey] as Record<string, unknown>);
       }

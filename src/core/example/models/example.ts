@@ -1,4 +1,4 @@
-import Model from '@dependencies/hexapinod-framework/orm/model';
+import Model from '@dependencies/hexapinod-framework/model/model';
 
 export class Example extends Model {
   protected example: string;
