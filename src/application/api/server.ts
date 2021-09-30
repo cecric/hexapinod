@@ -99,27 +99,6 @@ class App {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected onSocketServer(_socket: any): void {
     terminal.info('socket.io: socket connected');
-  // NotificationUseCase.registerCallback(_socket.id, (_notification: Notification) => {
-  //   try {
-  //     terminal.log('send notification for user ', _notification.getUser().getId());
-  //     _socket.emit('notification', _notification.getUser().getId(), _notification.toObject());
-  //   } catch (e) {
-  //     terminal.error('cannot send notification using Socket.io', e);
-  //   }
-  //   return Promise.resolve();
-  // });
-  // _socket.on('new_user', (_userId) => {
-  //   // terminal.log('receive user to register ', _userId);
-  //   NotificationUseCase.registerUser(_socket.id, _userId);
-  // });
-  // _socket.on('leave_user', (_userId) => {
-  //   // terminal.log('receive user to unregister ', _userId);
-  //   NotificationUseCase.unregisterUser(_socket.id, _userId);
-  // });
-  // _socket.on('disconnect', () => {
-  //   // terminal.info('socket.io: gateway disconnected');
-  //   NotificationUseCase.unregisterCallback(_socket.id);
-  // });
   }
 
   protected launchServer(): void {
