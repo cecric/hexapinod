@@ -1,6 +1,6 @@
 import IExample from '@core/example/interfaces/repositories/example.interface';
 import { Example } from '@core/example/models/example';
-import {DBManager} from '@dependencies/hexapinod-framework/orm/mysql-manager/dbmanager';
+import {DBManager} from '@dependencies/mysql-manager/dbmanager';
 
 
 export default class ExampleRepository extends DBManager implements IExample {
