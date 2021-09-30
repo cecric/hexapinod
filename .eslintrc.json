@@ -1,0 +1,122 @@
+{
+    "env": {
+      "es6": true,
+      "node": true,
+      "mocha": true
+    },
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint"],
+    "extends": ["eslint:recommended"],
+    "globals": {
+    },
+    "overrides": [
+    {
+        "files": ["*.ts", ".*.ts"],
+        "extends": "plugin:@typescript-eslint/recommended",
+        "rules":
+        {
+          "@typescript-eslint/semi": ["error"],
+          "@typescript-eslint/member-delimiter-style": ["error"],
+          "@typescript-eslint/interface-name-prefix": "off",
+          "@typescript-eslint/no-explicit-any": "off"
+        }
+    },
+    {
+      "files": ["*.spec.ts"],
+      "rules": {
+          "no-unused-expressions": "off"
+      }
+    }],
+    "rules": {
+      "max-lines": ["error", {
+        "max": 1200,
+        "skipBlankLines": false
+      }],
+      "max-depth": ["error", 10],
+      "no-console": "off",
+      "indent": [
+        "error",
+        2
+      ],
+      "linebreak-style": [
+        "error",
+        "unix"
+      ],
+      "brace-style": [
+        "error",
+        "1tbs"
+      ],
+      "quotes": [
+        "error",
+        "single"
+      ],
+      "semi": "off",
+      "no-unreachable": "warn",
+      "new-cap": "off",
+      "no-unused-vars": "warn",
+      "no-useless-escape": "warn",
+      "no-template-curly-in-string": "error",
+      "default-case": "error",
+      "no-empty-function": "error",
+      "no-eq-null": "error",
+      "camelcase": "error",
+      "handle-callback-err": ["error", "((_^.+Error)|(_error))"],
+      "no-use-before-define": "error",
+      "no-extra-parens": ["error", "all", { 
+        "nestedBinaryExpressions": false,
+        "enforceForArrowConditionals": false,
+        "conditionalAssign": false
+      }],
+      "prefer-promise-reject-errors": "error",
+      "prefer-regex-literals": "error",
+      "no-throw-literal": "error",
+      "no-useless-concat": "error",
+      "no-self-compare": "error",
+      "no-param-reassign": ["error", 
+        {
+          "props": false
+        }
+      ],
+      "no-return-await": "error",
+      "no-loop-func": "error",
+      "consistent-this": ["error", "refthis"],
+      "no-array-constructor": "error",
+      "no-plusplus": ["error", {
+        "allowForLoopAfterthoughts": true
+        }
+      ],
+      "no-trailing-spaces": "error",
+      "no-await-in-loop": "off",
+      "no-restricted-syntax": [
+        "warn",
+        {
+          "selector": "CallExpression[callee.object.name='console']",
+          "message": "Please use the trf object 'terminal' for logging in production"
+        }
+      ],
+      "block-scoped-var": "error",
+      "consistent-return": "error",
+      "no-floating-decimal": "error",
+      "no-multi-str": "error",
+      "no-multi-spaces": "error",
+      "no-new": "error",
+      "no-new-func": "error",
+      "no-sequences": "error",
+      "no-return-assign": ["error", "always"],
+      "no-unmodified-loop-condition": "error",
+      "no-unused-expressions": ["error", {
+        "allowShortCircuit": true,
+        "allowTernary": true
+      }],
+      "no-useless-return": "error",
+      "no-void": "error",
+      "prefer-named-capture-group": "error",
+      "require-await": "error",
+      "wrap-iife": ["error", "inside"]
+    },
+    "parserOptions": {
+        "sourceType": "module",
+        "ecmaVersion": 9
+    }
+  }
+  

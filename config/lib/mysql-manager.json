@@ -1,0 +1,9 @@
+{
+    "main": {
+        "host": "{{process.env.DB_MAIN_HOST}}",
+        "port": "{{process.env.DB_MAIN_PORT}}",
+        "user": "{{process.env.DB_MAIN_USER}}",
+        "password": "{{process.env.DB_MAIN_PWD}}",
+        "database": "{{process.env.DB_MAIN_DBNAME}}"
+    }
+}
