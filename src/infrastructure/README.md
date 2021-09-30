@@ -1,0 +1,3 @@
+# The infrastructure directory
+
+It contains the adapters for your infrastructure, like Database repositories, email wrapper...

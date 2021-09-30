@@ -5,7 +5,7 @@ import ConfigurationReader from '@dependencies/configuration-reader/configuratio
 
 const connectionPools = {};
 // const databases = process.env.ENVIRONNEMENT_DATABASES === 'LOCAL' ? 'databases.locale' : process.env.ENVIRONNEMENT_DATABASES === 'REMOTE' ? 'databases.remote' : 'databases';
-const dbconfs: Record<string, unknown> = ConfigurationReader.getConfiguration('lib/mysql-manager');
+const dbconfs: Record<string, unknown> = ConfigurationReader.getConfiguration('dependencies/mysql-manager');
 
 
 function initializePoolsFromConfiguration (_conf): unknown {
