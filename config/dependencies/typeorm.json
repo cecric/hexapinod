@@ -1,0 +1,18 @@
+[
+    {
+        "type": "mysql",
+        "host": "{{process.env.DB_MAIN_HOST}}",
+        "port": "{{process.env.DB_MAIN_PORT}}",
+        "username": "{{process.env.DB_MAIN_USER}}",
+        "password": "{{process.env.DB_MAIN_PWD}}",
+        "database": "{{process.env.DB_MAIN_DBNAME}}",
+        "synchronize": true,
+        "logging": true,
+        "migrations": [
+            "src/infrastructure/migration/**/*.ts"
+        ],
+        "subscribers": [
+            "src/infrastructure/subscriber/**/*.ts"
+        ]
+    }
+]

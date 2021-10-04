@@ -3,6 +3,7 @@ import IRepository from '@core/hexapinod/interfaces/repositories/repository.inte
 import Model from '@dependencies/hexapinod-framework/model/model';
 import { GenericException } from '@core/hexapinod/exceptions/generic.exception';
 import { Service } from '@dependencies/hexapinod-framework/service-manager/service';
+import { createConnection } from 'typeorm';
 
 
 export class RepositoriesService extends Service {
@@ -27,8 +28,10 @@ export class RepositoriesService extends Service {
     }
     const paramrepo = await import(__dirname + '/../../../infrastructure/repositories/' + (process.env.SERVICE_REPOSITORY_FOLDERS ? process.env.SERVICE_REPOSITORY_FOLDERS + '/': '') + reponame);
     const repository = paramrepo.default;
+
     this.repositories[_className] = new repository();
     return this.repositories[_className];
   }
+
 
 }
