@@ -3,7 +3,6 @@ import IRepository from '@core/hexapinod/interfaces/repositories/repository.inte
 import Model from '@dependencies/hexapinod-framework/model/model';
 import { GenericException } from '@core/hexapinod/exceptions/generic.exception';
 import { Service } from '@dependencies/hexapinod-framework/service-manager/service';
-import { createConnection } from 'typeorm';
 
 
 export class RepositoriesService extends Service {
