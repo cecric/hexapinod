@@ -38,7 +38,7 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.md?$/,
+        test: /^.*\.((?![t|j]s)|(ts[^x]))[^.]*$/,
         use: 'null-loader',
         exclude: /node_modules/,
       }
