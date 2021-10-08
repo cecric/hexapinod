@@ -17,9 +17,7 @@ export abstract class BaseCommand {
   public abstract initCommandParameters(_instance: Command): Command;
 
   public init(_instance: Command): Command {
-    this.name = 'testcommand';
-    this.description = 'command to test the cli.';
-    this.initCommandParameters(_instance.command (this.name).description(this.description)).action(this.execute);
+    this.initCommandParameters(_instance.command(this.name).description(this.description)).action(this.execute);
     return _instance;
   }
 
