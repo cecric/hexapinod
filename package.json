@@ -1,6 +1,6 @@
 {
   "name": "hexapinod",
-  "version": "1.0.0",
+  "version": "v1.0.2",
   "homepage": "https://github.com/cecric/hexapinod#readme",
   "description": "Hexagonal Architecture API Framework/Skeleton in TypeScript and using nodeJS with expressJS.",
   "main": "dist/bundle.js",
