@@ -1,8 +1,9 @@
 {
   "name": "hexapinod",
   "version": "1.0.0",
+  "homepage": "https://github.com/cecric/hexapinod#readme",
   "description": "Hexagonal Architecture API Framework/Skeleton in TypeScript and using nodeJS with expressJS.",
-  "main": "app.js",
+  "main": "dist/bundle.js",
   "directories": {
     "lib": "lib"
   },
@@ -77,7 +78,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cecric/hexapinod"
+    "url": "github:cecric/hexapinod"
   },
   "keywords": [
     "nodejs",
@@ -100,6 +101,7 @@
   "private": false,
   "license": "MIT license",
   "bugs": {
+    "url": "https://github.com/cecric/hexapinod/issues",
     "email": "cedric.lesec@gmail.com"
   },
   "eslintIgnore": [
