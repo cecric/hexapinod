@@ -1,7 +1,7 @@
 {
   "name": "hexapinod",
   "version": "1.0.0",
-  "description": "api data js",
+  "description": "Hexagonal Architecture API Framework/Skeleton in TypeScript and using nodeJS with expressJS.",
   "main": "app.js",
   "directories": {
     "lib": "lib"
@@ -73,30 +73,37 @@
     "test-lint": "eslint . --ignore-pattern 'apidoc/' --ignore-pattern 'doc/' --ignore-pattern 'dist/' ; EXIT_STATUS=$? ; jsonlint -q ./config/**/*.json ./src/**/*.json ; EXIT_STATUS=$? ; exit $EXIT_STATUS ; ",
     "test-unit": "mocha -r ts-node/register -r tsconfig-paths/register src/application/tests/**/*.test.ts",
     "cli": "ts-node -r tsconfig-paths/register ./src/application/cli/index.ts",
-    "build": "webpack --config webpack.config.js"
+    "build": "webpack --config webpack.config.ts"
   },
   "repository": {
     "type": "git",
-    "url": "https://git.trfretail.com/trf/DataAPI.git"
+    "url": "https://github.com/cecric/hexapinod"
   },
   "keywords": [
-    "data",
+    "nodejs",
     "api",
-    "trf"
+    "template",
+    "framework",
+    "typescript",
+    "expressjs",
+    "hexagonal",
+    "api-rest",
+    "rest",
+    "hexagonal-architecture"
   ],
-  "author": "TRF Retail",
   "contributors": [
     {
       "name": "Cédric LESEC",
-      "email": "cedric@sublivin.com"
+      "email": "cedric.lesec@gmail.com"
     }
   ],
-  "private": true,
-  "license": "UNLICENSED",
+  "private": false,
+  "license": "MIT license",
   "bugs": {
-    "email": "contact@sublivin.com"
+    "email": "cedric.lesec@gmail.com"
   },
   "eslintIgnore": [
-    "doc"
+    "dist",
+    "node_modules"
   ]
 }
