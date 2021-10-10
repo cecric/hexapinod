@@ -80,8 +80,6 @@ export default class TypeORMCommand extends BaseCommand {
       const dbconfs: any = configurationreader.getConfiguration('dependencies/typeorm');
       const data = JSON.stringify(dbconfs);
       fs.writeFileSync(tmpConfigurationPath + '/typeorm.json', data);
-      terminal.log(tmpConfigurationPath, relativeConfigurationPath);
-      terminal.log(options, argument);
       let command = 'node ' + __dirname + '/../../../node_modules/typeorm/cli.js';
 
       switch (argument) {
@@ -173,8 +171,11 @@ export default class TypeORMCommand extends BaseCommand {
       default:
         throw new Error('invalid option ' + argument + ' for typeorm');
       }
-      terminal.log(command);
-      execSync(command);
+      if (options['verbose']) {
+        terminal.log(command);
+      }
+      const bufferReturn: Buffer = execSync(command);
+      terminal.log(bufferReturn.toString());
     } catch(e) {
       terminal.error(e.message);
     } finally {
@@ -190,8 +191,7 @@ export default class TypeORMCommand extends BaseCommand {
 
   public initCommandParameters(_instance: Command): Command {
     return _instance.argument('<typeorm argument>', 'allowed values migration:generate')
-      .option('-v', 'verbose')
-      .option('-h', 'help')
+      .option('-v, --verbose', 'verbose mode')
       .option('-b, --bundle <thebundlename>', 'the name of bundle in core')
       .option('-n, --name <thename>', 'the name of entity/subscriber')
       .option('-c, --connection <theconnectionname>', 'the name of connection');
