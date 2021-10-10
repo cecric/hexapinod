@@ -15,7 +15,7 @@ export class ExampleUsecases extends UseCases {
     const ex = new Example();
     ex.setExample('sample@example.fr');
     ex.setDateExample(new Date());
-    const validatorService: ValidatorService = ServiceManager.get<ValidatorService>(ValidatorService.name);
+    const validatorService: ValidatorService = await ServiceManager.get<ValidatorService>(ValidatorService.name);
     await validatorService.validate<Example>('example', ex.toObject());
     return ex;
   }
@@ -26,14 +26,14 @@ export class ExampleUsecases extends UseCases {
   }
 
   public static async exampleRepositoryAction (): Promise<Example> {
-    const repositoriesService: RepositoriesService = ServiceManager.get<RepositoriesService>(RepositoriesService.name);
+    const repositoriesService: RepositoriesService = await ServiceManager.get<RepositoriesService>(RepositoriesService.name);
     const repo = await repositoriesService.getRepositoryByName('example') as IExample;
     const result = await repo.getExample();
     return result;
   }
 
   public static async exampleSubprocessAction (): Promise<any> {
-    const validatorService:ValidatorService = ServiceManager.get('validator');
+    const validatorService:ValidatorService = await ServiceManager.get('validator');
     await validatorService.fork({'test': true});
     return {'ok': true};
   }

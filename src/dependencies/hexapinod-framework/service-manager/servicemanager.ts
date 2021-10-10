@@ -76,7 +76,7 @@ class ServiceManager {
    * @param name string of service
    * @returns  the instance
    */
-  public get <T>(_name: string): T {
+  public async get <T>(_name: string): Promise<T> {
     let name: string = _name;
     if (name.endsWith('Service')) {
       name = name.replace(/Service$/g,'');
@@ -96,13 +96,14 @@ class ServiceManager {
       params.push(new this.services[name]['parameters'][i]());
     }
 
-
     /* eslint-disable */
     const inst:T = new this.services[name].service(...params);
     
     if (!(inst instanceof Service)) {
       throw new GenericException('invalid service loaded, should inherit from Service');
     }
+
+    await inst.initialization();
     /* eslint-enable */
     if (inst.isPersistent()) {
       this.persistentInstance[name] = inst;

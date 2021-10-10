@@ -12,6 +12,7 @@ It use also the following projects for example (full list in package.json)
 - [Luxon](https://moment.github.io/luxon/#/)
 - [Chalk](https://github.com/chalk/chalk)
 - [AJV](https://ajv.js.org/) 
+- [TypeORM](https://typeorm.io/#/) 
 
 We aim to use a **KISS** (**Keep It Simple, Stupid**) strategy to build it, so we didn't take all the the names and the required interfaces from the hexagonal architecture which could be very complex (if you want to explore the complete hexagonal architecture, I recommend to read the following post: [DDD, Hexagonal, Onion, Clean, CQRS, ... How I put it all together](https://herbertograca.com/2017/11/16/explicit-architecture-01-ddd-hexagonal-onion-clean-cqrs-how-i-put-it-all-together/) from @hgraca).
 We bring the hexagonal structure with the following folders:
@@ -40,7 +41,8 @@ src
 ```
 
 ### Comments
-It doesn't involve any ORM currently, except a self made quite simple code to populate object with the result of a query. I am not convinced by the existings ORM. If you have any suggestions about it, feel free to propose.
+This project use currently TypeORM and also an internal ORM quite simple code to populate object with the result of a query.
+We added a wrapper to call command line from typeOrm directly with the framework.
 
 ## Prerequisites
 

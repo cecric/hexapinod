@@ -21,7 +21,7 @@ class App {
 
   constructor() {
     this.app = express();
-    this.configuration = ConfigurationReader.getConfiguration('application/api/server');
+    this.configuration = ConfigurationReader.getConfiguration('application/api/server') as Record<string, unknown>;
   }
 
   private async config(): Promise<void> {

@@ -17,6 +17,9 @@ export class ValidatorService extends Service {
       super();
     }
 
+    public async initialization(): Promise<void> {
+      await this.loadValidatorSchemas();
+    }
 
     public async loadValidatorSchemas(): Promise<void> {
       this.instance = new Ajv({allErrors: true});

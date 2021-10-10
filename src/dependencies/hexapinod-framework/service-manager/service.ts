@@ -11,6 +11,11 @@ export abstract class Service {
     return true;
   }
 
+  public initialization (): Promise<void>{
+    // default do nothing
+    return Promise.resolve();
+  }
+
   public execInSubProcess (_parameters:unknown): unknown {
     terminal.log('sub process in service ' + this.constructor.name + ' called with parameters', _parameters);
     throw new Error('should be implemented');

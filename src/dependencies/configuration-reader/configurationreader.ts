@@ -24,7 +24,7 @@ class ConfigurationReader {
     this.configurationDirectory = _configurationDirectory;
   }
 
-  public getConfiguration (_path: string): Record<string, unknown> {
+  public getConfiguration (_path: string): Record<string, unknown> | [Record<string, unknown>] {
     return this.readConfigurationFilepath( this.configurationDirectory + _path + '.json');
   }
 

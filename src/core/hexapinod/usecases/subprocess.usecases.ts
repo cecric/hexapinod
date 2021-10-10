@@ -33,7 +33,8 @@ export class SubProcessUsecases extends UseCases {
         if(_p['action'] === 'launch') {
           const parameters = JSON.parse(_p['parameters']);
           terminal.log('launch subprocss for service ' + _p['classPath'], 'with parameters ', parameters);
-          result = await servicemanager.get<Service>(_p['classPath'].replace(/Service$/, '').toLowerCase()).execInSubProcess(parameters);
+          const service = await servicemanager.get<Service>(_p['classPath'].replace(/Service$/, '').toLowerCase());
+          result = await service.execInSubProcess(parameters);
           result = JSON.stringify(result);
         }
       } catch (e) {
