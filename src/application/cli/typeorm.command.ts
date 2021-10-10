@@ -57,7 +57,8 @@ export default class TypeORMCommand extends BaseCommand {
     //   -h, --help     Affiche l'aide                                        [booléen]
     //   -v, --version  Affiche le numéro de version                          [booléen]
 
-    const option = args[0];
+    const argument = args[0];
+    const options = args[1];
     // -c <your-config-name>
     // -f <>
     // entity:create -n User -d src/user/entity
@@ -80,59 +81,97 @@ export default class TypeORMCommand extends BaseCommand {
       const data = JSON.stringify(dbconfs);
       fs.writeFileSync(tmpConfigurationPath + '/typeorm.json', data);
       terminal.log(tmpConfigurationPath, relativeConfigurationPath);
-      terminal.log(args, option);
+      terminal.log(options, argument);
       let command = 'node ' + __dirname + '/../../../node_modules/typeorm/cli.js';
 
-      switch (option) {
+      switch (argument) {
       case 'version':
         command += ' version';
         break;
       case 'migration:show':
         command += ' -f ' + relativeConfigurationPath + '/typeorm.json';
-        command += ' ' + option;
+        command += ' ' + argument;
+        if (options['connection']) {
+          command += ' -c ' + options['connection'];
+        }
         break;
       case 'migration:create':
         command += ' -f ' + relativeConfigurationPath + '/typeorm.json';
-        command += ' ' + option;
+        command += ' ' + argument;
+        command += ' -n ' + options['name'];
+        if (options['connection']) {
+          command += ' -c ' + options['connection'];
+        }
         break;
       case 'migration:generate':
         command += ' -f ' + relativeConfigurationPath + '/typeorm.json';
-        command += ' ' + option;
+        command += ' ' + argument;
+        command += ' -n ' + options['name'];
+        if (options['connection']) {
+          command += ' -c ' + options['connection'];
+        }
         break;
       case 'migration:run':
         command += ' -f ' + relativeConfigurationPath + '/typeorm.json';
-        command += ' ' + option;
+        command += ' ' + argument;
+        if (options['connection']) {
+          command += ' -c ' + options['connection'];
+        }
         break;
       case 'migration:revert':
         command += ' -f ' + relativeConfigurationPath + '/typeorm.json';
-        command += ' ' + option;
+        command += ' ' + argument;
+        if (options['connection']) {
+          command += ' -c ' + options['connection'];
+        }
         break;
       case 'schema:sync':
         command += ' -f ' + relativeConfigurationPath + '/typeorm.json';
-        command += ' ' + option;
+        command += ' ' + argument;
+        if (options['connection']) {
+          command += ' -c ' + options['connection'];
+        }
         break;
       case 'schema:log':
         command += ' -f ' + relativeConfigurationPath + '/typeorm.json';
-        command += ' ' + option;
+        command += ' ' + argument;
+        if (options['connection']) {
+          command += ' -c ' + options['connection'];
+        }
         break;
       case 'schema:drop':
         command += ' -f ' + relativeConfigurationPath + '/typeorm.json';
-        command += ' ' + option;
+        command += ' ' + argument;
+        if (options['connection']) {
+          command += ' -c ' + options['connection'];
+        }
         break;
       case 'cache:clear':
         command += ' -f ' + relativeConfigurationPath + '/typeorm.json';
-        command += ' ' + option;
+        command += ' ' + argument;
         break;
       case 'entity:create':
+        if (!options['bundle']) {
+          throw new Error('bundle options is required');
+        }
         command += ' -f ' + relativeConfigurationPath + '/typeorm.json';
-        command += ' ' + option;
+        command += ' ' + argument;
+        command += ' -n ' + options['name'];
+        command += ' -d src/core/' + options['bundle'] + '/models';
+        if (options['connection']) {
+          command += ' -c ' + options['connection'];
+        }
         break;
       case 'subscriber:create':
         command += ' -f ' + relativeConfigurationPath + '/typeorm.json';
-        command += ' ' + option;
+        command += ' ' + argument;
+        command += ' -n ' + options['name'];
+        if (options['connection']) {
+          command += ' -c ' + options['connection'];
+        }
         break;
       default:
-        throw new Error('invalid option ' + option + ' for typeorm');
+        throw new Error('invalid option ' + argument + ' for typeorm');
       }
       terminal.log(command);
       execSync(command);
@@ -151,7 +190,11 @@ export default class TypeORMCommand extends BaseCommand {
 
   public initCommandParameters(_instance: Command): Command {
     return _instance.argument('<typeorm argument>', 'allowed values migration:generate')
-      .option('-v', 'verbose').option('-h', 'help');
+      .option('-v', 'verbose')
+      .option('-h', 'help')
+      .option('-b, --bundle <thebundlename>', 'the name of bundle in core')
+      .option('-n, --name <thename>', 'the name of entity/subscriber')
+      .option('-c, --connection <theconnectionname>', 'the name of connection');
   }
 
 }
