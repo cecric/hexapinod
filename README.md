@@ -42,6 +42,7 @@ src
 
 ### Comments
 This project use currently TypeORM and also an internal ORM quite simple code to populate object with the result of a query.
+We added a wrapper to call command line from typeOrm directly with the framework.
 
 ## Prerequisites
 
