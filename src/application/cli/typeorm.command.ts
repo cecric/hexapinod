@@ -1,7 +1,11 @@
 import { Command } from 'commander';
 import { BaseCommand } from './basecommand';
-import { execSync } from 'child_process';
+import os from 'os';
+import path from 'path';
+import fs from 'fs';
 import terminal from '@dependencies/terminal/terminal';
+import configurationreader from '@dependencies/configuration-reader/configurationreader';
+import { execSync } from 'child_process';
 
 export default class TypeORMCommand extends BaseCommand {
 
@@ -53,19 +57,101 @@ export default class TypeORMCommand extends BaseCommand {
     //   -h, --help     Affiche l'aide                                        [booléen]
     //   -v, --version  Affiche le numéro de version                          [booléen]
 
-    const options = args[0];
-    terminal.log(args, options);
-    const command = 'node ' + __dirname + '/../../../node_modules/typeorm/cli.js ';
+    const option = args[0];
+    // -c <your-config-name>
+    // -f <>
+    // entity:create -n User -d src/user/entity
+    // subscriber:create -n UserSubscriber -d src/user/subscriber
+    // migration:create -n UserMigration -d src/user/migration
+    // migration:generate -n UserMigration -d src/user/migration
+    // migration:run
+    // migration:revert
+    // migration:show
+    // schema:sync
+    // schema:log
+    // schema:drop
+    // cache:clear
+    // version
+    const tmpConfigurationPath = path.join(os.tmpdir(), fs.mkdtempSync('hexapinod'));
+    const relativeConfigurationPath = path.relative(process.cwd(), tmpConfigurationPath);
     try {
+      fs.mkdirSync(tmpConfigurationPath);
+      const dbconfs: any = configurationreader.getConfiguration('dependencies/typeorm');
+      const data = JSON.stringify(dbconfs);
+      fs.writeFileSync(tmpConfigurationPath + '/typeorm.json', data);
+      terminal.log(tmpConfigurationPath, relativeConfigurationPath);
+      terminal.log(args, option);
+      let command = 'node ' + __dirname + '/../../../node_modules/typeorm/cli.js';
+
+      switch (option) {
+      case 'version':
+        command += ' version';
+        break;
+      case 'migration:show':
+        command += ' -f ' + relativeConfigurationPath + '/typeorm.json';
+        command += ' ' + option;
+        break;
+      case 'migration:create':
+        command += ' -f ' + relativeConfigurationPath + '/typeorm.json';
+        command += ' ' + option;
+        break;
+      case 'migration:generate':
+        command += ' -f ' + relativeConfigurationPath + '/typeorm.json';
+        command += ' ' + option;
+        break;
+      case 'migration:run':
+        command += ' -f ' + relativeConfigurationPath + '/typeorm.json';
+        command += ' ' + option;
+        break;
+      case 'migration:revert':
+        command += ' -f ' + relativeConfigurationPath + '/typeorm.json';
+        command += ' ' + option;
+        break;
+      case 'schema:sync':
+        command += ' -f ' + relativeConfigurationPath + '/typeorm.json';
+        command += ' ' + option;
+        break;
+      case 'schema:log':
+        command += ' -f ' + relativeConfigurationPath + '/typeorm.json';
+        command += ' ' + option;
+        break;
+      case 'schema:drop':
+        command += ' -f ' + relativeConfigurationPath + '/typeorm.json';
+        command += ' ' + option;
+        break;
+      case 'cache:clear':
+        command += ' -f ' + relativeConfigurationPath + '/typeorm.json';
+        command += ' ' + option;
+        break;
+      case 'entity:create':
+        command += ' -f ' + relativeConfigurationPath + '/typeorm.json';
+        command += ' ' + option;
+        break;
+      case 'subscriber:create':
+        command += ' -f ' + relativeConfigurationPath + '/typeorm.json';
+        command += ' ' + option;
+        break;
+      default:
+        throw new Error('invalid option ' + option + ' for typeorm');
+      }
       terminal.log(command);
-      // execSync(command);
+      execSync(command);
     } catch(e) {
       terminal.error(e.message);
+    } finally {
+      try {
+        if (tmpConfigurationPath) {
+          fs.rmdirSync(tmpConfigurationPath, { recursive: true });
+        }
+      } catch (e) {
+        terminal.error(`An error has occurred while removing the temporary folder at ${tmpConfigurationPath}. Error: ${e}`);
+      }
     }
   }
 
   public initCommandParameters(_instance: Command): Command {
-    return _instance.argument('<typeorm argument>', 'allowed values migration:generate') .option('-v', 'verbode');
+    return _instance.argument('<typeorm argument>', 'allowed values migration:generate')
+      .option('-v', 'verbose').option('-h', 'help');
   }
 
 }

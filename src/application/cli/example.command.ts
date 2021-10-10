@@ -14,7 +14,7 @@ export default class ExampleCommand extends BaseCommand {
 
   protected execute(...args: any[]): void {
     const options = args[0];
-    terminal.success('the examplecommand is a success with params '); // , options.debug
+    terminal.success('the examplecommand is a success with params ', options); // , options.debug
   }
 
   public initCommandParameters(_instance: Command): Command {
