@@ -73,7 +73,7 @@ export default class TypeORMCommand extends BaseCommand {
     // schema:drop
     // cache:clear
     // version
-    const tmpConfigurationPath = path.join(os.tmpdir(), fs.mkdtempSync('hexapinod'));
+    const tmpConfigurationPath = fs.mkdtempSync(path.join(os.tmpdir(), 'hexapinod'));
     const relativeConfigurationPath = path.relative(process.cwd(), tmpConfigurationPath);
     try {
       fs.mkdirSync(tmpConfigurationPath);
