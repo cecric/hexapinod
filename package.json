@@ -73,7 +73,7 @@
     "test": "npm run test-lint && npm run test-unit",
     "test-lint": "eslint . --ignore-pattern 'apidoc/' --ignore-pattern 'doc/' --ignore-pattern 'dist/' ; EXIT_STATUS=$? ; jsonlint -q ./config/**/*.json ./src/**/*.json ; EXIT_STATUS=$? ; exit $EXIT_STATUS ; ",
     "test-unit": "mocha -r ts-node/register -r tsconfig-paths/register src/application/tests/**/*.test.ts",
-    "cli": "ts-node -r tsconfig-paths/register ./src/application/cli/index.ts",
+    "cli": "ts-node -r tsconfig-paths/register ./app.ts",
     "build": "webpack --config webpack.config.js"
   },
   "repository": {
