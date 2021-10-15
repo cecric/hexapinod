@@ -5,9 +5,25 @@ import terminal from '@dependencies/terminal/terminal';
 
 
 
+/**
+ * Class to handle subprocess use cases
+ * @date 20/09/2021 - 20:00:00
+ *
+ * @export
+ * @class SubProcessUsecases
+ * @typedef {SubProcessUsecases}
+ * @extends {UseCases}
+ */
 export class SubProcessUsecases extends UseCases {
 
 
+  /**
+   * Start loop for sub process and call the corresponding service received by event
+   * @date 20/09/2021 - 20:00:00
+   *
+   * @public
+   * @static
+   */
   public static start (): void {
 
     terminal.log('start subprocess');

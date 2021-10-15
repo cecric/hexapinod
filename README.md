@@ -127,8 +127,7 @@ And if you want [to buy me a coffee](https://www.buymeacoffee.com/cecric), I wil
 
 # Roadmap and upcoming releases
 Here you will find a list of the next features to include into the project and the upcoming development:
-- Add API documentation system
-- Add comments on published code
+- Add API documentation system (OpenAPI and APIDocJS)
 - Add Socket.IO full support
 - Add GraphQL requests
 - Add postgreSQL support on native ORM.
@@ -136,7 +135,9 @@ Here you will find a list of the next features to include into the project and t
 - Add nosql (mongodb, redis and elasticsearch) support on native ORM.
 
 ## Upcoming release
-- v1.0.2 - Pre-release: add of TypeORM support and improvement of directory structure and documentation.
+- v1.0.2 - Pre-release: 
+  - Add of TypeORM support and improvement of directory structure and documentation.
+  - Add comments on published code (JSDoc)
 
 ## Releases
 - v1.0.1 - Pre-release: fix a small issue on the first commit.

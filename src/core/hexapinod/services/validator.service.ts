@@ -8,19 +8,57 @@ import { InvalidParametersException } from '@core/hexapinod/exceptions/invalidpa
 import terminal from '@dependencies/terminal/terminal';
 
 
+/**
+ * Validator service to perform validation with AJV
+ * @date 20/09/2021 - 20:00:00
+ *
+ * @export
+ * @class ValidatorService
+ * @typedef {ValidatorService}
+ * @extends {Service}
+ */
 export class ValidatorService extends Service {
 
+    /**
+     * The AJV loaded engines
+     * @date 20/09/2021 - 20:00:00
+     *
+     * @protected
+     * @type {Ajv}
+     */
     protected instance: Ajv = null;
 
 
+    /**
+     * Creates an instance of ValidatorService.
+     * @date 20/09/2021 - 20:00:00
+     *
+     * @constructor
+     */
     constructor() {
       super();
     }
 
+    /**
+     * Initialization of service
+     * @date 20/09/2021 - 20:00:00
+     *
+     * @public
+     * @async
+     * @returns {Promise<void>}
+     */
     public async initialization(): Promise<void> {
       await this.loadValidatorSchemas();
     }
 
+    /**
+     * Load the validation schemas from all the bundles
+     * @date 20/09/2021 - 20:00:00
+     *
+     * @public
+     * @async
+     * @returns {Promise<void>}
+     */
     public async loadValidatorSchemas(): Promise<void> {
       this.instance = new Ajv({allErrors: true});
       addFormats(this.instance);
@@ -53,6 +91,18 @@ export class ValidatorService extends Service {
       terminal.success('[service manager] validators successfully loaded');
     }
 
+    /**
+     * Validate the object with the Schema _name
+     * @date 20/09/2021 - 20:00:00
+     *
+     * @public
+     * @async
+     * @template T
+     * @param {string} _name the schema to validate
+     * @param {unknown} _data the data object to validate
+     * @param {boolean} [_throwError=true]
+     * @returns {Promise<boolean>} true if validated, false or throw error if not
+     */
     public async validate<T>(_name: string, _data: unknown, _throwError = true): Promise<boolean> {
       if (this.instance === null) {
         await this.loadValidatorSchemas();
