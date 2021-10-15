@@ -2,15 +2,42 @@ import fs from 'fs';
 import terminal from '@dependencies/terminal/terminal';
 
 
+/**
+ * Configuration reader, used to read configuration files from the configuration (config) folder
+ * and replace environment variable.
+ * @date 22/09/2021 - 08:00:00
+ *
+ * @class ConfigurationReader
+ * @typedef {ConfigurationReader}
+ */
 class ConfigurationReader {
 
+  /**
+   * Instance of singleton
+   * @date 22/09/2021 - 08:00:00
+   *
+   * @protected
+   * @static
+   * @type {ConfigurationReader}
+   */
   protected static instance: ConfigurationReader;
 
+  /**
+   * Description placeholder
+   * @date 22/09/2021 - 08:00:00
+   *
+   * @protected
+   * @type {string}
+   */
   protected configurationDirectory: string;
 
   /**
-   * Gets instance
-   * @returns instance
+   * Get instance of singleton
+   * @date 22/09/2021 - 08:00:00
+   *
+   * @public
+   * @static
+   * @returns {ConfigurationReader}
    */
   public static getInstance (): ConfigurationReader {
     if (!ConfigurationReader.instance) {
@@ -19,15 +46,39 @@ class ConfigurationReader {
     return ConfigurationReader.instance;
   }
 
+  /**
+   * Creates an instance of ConfigurationReader.
+   * @date 22/09/2021 - 08:00:00
+   *
+   * @constructor
+   * @protected
+   * @param {string} _configurationDirectory
+   */
   protected constructor(_configurationDirectory: string) {
     // const confpath = __dirname + '/../../config/lib/mysql-manager.json';
     this.configurationDirectory = _configurationDirectory;
   }
 
+  /**
+   * Description placeholder
+   * @date 22/09/2021 - 08:00:00
+   *
+   * @public
+   * @param {string} _path
+   * @returns {(Record<string, unknown> | [Record<string, unknown>])}
+   */
   public getConfiguration (_path: string): Record<string, unknown> | [Record<string, unknown>] {
     return this.readConfigurationFilepath( this.configurationDirectory + _path + '.json');
   }
 
+  /**
+   * Read the configuration file and return the configuration object
+   * @date 22/09/2021 - 08:00:00
+   *
+   * @protected
+   * @param {string} _configurationPath the relative path to config
+   * @returns {Record<string, unknown>} the configuration object
+   */
   protected readConfigurationFilepath (_configurationPath: string): Record<string, unknown> {
     terminal.info('load configuration file ' + _configurationPath);
     let configuration = {};
@@ -45,6 +96,14 @@ class ConfigurationReader {
     return this.replaceByEnvironmentVars(configuration);
   }
 
+  /**
+   * Replace env vars by their values
+   * @date 22/09/2021 - 08:00:00
+   *
+   * @protected
+   * @param {Record<string, unknown>} _configuration
+   * @returns {Record<string, unknown>} the configuration object updated with values
+   */
   protected replaceByEnvironmentVars (_configuration: Record<string, unknown>): Record<string, unknown> {
     for (const dbkey in _configuration) {
       if (typeof _configuration[dbkey] === 'string') {
