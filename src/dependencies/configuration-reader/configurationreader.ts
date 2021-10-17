@@ -23,7 +23,7 @@ class ConfigurationReader {
   protected static instance: ConfigurationReader;
 
   /**
-   * Description placeholder
+   * the configuration base directory
    * @date 22/09/2021 - 08:00:00
    *
    * @protected
@@ -60,7 +60,7 @@ class ConfigurationReader {
   }
 
   /**
-   * Description placeholder
+   * return the configuration object by the relative path of conf
    * @date 22/09/2021 - 08:00:00
    *
    * @public
