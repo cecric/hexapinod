@@ -4,26 +4,62 @@ import { Service } from './service';
 import { GenericException } from '@core/hexapinod/exceptions/generic.exception';
 
 /**
+ * Class to manage the services (load them, inject if needed other services)
+ * @date 22/09/2021 - 08:00:00
+ *
+ * @class ServiceManager
+ * @typedef {ServiceManager}
  */
 class ServiceManager {
 
   /**
+   * The persisted instances managed
+   * @date 22/09/2021 - 08:00:00
+   *
+   * @protected
+   * @type {Record<string, unknown>}
    */
   protected persistentInstance: Record<string, unknown>;
+
+  /**
+   * The instance of singleton
+   * @date 22/09/2021 - 08:00:00
+   *
+   * @protected
+   * @static
+   * @type {ServiceManager}
+   */
   protected static instance: ServiceManager;
 
+  /**
+   * The loaded services to instanciates.
+   * @date 22/09/2021 - 08:00:00
+   *
+   * @protected
+   * @type {Array<Service>}
+   */
   protected services: Array<Service>;
 
 
-
+  /**
+   * Creates an instance of ServiceManager.
+   * @date 22/09/2021 - 08:00:00
+   *
+   * @constructor
+   * @protected
+   */
   protected constructor() {
     this.persistentInstance = {};
     this.initializeServiceBundle();
   }
 
   /**
-   * Gets instance
-   * @returns instance
+   * returns the instance of the singleton.
+   * @date 22/09/2021 - 08:00:00
+   *
+   * @public
+   * @static
+   * @returns {ServiceManager}
    */
   public static getInstance (): ServiceManager {
     if (!ServiceManager.instance) {
@@ -32,6 +68,14 @@ class ServiceManager {
     return ServiceManager.instance;
   }
 
+  /**
+   * initialize and load the available services from the bundles.
+   * @date 22/09/2021 - 08:00:00
+   *
+   * @protected
+   * @async
+   * @returns {Promise<boolean>}
+   */
   protected async initializeServiceBundle (): Promise<boolean> {
     terminal.info('[service manager] initialization services started');
     const list = fs.readdirSync(__dirname + '/../../../core/', { withFileTypes: true });
@@ -46,7 +90,13 @@ class ServiceManager {
   }
 
   /**
-   * @returns true if correctly init
+   * initialize the services from a bundle.
+   * @date 22/09/2021 - 08:00:00
+   *
+   * @protected
+   * @async
+   * @param {string} _directory
+   * @returns {Promise<boolean>}
    */
   protected async initializeServicesClass (_directory: string): Promise<boolean> {
     this.services = [];
@@ -73,8 +123,13 @@ class ServiceManager {
 
   /**
    * Get service instance by its name
-   * @param name string of service
-   * @returns  the instance
+   * @date 22/09/2021 - 08:00:00
+   *
+   * @public
+   * @async
+   * @template T
+   * @param {string} _name name of service
+   * @returns {Promise<T>} the instance
    */
   public async get <T>(_name: string): Promise<T> {
     let name: string = _name;

@@ -2,13 +2,43 @@ import * as fs from 'fs';
 import { BaseEventListener } from './baseeventlistener';
 import terminal from '@dependencies/terminal/terminal';
 
-
+/**
+ * Events manager, handle events and dispatch them to listeners
+ * @date 20/09/2021 - 08:00:00
+ *
+ * @export
+ * @class EventsManager
+ * @typedef {EventsManager}
+ */
 export class EventsManager {
 
+  /**
+   * Instance of the singleton
+   * @date 20/09/2021 - 08:00:00
+   *
+   * @private
+   * @static
+   * @type {EventsManager}
+   */
   private static instance: EventsManager = null;
 
+  /**
+   * Description placeholder
+   * @date 20/09/2021 - 08:00:00
+   *
+   * @protected
+   * @type {Record<string,BaseEventListener[]>}
+   */
   protected globalEventsListener: Record<string,BaseEventListener[]>;
 
+  /**
+   * Static function to return the instance of the singleton.
+   * @date 20/09/2021 - 08:00:00
+   *
+   * @public
+   * @static
+   * @returns {EventsManager}
+   */
   public static getInstance (): EventsManager {
     if (EventsManager.instance === null || EventsManager.instance === undefined) {
       EventsManager.instance = new EventsManager();
@@ -16,11 +46,26 @@ export class EventsManager {
     return EventsManager.instance;
   }
 
+  /**
+   * Creates an instance of EventsManager.
+   * @date 20/09/2021 - 08:00:00
+   *
+   * @constructor
+   * @private
+   */
   private constructor () {
     // nothing to do
     this.initializeListenersBundle();
   }
 
+  /**
+   * Load the listeners from the bundles in core
+   * @date 20/09/2021 - 08:00:00
+   *
+   * @protected
+   * @async
+   * @returns {Promise<boolean>}
+   */
   protected async initializeListenersBundle (): Promise<boolean> {
     terminal.info('[events manager] load events listeners...');
     const list = fs.readdirSync(__dirname + '/../../../core/', { withFileTypes: true });
@@ -34,6 +79,15 @@ export class EventsManager {
     return true;
   }
 
+  /**
+   * Load and init the listerners from a bundle
+   * @date 20/09/2021 - 08:00:00
+   *
+   * @protected
+   * @async
+   * @param {string} _bundlePath
+   * @returns {Promise<void>}
+   */
   protected async readPath (_bundlePath: string): Promise<void> {
     if (!fs.existsSync(__dirname + '/../../../core/' + _bundlePath)) {
       return;
@@ -58,6 +112,16 @@ export class EventsManager {
     }
   }
 
+  /**
+   * Dispatch the event to the event listeners. (Async version)
+   * @date 20/09/2021 - 08:00:00
+   *
+   * @public
+   * @async
+   * @param {string} _eventName
+   * @param {unknown} _data
+   * @returns {Promise<unknown>}
+   */
   public async asyncDispatch (_eventName: string, _data: unknown): Promise<unknown> {
     const results = {};
     results[_eventName] = [];
@@ -70,6 +134,15 @@ export class EventsManager {
     return results;
   }
 
+  /**
+   * Dispatch the event to the event listeners without waiting the events listeners.
+   * @date 20/09/2021 - 08:00:00
+   *
+   * @public
+   * @param {string} _eventName
+   * @param {unknown} _data
+   * @returns {boolean}
+   */
   public dispatch (_eventName: string, _data: unknown): boolean {
     if (this.globalEventsListener && this.globalEventsListener[_eventName]) {
       for (let i = 0; i < this.globalEventsListener[_eventName].length; i++) {
