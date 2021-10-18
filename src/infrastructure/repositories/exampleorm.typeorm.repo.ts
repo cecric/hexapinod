@@ -1,4 +1,4 @@
-import IExampleOrm from '@core/example/interfaces/repositories/exampleorm.interface';
+import { IExampleOrm } from '@core/example/interfaces/repositories/exampleorm.interface';
 import { ExampleOrm } from '@core/example/models/exampleorm';
 import { EntityRepository, Repository } from 'typeorm';
 

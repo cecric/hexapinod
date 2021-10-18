@@ -1,4 +1,4 @@
-import IExample from '@core/example/interfaces/repositories/example.interface';
+import { IExample } from '@core/example/interfaces/repositories/example.interface';
 import { Example } from '@core/example/models/example';
 import { EventsManager } from '@dependencies/hexapinod-framework/events/eventsmanager';
 import { RepositoriesService } from '@core/hexapinod/services/repositories.service';

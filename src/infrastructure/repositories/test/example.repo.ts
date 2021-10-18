@@ -1,4 +1,4 @@
-import IExample from '@core/example/interfaces/repositories/example.interface';
+import { IExample } from '@core/example/interfaces/repositories/example.interface';
 import { Example } from '@core/example/models/example';
 
 

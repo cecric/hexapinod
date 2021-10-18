@@ -11,7 +11,7 @@
  * @class Model
  * @typedef {Model}
  */
-export default abstract class Model {
+export abstract class Model {
 
   /**
    * Annotation check the value is a valid string

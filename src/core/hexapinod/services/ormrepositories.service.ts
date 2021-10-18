@@ -1,4 +1,4 @@
-import IRepository from '@core/hexapinod/interfaces/repositories/repository.interface';
+import { IRepository } from '@core/hexapinod/interfaces/repositories/repository.interface';
 import { Service } from '@dependencies/hexapinod-framework/service-manager/service';
 import { OrmWrapper } from '@dependencies/hexapinod-framework/model/ormwrapper';
 import { TypeOrmWrapper } from '@dependencies/typeorm-wrapper/typeormwrapper';

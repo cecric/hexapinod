@@ -1,4 +1,4 @@
-import IRepository from '@core/hexapinod/interfaces/repositories/repository.interface';
+import { IRepository } from '@core/hexapinod/interfaces/repositories/repository.interface';
 import configurationreader from '@dependencies/configuration-reader/configurationreader';
 import { OrmWrapper } from '@dependencies/hexapinod-framework/model/ormwrapper';
 import { Connection, createConnections, ObjectType } from 'typeorm';

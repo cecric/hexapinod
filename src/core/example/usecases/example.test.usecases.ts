@@ -1,11 +1,11 @@
-import IExample from '@core/example/interfaces/repositories/example.interface';
+import { IExample } from '@core/example/interfaces/repositories/example.interface';
 import { RepositoriesService } from '@core/hexapinod/services/repositories.service';
 import ServiceManager from '@dependencies/hexapinod-framework/service-manager/servicemanager';
 import terminal from '@dependencies/terminal/terminal';
 import { UseCases } from '@dependencies/hexapinod-framework/usecases/usecases';
 import { OrmRepositoriesService } from '@core/hexapinod/services/ormrepositories.service';
 import { ExampleOrm } from '../models/exampleorm';
-import IExampleOrm from '../interfaces/repositories/exampleorm.interface';
+import { IExampleOrm } from '../interfaces/repositories/exampleorm.interface';
 
 
 

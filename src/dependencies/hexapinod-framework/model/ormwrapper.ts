@@ -1,4 +1,4 @@
-import IRepository from '@core/hexapinod/interfaces/repositories/repository.interface';
+import { IRepository } from '@core/hexapinod/interfaces/repositories/repository.interface';
 
 
 /**

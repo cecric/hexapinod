@@ -1,6 +1,6 @@
 import fs from 'fs';
-import IRepository from '@core/hexapinod/interfaces/repositories/repository.interface';
-import Model from '@dependencies/hexapinod-framework/model/model';
+import { IRepository } from '@core/hexapinod/interfaces/repositories/repository.interface';
+import { Model } from '@dependencies/hexapinod-framework/model/model';
 import { GenericException } from '@core/hexapinod/exceptions/generic.exception';
 import { Service } from '@dependencies/hexapinod-framework/service-manager/service';
 

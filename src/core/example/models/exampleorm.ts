@@ -1,4 +1,4 @@
-import Model from '@dependencies/hexapinod-framework/model/model';
+import { Model } from '@dependencies/hexapinod-framework/model/model';
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
