@@ -1,5 +1,5 @@
 import { IRepository } from '@core/hexapinod/interfaces/repositories/repository.interface';
-import configurationreader from '@dependencies/configuration-reader/configurationreader';
+import { ConfigurationReader } from '@dependencies/configuration-reader/configurationreader';
 import { OrmWrapper } from '@dependencies/hexapinod-framework/model/ormwrapper';
 import { Connection, createConnections, ObjectType } from 'typeorm';
 
@@ -11,7 +11,7 @@ export class TypeOrmWrapper extends OrmWrapper {
   protected connections: Array<Connection>;
 
   async initialization (): Promise<void> {
-    const dbconfs: any = configurationreader.getConfiguration('dependencies/typeorm');
+    const dbconfs: any = ConfigurationReader.getConfiguration('dependencies/typeorm');
     this.connections = await createConnections(dbconfs);
   }
 

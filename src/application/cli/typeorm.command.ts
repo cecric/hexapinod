@@ -4,7 +4,7 @@ import os from 'os';
 import path from 'path';
 import fs from 'fs';
 import terminal from '@dependencies/terminal/terminal';
-import configurationreader from '@dependencies/configuration-reader/configurationreader';
+import { ConfigurationReader } from '@dependencies/configuration-reader/configurationreader';
 import { execSync } from 'child_process';
 
 export default class TypeORMCommand extends BaseCommand {
@@ -77,7 +77,7 @@ export default class TypeORMCommand extends BaseCommand {
     const relativeConfigurationPath = path.relative(process.cwd(), tmpConfigurationPath);
     try {
       fs.mkdirSync(tmpConfigurationPath);
-      const dbconfs: any = configurationreader.getConfiguration('dependencies/typeorm');
+      const dbconfs: any = ConfigurationReader.getConfiguration('dependencies/typeorm');
       const data = JSON.stringify(dbconfs);
       fs.writeFileSync(tmpConfigurationPath + '/typeorm.json', data);
       let command = 'node ' + __dirname + '/../../../node_modules/typeorm/cli.js';

@@ -2,7 +2,7 @@ import { IExample } from '@core/example/interfaces/repositories/example.interfac
 import { Example } from '@core/example/models/example';
 
 
-export default class ExampleRepository implements IExample {
+export class ExampleRepository implements IExample {
 
   public getExample(): Promise<Example> {
     return new Promise((resolve) => {

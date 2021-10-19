@@ -5,6 +5,7 @@ import { Command } from 'commander';
 import terminal from '@dependencies/terminal/terminal';
 import { BaseCommand } from './src/application/cli/basecommand';
 import { SubProcessUsecases } from '@core/hexapinod/usecases/subprocess.usecases';
+import { ApplicationServer } from '@application/api/server';
 dotenv.config({ path: process.env.PWD + '/.env' });
 
 
@@ -18,11 +19,12 @@ cliinstance.option('-d, --debug', 'output extra debugging');
 cliinstance.command('server').description('launch the global server')
   .option('--rest', 'launch the REST server')
   .option('--graphql', 'launch the GraphQL server').action(() => {
-    import('./src/application/api/server').then((module) => {
-      module.default.launch();
-    }).catch(_err => {
-      terminal.error('cannot load app (api) module', _err);
-    });
+    try {
+      const server = new ApplicationServer();
+      server.launch();
+    } catch(_error) {
+      terminal.error('cannot load application server (api) module', _error);
+    }
   });
 
 cliinstance.command('subprocess').description('launch a subprocess to perform an action in parallel (should not be called outside)')

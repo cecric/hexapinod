@@ -1,7 +1,7 @@
 import mysql from 'mysql';
 import util from 'util';
 import terminal from '@dependencies/terminal/terminal';
-import ConfigurationReader from '@dependencies/configuration-reader/configurationreader';
+import { ConfigurationReader } from '@dependencies/configuration-reader/configurationreader';
 
 const connectionPools = {};
 // const databases = process.env.ENVIRONNEMENT_DATABASES === 'LOCAL' ? 'databases.locale' : process.env.ENVIRONNEMENT_DATABASES === 'REMOTE' ? 'databases.remote' : 'databases';

@@ -10,7 +10,7 @@ import { GenericException } from '@core/hexapinod/exceptions/generic.exception';
  * @class ServiceManager
  * @typedef {ServiceManager}
  */
-class ServiceManager {
+class ServiceManagerTool {
 
   /**
    * The persisted instances managed
@@ -29,7 +29,7 @@ class ServiceManager {
    * @static
    * @type {ServiceManager}
    */
-  protected static instance: ServiceManager;
+  protected static instance: ServiceManagerTool;
 
   /**
    * The loaded services to instanciates.
@@ -61,11 +61,11 @@ class ServiceManager {
    * @static
    * @returns {ServiceManager}
    */
-  public static getInstance (): ServiceManager {
-    if (!ServiceManager.instance) {
-      ServiceManager.instance = new ServiceManager();
+  public static getInstance (): ServiceManagerTool {
+    if (!ServiceManagerTool.instance) {
+      ServiceManagerTool.instance = new ServiceManagerTool();
     }
-    return ServiceManager.instance;
+    return ServiceManagerTool.instance;
   }
 
   /**
@@ -168,4 +168,4 @@ class ServiceManager {
 
 }
 
-export default ServiceManager.getInstance();
+export const ServiceManager = ServiceManagerTool.getInstance();

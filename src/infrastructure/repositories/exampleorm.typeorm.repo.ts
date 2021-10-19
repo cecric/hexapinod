@@ -4,7 +4,7 @@ import { EntityRepository, Repository } from 'typeorm';
 
 
 @EntityRepository(ExampleOrm)
-export default class ExampleRepository extends Repository<ExampleOrm> implements IExampleOrm {
+export class ExampleRepository extends Repository<ExampleOrm> implements IExampleOrm {
 
   public getExample(): Promise<ExampleOrm> {
     const request = /*sql*/`

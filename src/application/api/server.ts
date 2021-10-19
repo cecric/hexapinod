@@ -13,9 +13,9 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import winston from 'winston';
 import expressWinston from 'express-winston';
-import ConfigurationReader from '@dependencies/configuration-reader/configurationreader';
+import { ConfigurationReader } from '@dependencies/configuration-reader/configurationreader';
 
-class App {
+export class ApplicationServer {
   public app: express.Application;
   protected configuration: Record<string, unknown>;
 
@@ -123,6 +123,3 @@ class App {
     }
   }
 }
-
-
-export default new App();

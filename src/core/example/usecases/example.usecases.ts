@@ -2,7 +2,7 @@ import { IExample } from '@core/example/interfaces/repositories/example.interfac
 import { Example } from '@core/example/models/example';
 import { EventsManager } from '@dependencies/hexapinod-framework/events/eventsmanager';
 import { RepositoriesService } from '@core/hexapinod/services/repositories.service';
-import ServiceManager from '@dependencies/hexapinod-framework/service-manager/servicemanager';
+import { ServiceManager } from '@dependencies/hexapinod-framework/service-manager/servicemanager';
 import { ValidatorService } from '@core/hexapinod/services/validator.service';
 import { UseCases } from '@dependencies/hexapinod-framework/usecases/usecases';
 import ExampleListener from '../eventslisteners/examplelistener.event';

@@ -8,9 +8,9 @@ import terminal from '@dependencies/terminal/terminal';
  * @date 22/09/2021 - 08:00:00
  *
  * @class ConfigurationReader
- * @typedef {ConfigurationReader}
+ * @typedef {ConfigurationReaderTool}
  */
-class ConfigurationReader {
+class ConfigurationReaderTool {
 
   /**
    * Instance of singleton
@@ -20,7 +20,7 @@ class ConfigurationReader {
    * @static
    * @type {ConfigurationReader}
    */
-  protected static instance: ConfigurationReader;
+  protected static instance: ConfigurationReaderTool;
 
   /**
    * the configuration base directory
@@ -39,11 +39,11 @@ class ConfigurationReader {
    * @static
    * @returns {ConfigurationReader}
    */
-  public static getInstance (): ConfigurationReader {
-    if (!ConfigurationReader.instance) {
-      ConfigurationReader.instance = new ConfigurationReader(__dirname + '/../../../config/');
+  public static getInstance (): ConfigurationReaderTool {
+    if (!ConfigurationReaderTool.instance) {
+      ConfigurationReaderTool.instance = new ConfigurationReaderTool(__dirname + '/../../../config/');
     }
-    return ConfigurationReader.instance;
+    return ConfigurationReaderTool.instance;
   }
 
   /**
@@ -124,4 +124,4 @@ class ConfigurationReader {
 
 }
 
-export default ConfigurationReader.getInstance();
+export const ConfigurationReader = ConfigurationReaderTool.getInstance();

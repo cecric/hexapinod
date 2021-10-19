@@ -3,7 +3,7 @@ import { Example } from '@core/example/models/example';
 import {DBManager} from '@dependencies/mysql-manager/dbmanager';
 
 
-export default class ExampleRepository extends DBManager implements IExample {
+export class ExampleRepository extends DBManager implements IExample {
 
   public async getExample(): Promise<Example> {
     const request = /*sql*/`

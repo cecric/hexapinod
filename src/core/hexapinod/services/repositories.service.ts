@@ -56,8 +56,10 @@ export class RepositoriesService extends Service {
     if (!fs.existsSync(__dirname + '/../../../infrastructure/repositories/' + (process.env.SERVICE_REPOSITORY_FOLDERS ? process.env.SERVICE_REPOSITORY_FOLDERS + '/' : '') + reponame + '.ts')) {
       throw new GenericException('repository not found: ' + reponame + ' (' + _className + ') in directory ' + __dirname + '/../../../infrastructure/repositories/' + (process.env.SERVICE_REPOSITORY_FOLDERS ? process.env.SERVICE_REPOSITORY_FOLDERS + '/': ''));
     }
-    const paramrepo = await import(__dirname + '/../../../infrastructure/repositories/' + (process.env.SERVICE_REPOSITORY_FOLDERS ? process.env.SERVICE_REPOSITORY_FOLDERS + '/': '') + reponame);
-    const repository = paramrepo.default;
+    const paramRepo = await import(__dirname + '/../../../infrastructure/repositories/' + (process.env.SERVICE_REPOSITORY_FOLDERS ? process.env.SERVICE_REPOSITORY_FOLDERS + '/': '') + reponame);
+    const keyRepositories = Object.keys(paramRepo);
+    const keyRepository = keyRepositories.length > 0 ? keyRepositories[0] : 'default';
+    const repository = paramRepo[keyRepository];
 
     this.repositories[_className] = new repository();
     return this.repositories[_className];
