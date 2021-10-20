@@ -2,6 +2,7 @@
 /**
  * Invalid parameter(s) exception. Used by express middleware to send a 400 HTTP error.
  * @date 20/09/2021 - 20:00:00
+ * @author cecric
  *
  * @export
  * @class InvalidParametersException
@@ -13,6 +14,7 @@ export class InvalidParametersException extends Error {
   /**
    * Creates an instance of InvalidParametersException.
    * @date 20/09/2021 - 20:00:00
+   * @author cecric
    *
    * @constructor
    * @param {?string} [message]

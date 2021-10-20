@@ -2,6 +2,7 @@
 /**
  * Generic exception. Used by express middleware to send a 500 HTTP error.
  * @date 20/09/2021 - 20:00:00
+ * @author cecric
  *
  * @export
  * @class GenericException
@@ -13,6 +14,7 @@ export class GenericException extends Error {
   /**
    * The details of the error (used for logs)
    * @date 20/09/2021 - 20:00:00
+   * @author cecric
    *
    * @protected
    * @type {*}
@@ -22,6 +24,7 @@ export class GenericException extends Error {
   /**
    * Creates an instance of GenericException.
    * @date 20/09/2021 - 20:00:00
+   * @author cecric
    *
    * @constructor
    * @param {?string} [_message]
@@ -35,6 +38,7 @@ export class GenericException extends Error {
   /**
    * get the details of error
    * @date 20/09/2021 - 20:00:00
+   * @author cecric
    *
    * @public
    * @returns {*} the details

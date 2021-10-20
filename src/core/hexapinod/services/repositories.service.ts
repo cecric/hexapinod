@@ -8,6 +8,7 @@ import { Service } from '@dependencies/hexapinod-framework/service-manager/servi
 /**
  * Repositories Service to load repositories from infrastructure (used for native repositories, not for orm ones)
  * @date 20/09/2021 - 20:00:00
+ * @author cecric
  *
  * @export
  * @class RepositoriesService
@@ -17,8 +18,9 @@ import { Service } from '@dependencies/hexapinod-framework/service-manager/servi
 export class RepositoriesService extends Service {
 
   /**
-   * Description placeholder
+   * List of available repositories
    * @date 20/09/2021 - 20:00:00
+   * @author cecric
    *
    * @protected
    * @type {Record<string,IRepository>}
@@ -26,8 +28,9 @@ export class RepositoriesService extends Service {
   protected repositories: Record<string,IRepository> = {};
 
   /**
-   * Description placeholder
+   * get the repository for a model
    * @date 20/09/2021 - 20:00:00
+   * @author cecric
    *
    * @param {Model} _model
    * @returns {Promise<IRepository>}
@@ -38,8 +41,9 @@ export class RepositoriesService extends Service {
   }
 
   /**
-   * Description placeholder
+   * get the repository by name of the file
    * @date 20/09/2021 - 20:00:00
+   * @author cecric
    *
    * @async
    * @param {string} _className

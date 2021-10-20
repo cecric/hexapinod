@@ -30,7 +30,7 @@ class LoggerTool {
 
 
   /**
-   * Description placeholder
+   * The instance of the singleton
    * @date 20/09/2021 - 08:00:00
    * @author cecric
    *

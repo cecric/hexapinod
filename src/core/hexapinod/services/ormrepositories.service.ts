@@ -8,6 +8,7 @@ import { TypeOrmWrapper } from '@dependencies/typeorm-wrapper/typeormwrapper';
  * The ORM repositories service, used to load repositories with specific ORM
  * (include the management of TypeORM ORM)
  * @date 05/10/2021 - 08:00:00
+ * @author cecric
  *
  * @export
  * @class OrmRepositoriesService
@@ -20,6 +21,7 @@ export class OrmRepositoriesService extends Service {
   /**
    * List of loaded repositories instances
    * @date 05/10/2021 - 08:00:00
+   * @author cecric
    *
    * @protected
    * @type {Record<string,IRepository>}
@@ -30,6 +32,7 @@ export class OrmRepositoriesService extends Service {
   /**
    * The Wrapper with specific ORM used
    * @date 05/10/2021 - 08:00:00
+   * @author cecric
    *
    * @protected
    * @type {OrmWrapper}
@@ -40,6 +43,7 @@ export class OrmRepositoriesService extends Service {
   /**
    * Creates an instance of OrmRepositoriesService.
    * @date 05/10/2021 - 08:00:00
+   * @author cecric
    *
    * @constructor
    */
@@ -51,6 +55,7 @@ export class OrmRepositoriesService extends Service {
   /**
    * Initialization of service
    * @date 05/10/2021 - 08:00:00
+   * @author cecric
    *
    * @public
    * @async
@@ -65,6 +70,7 @@ export class OrmRepositoriesService extends Service {
   /**
    * Get the repository loaded with the wrapper and the instance of Model
    * @date 05/10/2021 - 08:00:00
+   * @author cecric
    *
    * @param {(Function & IRepository)} _repositoryInstance
    * @returns {Promise<IRepository>} the loaded repository

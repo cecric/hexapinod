@@ -25,7 +25,7 @@ export class EventsManager {
   private static instance: EventsManager = null;
 
   /**
-   * Description placeholder
+   * The list of events listeners by name of events
    * @date 20/09/2021 - 08:00:00
    * @author cecric
    *

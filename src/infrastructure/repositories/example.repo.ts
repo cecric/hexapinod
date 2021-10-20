@@ -3,6 +3,17 @@ import { Example } from '@core/example/models/example';
 import {DBManager} from '@dependencies/mysql-manager/dbmanager';
 
 
+/**
+ * Example repository with internal db manager
+ * @date 27/09/2021 - 08:00:00
+ * @author cecric
+ *
+ * @export
+ * @class ExampleRepository
+ * @typedef {ExampleRepository}
+ * @extends {DBManager}
+ * @implements {IExample}
+ */
 export class ExampleRepository extends DBManager implements IExample {
 
   public async getExample(): Promise<Example> {

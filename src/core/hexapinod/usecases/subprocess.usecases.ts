@@ -8,6 +8,7 @@ import { logger } from '@dependencies/logger/logger';
 /**
  * Class to handle subprocess use cases
  * @date 20/09/2021 - 20:00:00
+ * @author cecric
  *
  * @export
  * @class SubProcessUsecases
@@ -20,6 +21,7 @@ export class SubProcessUsecases extends UseCases {
   /**
    * Start loop for sub process and call the corresponding service received by event
    * @date 20/09/2021 - 20:00:00
+   * @author cecric
    *
    * @public
    * @static

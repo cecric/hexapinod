@@ -2,6 +2,16 @@ import { IExample } from '@core/example/interfaces/repositories/example.interfac
 import { Example } from '@core/example/models/example';
 
 
+/**
+ * Another example in subfolder
+ * @date 19/10/2021 - 08:00:00
+ * @author cecric
+ *
+ * @export
+ * @class ExampleRepository
+ * @typedef {ExampleRepository}
+ * @implements {IExample}
+ */
 export class ExampleRepository implements IExample {
 
   public getExample(): Promise<Example> {

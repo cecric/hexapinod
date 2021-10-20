@@ -11,6 +11,7 @@ import { logger } from '@dependencies/logger/logger';
 /**
  * Validator service to perform validation with AJV
  * @date 20/09/2021 - 20:00:00
+ * @author cecric
  *
  * @export
  * @class ValidatorService
@@ -22,6 +23,7 @@ export class ValidatorService extends Service {
     /**
      * The AJV loaded engines
      * @date 20/09/2021 - 20:00:00
+     * @author cecric
      *
      * @protected
      * @type {Ajv}
@@ -32,6 +34,7 @@ export class ValidatorService extends Service {
     /**
      * Creates an instance of ValidatorService.
      * @date 20/09/2021 - 20:00:00
+     * @author cecric
      *
      * @constructor
      */
@@ -42,6 +45,7 @@ export class ValidatorService extends Service {
     /**
      * Initialization of service
      * @date 20/09/2021 - 20:00:00
+     * @author cecric
      *
      * @public
      * @async
@@ -54,6 +58,7 @@ export class ValidatorService extends Service {
     /**
      * Load the validation schemas from all the bundles
      * @date 20/09/2021 - 20:00:00
+     * @author cecric
      *
      * @public
      * @async
@@ -94,6 +99,7 @@ export class ValidatorService extends Service {
     /**
      * Validate the object with the Schema _name
      * @date 20/09/2021 - 20:00:00
+     * @author cecric
      *
      * @public
      * @async
