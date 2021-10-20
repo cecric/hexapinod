@@ -1,5 +1,5 @@
 import { IUser } from '@core/example/interfaces/models/user.interface';
-import terminal from '@dependencies/terminal/terminal';
+import { logger } from '@dependencies/logger/logger';
 import { BaseEventListener } from '@dependencies/hexapinod-framework/events/baseeventlistener';
 
 
@@ -18,13 +18,13 @@ export default class AuthentificationListener implements BaseEventListener {
       const email = _data['email'];
       const password = _data['password'];
       const networkInfo = _data['networkInfo'];
-      terminal.log('Attempt authentification: ' + email + ' - ' + password.replace(/./g,'*') + ' (connexion from: ' + networkInfo.join(', ') + ')');
+      logger.log('Attempt authentification: ' + email + ' - ' + password.replace(/./g,'*') + ' (connexion from: ' + networkInfo.join(', ') + ')');
       break;
     }
     case AuthentificationListener.EVENT_AUTHENTIFICATION_LOGIN: {
       const user: IUser = _data['user'] as IUser;
       const networkInfo = _data['networkInfo'];
-      terminal.log('Authentification successfull: ' + user.getEmail() + ' (connexion from: ' + networkInfo.join(', ') + ')');
+      logger.log('Authentification successfull: ' + user.getEmail() + ' (connexion from: ' + networkInfo.join(', ') + ')');
       break;
     }
     default:

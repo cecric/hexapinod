@@ -1,7 +1,7 @@
 import AuthentificationListener from '@core/example/eventslisteners/authentificationlistener.event';
 import { EventsManager } from '@dependencies/hexapinod-framework/events/eventsmanager';
 import { IUser } from '@core/example/interfaces/models/user.interface';
-import terminal from '@dependencies/terminal/terminal';
+import { logger } from '@dependencies/logger/logger';
 import { UseCases } from '@dependencies/hexapinod-framework/usecases/usecases';
 
 export class AuthentificationUsecases extends UseCases {
@@ -14,7 +14,7 @@ export class AuthentificationUsecases extends UseCases {
   }
 
   public static refreshUserById(_uid: number, _networkInfo: Array<string>): Promise<IUser> {
-    terminal.log('Attempt refresh authentification for user id: ' + _uid + ' (connexion from: ' + _networkInfo.join(', ') + ')');
+    logger.log('Attempt refresh authentification for user id: ' + _uid + ' (connexion from: ' + _networkInfo.join(', ') + ')');
     throw new Error('to be implemented');
   }
 

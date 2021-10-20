@@ -2,7 +2,7 @@ import express from 'express';
 import errorMiddleware from './rest/middlewares/error.middleware';
 import middlewares from './rest/middlewares';
 import { initializeRoutes } from './rest/routes';
-import terminal from '@dependencies/terminal/terminal';
+import { logger } from '@dependencies/logger/logger';
 import cluster from 'cluster';
 import fs from 'fs';
 import https from 'https';
@@ -34,7 +34,7 @@ export class ApplicationServer {
       max: 2000, // limit 2000 requests / 15min / ip (40 threads in production -store memmory used- => 320000/h/ip ==> 5333 /min/ip )
       message: 'Too many requests from this IP, please wait a moment.',
       onLimitReached: function (req) { // , res, options
-        terminal.warn(req.ip + ' rateLimit reached');
+        logger.warn(req.ip + ' rateLimit reached');
       }
     });
     this.app.use(limiter);
@@ -55,20 +55,20 @@ export class ApplicationServer {
         return false;
       } // optional: allows to skip some log messages based on request and/or response
     }));
-    terminal.info ('init: ping');
+    logger.info ('init: ping');
     this.app.all( '/ping', function(req, res) {
       res.status(200).send({'status': 'pong'});
     });
-    terminal.info ('init: middleware');
+    logger.info ('init: middleware');
     this.app.use(middlewares);
 
     // Routes
-    terminal.info ('init: routes');
+    logger.info ('init: routes');
     const routerRoutes = express.Router();
     this.app.use(await initializeRoutes(routerRoutes));
 
     // Middleware de gestion des erreurs (mis en dernier pour gérer les 404)
-    terminal.info ('init: error management middleware');
+    logger.info ('init: error management middleware');
     this.app.all( '*', function(req, res) {
       res.status(404).send({'error': 'ressource not found'});
     });
@@ -78,13 +78,13 @@ export class ApplicationServer {
   public async launch(): Promise<void> {
     if (this.configuration['clustering']) {
       if ((typeof cluster.isPrimary !== 'undefined' && cluster.isPrimary) || (typeof cluster.isMaster !== 'undefined' && cluster.isMaster)) {
-        terminal.log(`Master ${process.pid} is running`);
+        logger.log(`Master ${process.pid} is running`);
         const nbSubProcess = Math.max(1, Math.round(os.cpus().length / 2));
         for (let i = 0; i < nbSubProcess; i++) {
           cluster.fork();
         }
         cluster.on('exit', (worker, _code, _signal) => {
-          terminal.warn(`worker ${worker.process.pid} died`, _code, _signal);
+          logger.warn(`worker ${worker.process.pid} died`, _code, _signal);
         });
       } else {
         await this.config();
@@ -98,7 +98,7 @@ export class ApplicationServer {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected onSocketServer(_socket: any): void {
-    terminal.info('socket.io: socket connected');
+    logger.info('socket.io: socket connected');
   }
 
   protected launchServer(): void {
@@ -111,15 +111,15 @@ export class ApplicationServer {
       ioServer.on('connection', this.onSocketServer );
       const port = this.configuration['port'] || 3443;
       httpsServer.listen(this.configuration['host'] ? {'port': port, 'host': this.configuration['host']} : port);
-      terminal.success(`API worker ${process.pid} listening on port ${port} (HTTPS)`);
+      logger.success(`API worker ${process.pid} listening on port ${port} (HTTPS)`);
     } else {
       const port = this.configuration['port'] || 3000;
-      // this.app.listen(port, () => terminal.success(`TRF api worker ${process.pid} listening on port ${port} (HTTP)`));
+      // this.app.listen(port, () => logger.success(`API worker ${process.pid} listening on port ${port} (HTTP)`));
       const httpServer = http.createServer(this.app);
       const ioServer = new Server(httpServer);
       ioServer.on('connection', this.onSocketServer );
       httpServer.listen(this.configuration['host'] ? {'port': port, 'host': this.configuration['host']} : port);
-      terminal.success(`API worker ${process.pid} listening on port ${port} (HTTP)`);
+      logger.success(`API worker ${process.pid} listening on port ${port} (HTTP)`);
     }
   }
 }

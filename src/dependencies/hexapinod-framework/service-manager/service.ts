@@ -1,6 +1,6 @@
 // import { Worker } from 'worker_threads';
 
-import terminal from '@dependencies/terminal/terminal';
+import { logger } from '@dependencies/logger/logger';
 import { fork } from 'child_process';
 
 /**
@@ -54,7 +54,7 @@ export abstract class Service {
    * @returns {unknown}
    */
   public execInSubProcess (_parameters:unknown): unknown {
-    terminal.log('sub process in service ' + this.constructor.name + ' called with parameters', _parameters);
+    logger.log('sub process in service ' + this.constructor.name + ' called with parameters', _parameters);
     throw new Error('should be implemented');
     // return {'ok':true};
   }
@@ -76,11 +76,11 @@ export abstract class Service {
       }
       let forkedProcess = null;
       if (Symbol.for('ts-node.register.instance') && process[Symbol.for('ts-node.register.instance')]) {
-        terminal.info('Launch subprocess with ts-node');
+        logger.info('Launch subprocess with ts-node');
         //const inspector = {'execPath ' : './node_modules/.bin/ts-node','execArgv': [ '-r', 'ts-node/register']}; // , '--project', 'tsconfig.json'
         forkedProcess = fork('app.ts', ['subprocess']); // , inspector);
       } else {
-        terminal.info('Launch subprocess with nodejs');
+        logger.info('Launch subprocess with nodejs');
         const inspector = { 'execArgv': [], 'env': process.env }; //  --inspect-brk
         forkedProcess = fork('dist/bundle.js', ['subprocess'], inspector);
       }
@@ -108,7 +108,7 @@ export abstract class Service {
       this.subProcesses[pid].on('disconnect', () => {
         this.disconnectProcess(pid);
       });
-      terminal.info('subprocess launched with id: ', pid);
+      logger.info('subprocess launched with id: ', pid);
       this.subProcesses[pid].send({
         action: 'launch',
         classPath: this.constructor.name,
@@ -127,7 +127,7 @@ export abstract class Service {
    * @param {*} _pid
    */
   private messageProcess(_message, _pid): void {
-    terminal.log('received message on subprocess: ' + _pid, _message);
+    logger.log('received message on subprocess: ' + _pid, _message);
     // do nothing
   }
 
@@ -140,7 +140,7 @@ export abstract class Service {
    * @param {*} _pid
    */
   private errorProcess(_err, _pid): void {
-    terminal.error('error on subprocess: ' + _pid, _err);
+    logger.error('error on subprocess: ' + _pid, _err);
     // do nothing
   }
 
@@ -152,7 +152,7 @@ export abstract class Service {
    * @param {*} _pid
    */
   private disconnectProcess(_pid): void {
-    terminal.info('disconnect subprocess with pid: ' + _pid);
+    logger.info('disconnect subprocess with pid: ' + _pid);
     // do nothing
   }
 
@@ -165,7 +165,7 @@ export abstract class Service {
    * @param {*} _pid
    */
   private closeProcess(_close, _pid): void {
-    terminal.info('close on ' + (_pid === 0 ? 'success' : 'error') + ' subprocess with pid:' + _pid);
+    logger.info('close on ' + (_pid === 0 ? 'success' : 'error') + ' subprocess with pid:' + _pid);
     // do nothing
   }
 

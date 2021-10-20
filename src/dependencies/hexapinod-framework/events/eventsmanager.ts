@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { BaseEventListener } from './baseeventlistener';
-import terminal from '@dependencies/terminal/terminal';
+import { logger } from '@dependencies/logger/logger';
 
 /**
  * Events manager, handle events and dispatch them to listeners
@@ -67,15 +67,15 @@ export class EventsManager {
    * @returns {Promise<boolean>}
    */
   protected async initializeListenersBundle (): Promise<boolean> {
-    terminal.info('[events manager] load events listeners...');
+    logger.info('[events manager] load events listeners...');
     const list = fs.readdirSync(__dirname + '/../../../core/', { withFileTypes: true });
     for (let i = 0; i < list.length; i++) {
       if (list[i].isDirectory()) {
-        terminal.info('load bundle ' + list[i].name + ' listeners' );
+        logger.info('load bundle ' + list[i].name + ' listeners' );
         await this.readPath (list[i].name + '/eventslisteners/');
       }
     }
-    terminal.success('[events manager] events successfully loaded');
+    logger.success('[events manager] events successfully loaded');
     return true;
   }
 
@@ -95,7 +95,7 @@ export class EventsManager {
     const eventListenerSociete = fs.readdirSync(__dirname + '/../../../core/' + _bundlePath);
     for (let i = 0; i < eventListenerSociete.length; i++) {
       if (eventListenerSociete[i].indexOf('.event') !== -1) {
-        terminal.info('Load listener ' + eventListenerSociete[i]);
+        logger.info('Load listener ' + eventListenerSociete[i]);
         // const eventListenerSocieteName = eventListenerSociete[i].substr(0, eventListenerSociete[i].indexOf('.event'));
         const moduleEventListener = await import(__dirname + '/../../../core/' + _bundlePath + eventListenerSociete[i]);
         const eventListener: BaseEventListener = new moduleEventListener.default();

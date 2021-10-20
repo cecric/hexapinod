@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import terminal from '@dependencies/terminal/terminal';
+import { logger } from '@dependencies/logger/logger';
 import { Service } from './service';
 import { GenericException } from '@core/hexapinod/exceptions/generic.exception';
 
@@ -77,15 +77,15 @@ class ServiceManagerTool {
    * @returns {Promise<boolean>}
    */
   protected async initializeServiceBundle (): Promise<boolean> {
-    terminal.info('[service manager] initialization services started');
+    logger.info('[service manager] initialization services started');
     const list = fs.readdirSync(__dirname + '/../../../core/', { withFileTypes: true });
     for (let i = 0; i < list.length; i++) {
       if (list[i].isDirectory()) {
-        terminal.info('load bundle ' + list[i].name + ' services' );
+        logger.info('load bundle ' + list[i].name + ' services' );
         await this.initializeServicesClass (list[i].name + '/services/');
       }
     }
-    terminal.success('[service manager] services successfully loaded');
+    logger.success('[service manager] services successfully loaded');
     return true;
   }
 
@@ -105,7 +105,7 @@ class ServiceManagerTool {
       if (list[i].indexOf('.ts') === -1 || list[i].indexOf('.service.ts') === -1) {
         continue;
       }
-      terminal.info('load service ' + list[i]);
+      logger.info('load service ' + list[i]);
       const service = await import(__dirname + '/../../../core/' + _directory + list[i]);
       const keyservices = Object.keys(service);
       const keyservice = keyservices.length > 0 ? keyservices[0] : 'default';

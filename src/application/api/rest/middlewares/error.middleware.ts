@@ -1,4 +1,4 @@
-import terminal from '@dependencies/terminal/terminal';
+import { logger } from '@dependencies/logger/logger';
 import {Request, Response} from 'express';
 import { InvalidAccessException } from '@core/hexapinod/exceptions/invalidaccess.exception';
 import { NotFoundException } from '@core/hexapinod/exceptions/notfound.exception';
@@ -13,7 +13,7 @@ export default function(_err: unknown, _req: Request, _res: Response, _next: unk
     _res.sendStatus(204);
     return;
   }
-  terminal.error(_req.method + ' ' + _req.originalUrl + ' - ' + (_err['message'] ? _err['message'] : _err));
+  logger.error(_req.method + ' ' + _req.originalUrl + ' - ' + (_err['message'] ? _err['message'] : _err));
   if (_err) {
     const errorObject = {
       'error': 'internal error'
@@ -34,8 +34,8 @@ export default function(_err: unknown, _req: Request, _res: Response, _next: unk
     }
     if (_err instanceof InvalidParametersException) {
       errorObject['error'] = 'invalid request';
-      terminal.error(errorObject);
-      terminal.error(_err.stack);
+      logger.error(errorObject);
+      logger.error(_err.stack);
       // errorObject['error_params'] = err.getErrorParameters();
       _res.status(400).send(errorObject);
       return;
@@ -45,10 +45,10 @@ export default function(_err: unknown, _req: Request, _res: Response, _next: unk
       _res.status(404).send(errorObject);
       return;
     }
-    terminal.error(errorObject);
-    terminal.error(_err['stack']);
+    logger.error(errorObject);
+    logger.error(_err['stack']);
     if (_err['sql']) {
-      terminal.error(_err['sql']);
+      logger.error(_err['sql']);
     }
     _res.status(500).send(errorObject);
     return;

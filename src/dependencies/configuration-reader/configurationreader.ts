@@ -1,5 +1,5 @@
 import fs from 'fs';
-import terminal from '@dependencies/terminal/terminal';
+import { logger } from '@dependencies/logger/logger';
 
 
 /**
@@ -80,17 +80,17 @@ class ConfigurationReaderTool {
    * @returns {Record<string, unknown>} the configuration object
    */
   protected readConfigurationFilepath (_configurationPath: string): Record<string, unknown> {
-    terminal.info('load configuration file ' + _configurationPath);
+    logger.info('load configuration file ' + _configurationPath);
     let configuration = {};
     try {
       if (!fs.existsSync(_configurationPath)) {
-        terminal.warn('configuration ' + _configurationPath + ' not exists');
+        logger.warn('configuration ' + _configurationPath + ' not exists');
       } else {
         const rawConf = fs.readFileSync(_configurationPath);
         configuration = JSON.parse(rawConf.toString());
       }
     } catch (e) {
-      terminal.error('cannot load configuration with path : '+ _configurationPath);
+      logger.error('cannot load configuration with path : '+ _configurationPath);
       configuration = {};
     }
     return this.replaceByEnvironmentVars(configuration);

@@ -1,4 +1,4 @@
-import terminal from '@dependencies/terminal/terminal';
+import { logger } from '@dependencies/logger/logger';
 import { BaseEventListener } from '@dependencies/hexapinod-framework/events/baseeventlistener';
 
 
@@ -13,7 +13,7 @@ export default class ExampleListener implements BaseEventListener {
   dispatch(_eventName: string, _data: unknown): Promise<unknown> {
     switch (_eventName) {
     case ExampleListener.EVENT_DEFAULT_EXAMPLE: {
-      terminal.log('Event default: ' , _data);
+      logger.log('Event default: ' , _data);
       break;
     }
     default:

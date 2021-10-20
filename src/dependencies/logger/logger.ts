@@ -2,20 +2,20 @@ import chalk from 'chalk';
 import flatted from 'flatted';
 import { LOG_LEVELS } from './loglevels';
 
-class TrfLogger {
+class LoggerTool {
 
-  protected static instance: TrfLogger;
+  protected static instance: LoggerTool;
   // protected constructor () {}
 
   /**
    * Gets instance
    * @returns instance
    */
-  public static getInstance (): TrfLogger {
-    if (!TrfLogger.instance) {
-      TrfLogger.instance = new TrfLogger();
+  public static getInstance (): LoggerTool {
+    if (!LoggerTool.instance) {
+      LoggerTool.instance = new LoggerTool();
     }
-    return TrfLogger.instance;
+    return LoggerTool.instance;
   }
 
   log (...args: any): void {
@@ -148,5 +148,5 @@ class TrfLogger {
   }
 }
 
-export default TrfLogger.getInstance();
+export const logger = LoggerTool.getInstance();
 

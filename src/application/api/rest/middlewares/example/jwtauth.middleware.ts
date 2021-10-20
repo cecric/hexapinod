@@ -1,7 +1,7 @@
 import { AccessDeniedException } from '@core/hexapinod/exceptions/accessdenied.exception';
 import { IUser } from '@core/example/interfaces/models/user.interface';
 import { AuthentificationUsecases } from '@core/example/usecases/authentification.usecases';
-import terminal from '@dependencies/terminal/terminal';
+import { logger } from '@dependencies/logger/logger';
 import express from 'express';
 import jwt from 'jsonwebtoken';
 
@@ -36,7 +36,7 @@ app.use(function (_req, _res, _next) {
           return;
         }
         if (user === null) {
-          terminal.error('Error while retrieving user');
+          logger.error('Error while retrieving user');
           _next(new AccessDeniedException('user doesn\'t exist anymore, abort request'));
         }
         _req['session']['user'] = user;

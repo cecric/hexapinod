@@ -3,7 +3,7 @@ import { BaseCommand } from './basecommand';
 import os from 'os';
 import path from 'path';
 import fs from 'fs';
-import terminal from '@dependencies/terminal/terminal';
+import { logger } from '@dependencies/logger/logger';
 import { ConfigurationReader } from '@dependencies/configuration-reader/configurationreader';
 import { execSync } from 'child_process';
 
@@ -172,19 +172,19 @@ export default class TypeORMCommand extends BaseCommand {
         throw new Error('invalid option ' + argument + ' for typeorm');
       }
       if (options['verbose']) {
-        terminal.log(command);
+        logger.log(command);
       }
       const bufferReturn: Buffer = execSync(command);
-      terminal.log(bufferReturn.toString());
+      logger.log(bufferReturn.toString());
     } catch(e) {
-      terminal.error(e.message);
+      logger.error(e.message);
     } finally {
       try {
         if (tmpConfigurationPath) {
           fs.rmdirSync(tmpConfigurationPath, { recursive: true });
         }
       } catch (e) {
-        terminal.error(`An error has occurred while removing the temporary folder at ${tmpConfigurationPath}. Error: ${e}`);
+        logger.error(`An error has occurred while removing the temporary folder at ${tmpConfigurationPath}. Error: ${e}`);
       }
     }
   }

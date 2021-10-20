@@ -1,7 +1,7 @@
 import { Service } from '@dependencies/hexapinod-framework/service-manager/service';
 import { ServiceManager } from '@dependencies/hexapinod-framework/service-manager/servicemanager';
 import { UseCases } from '@dependencies/hexapinod-framework/usecases/usecases';
-import terminal from '@dependencies/terminal/terminal';
+import { logger } from '@dependencies/logger/logger';
 
 
 
@@ -26,10 +26,10 @@ export class SubProcessUsecases extends UseCases {
    */
   public static start (): void {
 
-    terminal.log('start subprocess');
+    logger.log('start subprocess');
 
     const onError = function (_err) {
-      terminal.error('Closing subprocess', _err);
+      logger.error('Closing subprocess', _err);
       process.send({
         message :'end' ,
         result: JSON.stringify(_err)
@@ -48,14 +48,14 @@ export class SubProcessUsecases extends UseCases {
       try {
         if(_p['action'] === 'launch') {
           const parameters = JSON.parse(_p['parameters']);
-          terminal.log('launch subprocss for service ' + _p['classPath'], 'with parameters ', parameters);
+          logger.log('launch subprocss for service ' + _p['classPath'], 'with parameters ', parameters);
           const service = await ServiceManager.get<Service>(_p['classPath'].replace(/Service$/, '').toLowerCase());
           result = await service.execInSubProcess(parameters);
           result = JSON.stringify(result);
         }
       } catch (e) {
         error = JSON.stringify(e);
-        terminal.error(e.message, e.stack);
+        logger.error(e.message, e.stack);
       }
       if(_p['action'] === 'launch') {
         setTimeout(() => {

@@ -1,6 +1,6 @@
 import mysql from 'mysql';
 import util from 'util';
-import terminal from '@dependencies/terminal/terminal';
+import { logger } from '@dependencies/logger/logger';
 import { ConfigurationReader } from '@dependencies/configuration-reader/configurationreader';
 
 const connectionPools = {};
@@ -22,20 +22,20 @@ function initializePoolsFromConfiguration (_conf): unknown {
     //term.log('Connection ' + connection.threadId + ' acquired');
   });
   pool.on('connection', function (connection) {
-    terminal.info('New Mysql connection ' + connection.config.database + ':' + connection.threadId);
+    logger.info('New Mysql connection ' + connection.config.database + ':' + connection.threadId);
     try {
       // max time for query pour eviter blocage moteur et blocage user
       // idelalement 120sec max par query, max time before socket hang up apache
       // export peut faire de longues requetes, on met globalement pour l instant 10 min max / req
       connection.query('SET SESSION max_statement_time=600');
     } catch (err) {
-      terminal.error(err);
+      logger.error(err);
     }
 
     //term.log('new connect mysql : SET SESSION max_statement_time=1');
   });
   pool.on('enqueue', function () {
-    terminal.warn('Waiting for available connection slot');
+    logger.warn('Waiting for available connection slot');
   });
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   pool.on('release', function (connection) {
@@ -44,21 +44,21 @@ function initializePoolsFromConfiguration (_conf): unknown {
   try {
     pool.getConnection((err, connection) => {
       if (err) {
-        terminal.error('Database error (' + err.code + ')', err);
+        logger.error('Database error (' + err.code + ')', err);
         let confError = '';
         if(_conf['host'] && _conf['user'] && _conf['database']){
           confError = _conf['user'] + '@' + _conf['host'] + ':' + _conf['database'];
-          terminal.error('Configuration used during error : ' + confError);
+          logger.error('Configuration used during error : ' + confError);
         }
         // Plantage du process principal si  on throw l erreur. Donc on commente
         if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-          terminal.error('Database connection was closed.');
+          logger.error('Database connection was closed.');
         } else if (err.code === 'ER_CON_COUNT_ERROR') {
-          terminal.error('Database has too many connections.');
+          logger.error('Database has too many connections.');
         } else if (err.code === 'ECONNREFUSED') {
-          terminal.error('Database connection was refused.');
+          logger.error('Database connection was refused.');
         } else {
-          terminal.error('Database common error code : ', err.code);
+          logger.error('Database common error code : ', err.code);
         }
       }
       if (connection) {
@@ -67,7 +67,7 @@ function initializePoolsFromConfiguration (_conf): unknown {
     });
     return pool;
   } catch (err) {
-    terminal.error(err);
+    logger.error(err);
     return null;
     //throw Error('Database connection was refused.');
   }
