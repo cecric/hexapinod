@@ -3,7 +3,8 @@ import { IRepository } from '@core/hexapinod/interfaces/repositories/repository.
 
 /**
  * Wrapper class, to wrapp an external ORM into the framework.
- * @date 17/10/2021 - 08:00:00
+ * @date 05/10/2021 - 08:00:00
+ * @author cecric
  *
  * @export
  * @abstract
@@ -15,6 +16,7 @@ export abstract class OrmWrapper {
   /**
    * Initialization function to init the ORM
    * @date 05/10/2021 - 08:00:00
+   * @author cecric
    *
    * @public
    * @returns {Promise<void>}
@@ -27,6 +29,7 @@ export abstract class OrmWrapper {
   /**
    * Function which returns the repository class loaded by the ORM
    * @date 05/10/2021 - 08:00:00
+   * @author cecric
    *
    * @public
    * @abstract

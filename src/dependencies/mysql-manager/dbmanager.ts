@@ -3,11 +3,32 @@ import util from 'util';
 import { logger } from '@dependencies/logger/logger';
 import { ConfigurationReader } from '@dependencies/configuration-reader/configurationreader';
 
+/**
+ * Pools of connection to perform queries.
+ * @date 20/09/2021 - 08:00:00
+ * @author cecric
+ *
+ * @type {{}}
+ */
 const connectionPools = {};
-// const databases = process.env.ENVIRONNEMENT_DATABASES === 'LOCAL' ? 'databases.locale' : process.env.ENVIRONNEMENT_DATABASES === 'REMOTE' ? 'databases.remote' : 'databases';
+
+/**
+ * Loaded configuration for databases.
+ * @date 20/09/2021 - 08:00:00
+ * @author cecric
+ *
+ * @type {Record<string, unknown>}
+ */
 const dbconfs: Record<string, unknown> = ConfigurationReader.getConfiguration('dependencies/mysql-manager') as Record<string, unknown>;
 
-
+/**
+ * Initialize pools of connections from the loaded configuration.
+ * @date 20/09/2021 - 08:00:00
+ * @author cecric
+ *
+ * @param {*} _conf
+ * @returns {unknown}
+ */
 function initializePoolsFromConfiguration (_conf): unknown {
   const pool = mysql.createPool(Object.assign({
     connectionLimit: 3,
@@ -23,19 +44,16 @@ function initializePoolsFromConfiguration (_conf): unknown {
   });
   pool.on('connection', function (connection) {
     logger.info('New Mysql connection ' + connection.config.database + ':' + connection.threadId);
-    try {
-      // max time for query pour eviter blocage moteur et blocage user
-      // idelalement 120sec max par query, max time before socket hang up apache
-      // export peut faire de longues requetes, on met globalement pour l instant 10 min max / req
-      connection.query('SET SESSION max_statement_time=600');
-    } catch (err) {
-      logger.error(err);
-    }
-
-    //term.log('new connect mysql : SET SESSION max_statement_time=1');
+    // TODO set it in settings
+    // try {
+    //   // max time for query to avoid locks
+    //   // connection.query('SET SESSION max_statement_time=600');
+    // } catch (err) {
+    //   logger.error(err);
+    // }
   });
   pool.on('enqueue', function () {
-    logger.warn('Waiting for available connection slot');
+    logger.warn('Waiting for an available connection slot');
   });
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   pool.on('release', function (connection) {
@@ -69,11 +87,17 @@ function initializePoolsFromConfiguration (_conf): unknown {
   } catch (err) {
     logger.error(err);
     return null;
-    //throw Error('Database connection was refused.');
   }
 }
 
-
+/**
+ * get the current connection pool
+ * @date 20/09/2021 - 08:00:00
+ * @author cecric
+ *
+ * @param {string} [_instance='main']
+ * @returns {*}
+ */
 const getConnectionPool = function(_instance = 'main'): any {
   if(!dbconfs || !dbconfs[_instance]) {
     throw Error('No db configurations defined for configuration : ' + _instance + '.');
@@ -89,36 +113,114 @@ const getConnectionPool = function(_instance = 'main'): any {
   return connectionPools[dbconfs[_instance]['database']];
 };
 
+/**
+ * get the current connection pool with the promised version.
+ * @date 20/09/2021 - 08:00:00
+ * @author cecric
+ *
+ * @param {string} [_instance='main']
+ * @returns {Promise<unknown>}
+ */
 const getAsyncConnectionPool = function(_instance = 'main'): Promise<unknown> {
   return getConnectionPool(_instance).promised;
 };
 
+
+/**
+ * Wrapper of the escape function
+ * @date 20/09/2021 - 08:00:00
+ * @author cecric
+ *
+ * @type {*}
+ */
 const escape = mysql.escape;
 
 
 
+/**
+ * Class DBManager wich help to connect and perform request on mariadb/mysql servers.
+ * Must be inherited by the repositories classes
+ * @date 20/09/2021 - 08:00:00
+ * @author cecric
+ *
+ * @export
+ * @abstract
+ * @class DBManager
+ * @typedef {DBManager}
+ */
 export abstract class DBManager {
 
+
+  /**
+   * Return a pool of connexions for mariadb/mysql
+   * Pool are established connexions.
+   * @date 20/09/2021 - 08:00:00
+   * @author cecric
+   *
+   * @public
+   * @param {?string} [_instance]
+   * @returns {unknown}
+   */
   public getPool (_instance?: string): unknown {
     return getConnectionPool(_instance);
   }
 
-  public getAsyncPool (_instance?: string): unknown {
+  /**
+   * Return the promise of a pool of connexions for mariadb/mysql.
+   * Pool are established connexions.
+   * @date 20/09/2021 - 08:00:00
+   * @author cecric
+   *
+   * @public
+   * @param {?string} [_instance]
+   * @returns {unknown}
+   */
+  public getAsyncPool (_instance?: string): Promise<unknown> {
     return getAsyncConnectionPool(_instance);
   }
 
-  public query(_query: string, _instance?: string): unknown {
-    return this.getPool(_instance)['query'](_query);
+  /**
+   * Make a query with callback on mariadb/mysql server
+   * @date 20/09/2021 - 08:00:00
+   * @author cecric
+   *
+   * @public
+   * @param {string} _query
+   * @param {Function} _callback
+   * @param {?string} [_instance]
+   * @returns {unknown}
+   */
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  public query(_query: string, _callback: Function, _instance?: string): unknown {
+    return this.getPool(_instance)['query'](_query, _callback);
   }
 
+  /**
+   * Make an asynchronous query (it return a promise).
+   * @date 20/09/2021 - 08:00:00
+   * @author cecric
+   *
+   * @public
+   * @param {string} _query
+   * @param {?string} [_instance]
+   * @returns {Promise<unknown>}
+   */
   public asyncQuery(_query: string, _instance?: string): Promise<unknown> {
     return this.getAsyncPool(_instance)['query'](_query);
   }
 
+  /**
+   * Function to escape parameters to prevent SQL injections
+   * @date 20/09/2021 - 08:00:00
+   * @author cecric
+   *
+   * @public
+   * @param {unknown} _params
+   * @returns {string}
+   */
   public escape (_params: unknown): string {
     return escape (_params);
   }
 
 }
 
-// export {getConnectionPool as DBManager, getAsyncConnectionPool as asyncDBManager, escape};

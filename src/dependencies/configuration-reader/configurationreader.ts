@@ -6,6 +6,7 @@ import { logger } from '@dependencies/logger/logger';
  * Configuration reader, used to read configuration files from the configuration (config) folder
  * and replace environment variable.
  * @date 22/09/2021 - 08:00:00
+ * @author cecric
  *
  * @class ConfigurationReader
  * @typedef {ConfigurationReaderTool}
@@ -15,6 +16,7 @@ class ConfigurationReaderTool {
   /**
    * Instance of singleton
    * @date 22/09/2021 - 08:00:00
+   * @author cecric
    *
    * @protected
    * @static
@@ -25,6 +27,7 @@ class ConfigurationReaderTool {
   /**
    * the configuration base directory
    * @date 22/09/2021 - 08:00:00
+   * @author cecric
    *
    * @protected
    * @type {string}
@@ -34,6 +37,7 @@ class ConfigurationReaderTool {
   /**
    * Get instance of singleton
    * @date 22/09/2021 - 08:00:00
+   * @author cecric
    *
    * @public
    * @static
@@ -49,6 +53,7 @@ class ConfigurationReaderTool {
   /**
    * Creates an instance of ConfigurationReader.
    * @date 22/09/2021 - 08:00:00
+   * @author cecric
    *
    * @constructor
    * @protected
@@ -62,6 +67,7 @@ class ConfigurationReaderTool {
   /**
    * return the configuration object by the relative path of conf
    * @date 22/09/2021 - 08:00:00
+   * @author cecric
    *
    * @public
    * @param {string} _path
@@ -74,6 +80,7 @@ class ConfigurationReaderTool {
   /**
    * Read the configuration file and return the configuration object
    * @date 22/09/2021 - 08:00:00
+   * @author cecric
    *
    * @protected
    * @param {string} _configurationPath the relative path to config
@@ -99,6 +106,7 @@ class ConfigurationReaderTool {
   /**
    * Replace env vars by their values
    * @date 22/09/2021 - 08:00:00
+   * @author cecric
    *
    * @protected
    * @param {Record<string, unknown>} _configuration
@@ -126,4 +134,12 @@ class ConfigurationReaderTool {
 
 export type { ConfigurationReaderTool };
 
+
+/**
+ * Instance exported of ConfigurationReader
+ * @date 20/10/2021 - 22:33:54
+ * @author cecric
+ *
+ * @type {ConfigurationReaderTool}
+ */
 export const ConfigurationReader = ConfigurationReaderTool.getInstance();

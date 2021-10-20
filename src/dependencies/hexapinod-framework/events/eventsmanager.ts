@@ -5,6 +5,7 @@ import { logger } from '@dependencies/logger/logger';
 /**
  * Events manager, handle events and dispatch them to listeners
  * @date 20/09/2021 - 08:00:00
+ * @author cecric
  *
  * @export
  * @class EventsManager
@@ -15,6 +16,7 @@ export class EventsManager {
   /**
    * Instance of the singleton
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @private
    * @static
@@ -25,6 +27,7 @@ export class EventsManager {
   /**
    * Description placeholder
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @protected
    * @type {Record<string,BaseEventListener[]>}
@@ -34,6 +37,7 @@ export class EventsManager {
   /**
    * Static function to return the instance of the singleton.
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @public
    * @static
@@ -49,6 +53,7 @@ export class EventsManager {
   /**
    * Creates an instance of EventsManager.
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @constructor
    * @private
@@ -61,6 +66,7 @@ export class EventsManager {
   /**
    * Load the listeners from the bundles in core
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @protected
    * @async
@@ -82,6 +88,7 @@ export class EventsManager {
   /**
    * Load and init the listerners from a bundle
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @protected
    * @async
@@ -115,6 +122,7 @@ export class EventsManager {
   /**
    * Dispatch the event to the event listeners. (Async version)
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @public
    * @async
@@ -137,6 +145,7 @@ export class EventsManager {
   /**
    * Dispatch the event to the event listeners without waiting the events listeners.
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @public
    * @param {string} _eventName

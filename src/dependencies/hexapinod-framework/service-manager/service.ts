@@ -1,11 +1,12 @@
-// import { Worker } from 'worker_threads';
-
 import { logger } from '@dependencies/logger/logger';
 import { fork } from 'child_process';
+// TODO handle subprocesses with threads
+// import { Worker } from 'worker_threads';
 
 /**
  * Service base class, embed the mechanics for subprocess async launch.
  * @date 20/09/2021 - 08:00:00
+ * @author cecric
  *
  * @export
  * @abstract
@@ -17,6 +18,7 @@ export abstract class Service {
   /**
    * List of subprocesses launched
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @protected
    * @type {unknown}
@@ -26,6 +28,7 @@ export abstract class Service {
   /**
    * Tell if the service class is persistent or if a new one must be instanciend each time it is called by the service manager.
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @returns {boolean}
    */
@@ -36,6 +39,7 @@ export abstract class Service {
   /**
    * Initialization procedure for the service.
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @public
    * @returns {Promise<void>}
@@ -48,6 +52,7 @@ export abstract class Service {
   /**
    * Function to override to be called by the subprocess
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @public
    * @param {unknown} _parameters
@@ -62,6 +67,7 @@ export abstract class Service {
   /**
    * Create a fork to launch a subprocess for the service
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @param {unknown} _parameters
    * @returns {Promise<unknown>}
@@ -121,6 +127,7 @@ export abstract class Service {
   /**
    * Function called when a message is received from the sub process.
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @private
    * @param {*} _message
@@ -134,6 +141,7 @@ export abstract class Service {
   /**
    * Function called when an error is received from the sub process.
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @private
    * @param {*} _err
@@ -147,6 +155,7 @@ export abstract class Service {
   /**
    * Function called when the sub process is disconnected.
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @private
    * @param {*} _pid
@@ -159,6 +168,7 @@ export abstract class Service {
   /**
    * Function called when the sub process is closed.
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @private
    * @param {*} _close

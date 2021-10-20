@@ -24,6 +24,7 @@
     "express-rate-limit": "^5.3.0",
     "express-validator": "^6.12.1",
     "express-winston": "^4.2.0",
+    "flatted": "^3.2.2",
     "graphql": "^15.5.2",
     "graphql-tools": "^8.2.0",
     "helmet": "^4.6.0",
@@ -74,7 +75,7 @@
     "test": "npm run test-lint && npm run test-unit",
     "test-lint": "npx eslint . --ignore-pattern 'apidoc/' --ignore-pattern 'doc/' --ignore-pattern 'dist/' ; EXIT_STATUS=$? ; jsonlint -q ./config/**/*.json ./src/**/*.json ; EXIT_STATUS=$? ; exit $EXIT_STATUS ; ",
     "test-unit": "npx mocha -r ts-node/register -r tsconfig-paths/register src/application/tests/**/*.test.ts",
-    "serve": "npx nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' -r tsconfig-paths/register --project tsconfig.json app.ts server",
+    "serve": "npx nodemon --watch src/ -e ts --ignore 'src/**/*.spec.ts' --exec 'ts-node' -r tsconfig-paths/register --project tsconfig.json app.ts server",
     "dev": "npm run serve",
     "cli": "npx ts-node -r tsconfig-paths/register ./app.ts",
     "build": "npx webpack --config webpack.config.js"

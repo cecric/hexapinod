@@ -170,4 +170,11 @@ class ServiceManagerTool {
 
 export type { ServiceManagerTool };
 
+
+/**
+ * Instance of service manager
+ * @date 20/10/2021 - 22:28:58
+ *
+ * @type {ServiceManagerTool}
+ */
 export const ServiceManager = ServiceManagerTool.getInstance();

@@ -5,6 +5,7 @@
  * Abstract Model, includes serializer and unserializer
  * Includes also anotations to check types
  * @date 20/09/2021 - 08:00:00
+ * @author cecric
  *
  * @export
  * @abstract
@@ -16,6 +17,7 @@ export abstract class Model {
   /**
    * Annotation check the value is a valid string
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @static
    * @param {boolean} [_strict=false]
@@ -37,6 +39,7 @@ export abstract class Model {
   /**
    * Annotation check the value is a valid number
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @static
    * @param {boolean} [_strict=false]
@@ -58,6 +61,7 @@ export abstract class Model {
   /**
    * Annotation check the value is a valid boolean
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @static
    * @param {boolean} [_strict=false]
@@ -79,6 +83,7 @@ export abstract class Model {
   /**
    * Annotation check the value is a valid Date
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @static
    * @param {boolean} [_strict=false]
@@ -100,6 +105,7 @@ export abstract class Model {
   /**
    * Annotation check the value is a valid object of type T
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @static
    * @template T
@@ -122,6 +128,7 @@ export abstract class Model {
   /**
    * Annotation check the value is a valid Array of numbers
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @static
    * @param {boolean} [_strict=false]
@@ -143,6 +150,7 @@ export abstract class Model {
   /**
    * Annotation check the value is a valid array of strings
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @static
    * @param {boolean} [_strict=false]
@@ -164,6 +172,7 @@ export abstract class Model {
   /**
    * Annotation check the value is a valid array of Dates
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @static
    * @param {boolean} [_strict=false]
@@ -185,6 +194,7 @@ export abstract class Model {
   /**
    * Annotation check the value is a valid array of booleans
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @static
    * @param {boolean} [_strict=false]
@@ -206,6 +216,7 @@ export abstract class Model {
   /**
    * Annotation check the value is a valid array of object of type T
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @static
    * @template T
@@ -228,6 +239,7 @@ export abstract class Model {
   /**
    * Annotation check the value is a valid two dimensionnal array of numbers
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @static
    * @param {boolean} [_strict=false]
@@ -250,6 +262,7 @@ export abstract class Model {
   /**
    * Annotation check the value is a valid two dimensionnal array of string
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @static
    * @param {boolean} [_strict=false]
@@ -271,6 +284,7 @@ export abstract class Model {
   /**
    * List of keys to ignore during serialization
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @protected
    * @type {Array<string>}
@@ -281,6 +295,7 @@ export abstract class Model {
    * Creates an instance of Model. Initialize with values from classic objects for values which have
    * a setter.
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @constructor
    * @public
@@ -293,6 +308,7 @@ export abstract class Model {
   /**
    * add a key to exclude in serialization.
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @public
    * @param {string} _key
@@ -308,6 +324,7 @@ export abstract class Model {
    * read values from object and call setters of models. Used to convert an object
    * (ex: a result from a database, parameter body from a requests, ...) into the model.
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @protected
    * @param {?unknown} [values]
@@ -331,6 +348,7 @@ export abstract class Model {
   /**
    * Serializer to object
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @protected
    * @param {?unknown} [values]
@@ -396,6 +414,7 @@ export abstract class Model {
   /**
    * Function to compare two model objects
    * @date 20/09/2021 - 08:00:00
+   * @author cecric
    *
    * @public
    * @param {Model} objectToCompare
