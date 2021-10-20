@@ -124,4 +124,6 @@ class ConfigurationReaderTool {
 
 }
 
+export type { ConfigurationReaderTool };
+
 export const ConfigurationReader = ConfigurationReaderTool.getInstance();

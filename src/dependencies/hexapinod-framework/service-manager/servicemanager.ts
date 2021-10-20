@@ -168,4 +168,6 @@ class ServiceManagerTool {
 
 }
 
+export type { ServiceManagerTool };
+
 export const ServiceManager = ServiceManagerTool.getInstance();

@@ -2,6 +2,13 @@ import chalk from 'chalk';
 import flatted from 'flatted';
 import { LOG_LEVELS } from './loglevels';
 
+/**
+ * manage logs writing and style
+ * @date 20/10/2021 - 10:47:40
+ *
+ * @class LoggerTool
+ * @typedef {LoggerTool}
+ */
 class LoggerTool {
 
   protected static instance: LoggerTool;
@@ -18,7 +25,7 @@ class LoggerTool {
     return LoggerTool.instance;
   }
 
-  log (...args: any): void {
+  log (...args: unknown[]): void {
     if(LOG_LEVELS[process.env.LOG_LEVEL] < LOG_LEVELS.LOG) {
       return;
     }
@@ -29,7 +36,7 @@ class LoggerTool {
     }
   }
 
-  info (...args: any): void {
+  info (...args: unknown[]): void {
     if(LOG_LEVELS[process.env.LOG_LEVEL] < LOG_LEVELS.INFO) {
       return;
     }
@@ -50,7 +57,7 @@ class LoggerTool {
     }
   }
 
-  warn (...args: any): void {
+  warn (...args: unknown[]): void {
     if(LOG_LEVELS[process.env.LOG_LEVEL] < LOG_LEVELS.WARN) {
       return;
     }
@@ -72,7 +79,7 @@ class LoggerTool {
     }
   }
 
-  error (...args: any): void {
+  error (...args: unknown[]): void {
     /* eslint-disable */
     if(LOG_LEVELS[process.env.LOG_LEVEL] < LOG_LEVELS.ERROR) {
       return;
@@ -109,7 +116,7 @@ class LoggerTool {
     /* eslint-enable */
   }
 
-  success (...args: any): void {
+  success (...args: unknown[]): void {
     /* eslint-disable */
     if(LOG_LEVELS[process.env.LOG_LEVEL] < LOG_LEVELS.SUCCESS) {
       return;
@@ -148,5 +155,12 @@ class LoggerTool {
   }
 }
 
+export type { LoggerTool };
+
+/**
+ * @date 20/10/2021 - 10:47:30
+ *
+ * @type {LoggerTool}
+ */
 export const logger = LoggerTool.getInstance();
 
