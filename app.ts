@@ -1,5 +1,4 @@
 
-//import app from './src/application/graphQL/server';
 import * as dotenv from 'dotenv';
 import { Command } from 'commander';
 import { logger } from '@dependencies/logger/logger';
@@ -9,11 +8,15 @@ import { ApplicationServer } from '@application/api/server';
 dotenv.config({ path: process.env.PWD + '/.env' });
 
 
-const cliinstance = new Command();
+/**
+ * Instance of Commander used to launch all Command.
+ * @date 21/10/2021 - 15:51:55
+ * @author cecric
+ *
+ * @type {Command}
+ */
+const cliinstance: Command = new Command();
 
-// logger.log(process.env.PWD + '/.env');
-// logger.log(process.env);
-// // cliinstance.option('-h, --help', 'output help');
 cliinstance.option('-d, --debug', 'output extra debugging');
 
 cliinstance.command('server').description('launch the global server')
