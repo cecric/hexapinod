@@ -11,7 +11,7 @@ const jwtKey = process.env.SECRET_KEY_JWT;
 
 /**
  * Json Web Token Authentification middleware
- * @date 21/10/2021 - 15:30:57
+ * @date 20/09/2021 - 08:00:00
  * @author cecric
  *
  * @export
