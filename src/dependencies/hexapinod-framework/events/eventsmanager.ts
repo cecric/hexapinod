@@ -7,11 +7,10 @@ import { logger } from '@dependencies/logger/logger';
  * @date 20/09/2021 - 08:00:00
  * @author cecric
  *
- * @export
- * @class EventsManager
- * @typedef {EventsManager}
+ * @class EventsManagerTool
+ * @typedef {EventsManagerTool}
  */
-export class EventsManager {
+class EventsManagerTool {
 
   /**
    * Instance of the singleton
@@ -20,9 +19,9 @@ export class EventsManager {
    *
    * @private
    * @static
-   * @type {EventsManager}
+   * @type {EventsManagerTool}
    */
-  private static instance: EventsManager = null;
+  private static instance: EventsManagerTool = null;
 
   /**
    * The list of events listeners by name of events
@@ -41,17 +40,17 @@ export class EventsManager {
    *
    * @public
    * @static
-   * @returns {EventsManager}
+   * @returns {EventsManagerTool}
    */
-  public static getInstance (): EventsManager {
-    if (EventsManager.instance === null || EventsManager.instance === undefined) {
-      EventsManager.instance = new EventsManager();
+  public static getInstance (): EventsManagerTool {
+    if (EventsManagerTool.instance === null || EventsManagerTool.instance === undefined) {
+      EventsManagerTool.instance = new EventsManagerTool();
     }
-    return EventsManager.instance;
+    return EventsManagerTool.instance;
   }
 
   /**
-   * Creates an instance of EventsManager.
+   * Creates an instance of EventsManagerTool.
    * @date 20/09/2021 - 08:00:00
    * @author cecric
    *
@@ -164,4 +163,12 @@ export class EventsManager {
   }
 }
 
-export default EventsManager.getInstance();
+export type { EventsManagerTool };
+
+/**
+ * Instance of events manager
+ * @date 21/10/2021 - 08:00:00
+ *
+ * @type {EventsManagerTool}
+ */
+export const EventsManager = EventsManagerTool.getInstance();

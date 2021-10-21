@@ -30,10 +30,10 @@ export class AuthentificationUsecases extends UseCases {
    * @returns {Promise<IUser>}
    */
   public static async loginUser(_email: string, _password: string, _networkInfo: Array<string>): Promise<IUser> {
-    await EventsManager.getInstance().asyncDispatch(AuthentificationListener.EVENT_AUTHENTIFICATION_LOGIN_ATTEMPT, {'email': _email, 'password': _password, 'networkInfo': _networkInfo});
+    await EventsManager.asyncDispatch(AuthentificationListener.EVENT_AUTHENTIFICATION_LOGIN_ATTEMPT, {'email': _email, 'password': _password, 'networkInfo': _networkInfo});
     throw new Error('to be implemented');
     const user: IUser = null;
-    await EventsManager.getInstance().asyncDispatch(AuthentificationListener.EVENT_AUTHENTIFICATION_LOGIN, {'user': user, 'networkInfo': _networkInfo});
+    await EventsManager.asyncDispatch(AuthentificationListener.EVENT_AUTHENTIFICATION_LOGIN, {'user': user, 'networkInfo': _networkInfo});
   }
 
   /**

@@ -50,7 +50,7 @@ export class ExampleUsecases extends UseCases {
    * @returns {Promise<any>}
    */
   public static async exampleEventAction (): Promise<any> {
-    await EventsManager.getInstance().asyncDispatch(ExampleListener.EVENT_DEFAULT_EXAMPLE, {'email': 'test@test.test', 'data': 'sample'});
+    await EventsManager.asyncDispatch(ExampleListener.EVENT_DEFAULT_EXAMPLE, {'email': 'test@test.test', 'data': 'sample'});
     return {'ok': true};
   }
 
