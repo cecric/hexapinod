@@ -8,9 +8,28 @@ import { UseCases } from '@dependencies/hexapinod-framework/usecases/usecases';
 import { ExampleListener } from '../eventslisteners/examplelistener.event';
 
 
-
+/**
+ * Example Usecases
+ * @date 27/09/2021 - 08:00:00
+ * @author cecric
+ *
+ * @export
+ * @class ExampleUsecases
+ * @typedef {ExampleUsecases}
+ * @extends {UseCases}
+ */
 export class ExampleUsecases extends UseCases {
 
+  /**
+   * Validator service example
+   * @date 28/09/2021 - 08:00:00
+   * @author cecric
+   *
+   * @public
+   * @static
+   * @async
+   * @returns {Promise<Example>}
+   */
   public static async exampleValidatorAction (): Promise<Example> {
     const ex = new Example();
     ex.setExample('sample@example.fr');
@@ -20,11 +39,31 @@ export class ExampleUsecases extends UseCases {
     return ex;
   }
 
+  /**
+   * Event dispatch example
+   * @date 28/09/2021 - 08:00:00
+   * @author cecric
+   *
+   * @public
+   * @static
+   * @async
+   * @returns {Promise<any>}
+   */
   public static async exampleEventAction (): Promise<any> {
     await EventsManager.getInstance().asyncDispatch(ExampleListener.EVENT_DEFAULT_EXAMPLE, {'email': 'test@test.test', 'data': 'sample'});
     return {'ok': true};
   }
 
+  /**
+   * Repository service example
+   * @date 28/09/2021 - 08:00:00
+   * @author cecric
+   *
+   * @public
+   * @static
+   * @async
+   * @returns {Promise<Example>}
+   */
   public static async exampleRepositoryAction (): Promise<Example> {
     const repositoriesService: RepositoriesService = await ServiceManager.get<RepositoriesService>(RepositoriesService.name);
     const repo = await repositoriesService.getRepositoryByName('example') as IExample;
@@ -32,6 +71,16 @@ export class ExampleUsecases extends UseCases {
     return result;
   }
 
+  /**
+   * Sub process launch (from any service) example
+   * @date 28/09/2021 - 08:00:00
+   * @author cecric
+   *
+   * @public
+   * @static
+   * @async
+   * @returns {Promise<any>}
+   */
   public static async exampleSubprocessAction (): Promise<any> {
     const validatorService:ValidatorService = await ServiceManager.get('validator');
     await validatorService.fork({'test': true});

@@ -44,7 +44,7 @@ The class RepositoriesService should be into the file repositories.service.ts to
 Then you should call the service in the usescases or other service with the service manager. It manage the instances of a regular service :
 ```typescript
 import { RepositoriesService } from '@core/services/repositories.service';
-import ServiceManager from '@core/services/servicemanager';
+import { ServiceManager } from '@core/services/servicemanager';
     
 const repositoriesService: RepositoriesService = ServiceManager.get<RepositoriesService>(RepositoriesService.name);
 ```
@@ -54,6 +54,8 @@ To make the validation of the JSON input, we bring into the framework the famous
 By convention and to allow dynamic loading, they should be bring into typescript file ending by *.schema.ts*
 To call the validation, you should use the validator service included in the hexapinod module.
 
+## Models
+
 ## Interfaces
 
 ### Repositories 
@@ -61,8 +63,6 @@ To call the validation, you should use the validator service included in the hex
 ### Models
 
 ## Events Listeners
-
-## Models
 
 ## Exceptions
 

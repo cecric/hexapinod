@@ -85,7 +85,9 @@ export class ValidatorService extends Service {
             }
             try {
               const schema = await import(__dirname + '/../../' + bundles[i].name + '/services/validator/' + list[j]);
-              this.instance.addSchema(schema.default, list[j].substr(0, list[j].indexOf('.schema')));
+              const keyschemas = Object.keys(schema);
+              const keyschema = keyschemas.length > 0 ? keyschemas[0] : 'default';
+              this.instance.addSchema(schema[keyschema], list[j].substr(0, list[j].indexOf('.schema')));
               logger.info('init validation schema : ' + list[j].substr(0, list[j].indexOf('.schema')));
             } catch (e) {
               logger.error('issue on load validation schema', e);
