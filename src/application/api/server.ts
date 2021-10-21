@@ -1,5 +1,5 @@
 import express from 'express';
-import errorMiddleware from './rest/middlewares/error.middleware';
+import { errorMiddleware } from './rest/middlewares/error.middleware';
 import middlewares from './rest/middlewares';
 import { initializeRoutes } from './rest/routes';
 import { logger } from '@dependencies/logger/logger';
@@ -15,20 +15,64 @@ import winston from 'winston';
 import expressWinston from 'express-winston';
 import { ConfigurationReader } from '@dependencies/configuration-reader/configurationreader';
 
+/**
+ * Application server to launch http(s) server and load dynamically the corresponding routes
+ * @date 20/09/2021 - 08:00:00
+ * @author cecric
+ *
+ * @export
+ * @class ApplicationServer
+ * @typedef {ApplicationServer}
+ */
 export class ApplicationServer {
+
+  /**
+   * Express application server
+   * @date 20/09/2021 - 08:00:00
+   * @author cecric
+   *
+   * @public
+   * @type {express.Application}
+   */
   public app: express.Application;
+
+  /**
+   * Configuration server
+   * @date 20/09/2021 - 08:00:00
+   * @author cecric
+   *
+   * @protected
+   * @type {Record<string, unknown>}
+   */
   protected configuration: Record<string, unknown>;
 
+  /**
+   * Creates an instance of ApplicationServer.
+   * @date 20/09/2021 - 08:00:00
+   * @author cecric
+   *
+   * @constructor
+   */
   constructor() {
     this.app = express();
     this.configuration = ConfigurationReader.getConfiguration('application/api/server') as Record<string, unknown>;
   }
 
+  /**
+   * Initialize the configuration of routes and middleware for the server by using configuration
+   * @date 20/09/2021 - 08:00:00
+   * @author cecric
+   *
+   * @private
+   * @async
+   * @returns {Promise<void>}
+   */
   private async config(): Promise<void> {
+    // TODO pass the 2mb as a configuration parameter
     this.app.use(express.json({limit: '2mb'}));
     this.app.use(express.urlencoded({ extended: false }));
 
-
+    // TODO pass the rate limit as a configuration parameter
     const limiter = rateLimit({
       windowMs: 15 * 60 * 1000,
       max: 2000, // limit 2000 requests / 15min / ip (40 threads in production -store memmory used- => 320000/h/ip ==> 5333 /min/ip )
@@ -55,6 +99,7 @@ export class ApplicationServer {
         return false;
       } // optional: allows to skip some log messages based on request and/or response
     }));
+    // TODO pass the activation of ping a configuration parameter
     logger.info ('init: ping');
     this.app.all( '/ping', function(req, res) {
       res.status(200).send({'status': 'pong'});
@@ -69,12 +114,22 @@ export class ApplicationServer {
 
     // Middleware de gestion des erreurs (mis en dernier pour gérer les 404)
     logger.info ('init: error management middleware');
+    // Handle not found the path as a 404 HTTP
     this.app.all( '*', function(req, res) {
       res.status(404).send({'error': 'ressource not found'});
     });
     this.app.use(errorMiddleware);
   }
 
+  /**
+   * Public init and launch server routine
+   * @date 20/09/2021 - 08:00:00
+   * @author cecric
+   *
+   * @public
+   * @async
+   * @returns {Promise<void>}
+   */
   public async launch(): Promise<void> {
     if (this.configuration['clustering']) {
       if ((typeof cluster.isPrimary !== 'undefined' && cluster.isPrimary) || (typeof cluster.isMaster !== 'undefined' && cluster.isMaster)) {
@@ -96,11 +151,28 @@ export class ApplicationServer {
     }
   }
 
+
+  /**
+   * Handle the socket event for Socket.io
+   * @date 20/09/2021 - 08:00:00
+   * @author cecric
+   *
+   * @protected
+   * @param {unknown} _socket
+   */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected onSocketServer(_socket: any): void {
+  protected onSocketServer(_socket: unknown): void {
     logger.info('socket.io: socket connected');
+    // TODO handle the socket event
   }
 
+  /**
+   * Internal launch server routine
+   * @date 20/09/2021 - 08:00:00
+   * @author cecric
+   *
+   * @protected
+   */
   protected launchServer(): void {
     if (this.configuration['https'] && this.configuration['https']['activated']) {
       const privateKey = fs.readFileSync(this.configuration['https']['private_key_filepath'], 'utf8');

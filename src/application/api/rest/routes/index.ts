@@ -3,9 +3,17 @@ import { logger } from '@dependencies/logger/logger';
 import {Router} from 'express';
 import fs from 'fs';
 
-
-// logger.info ('init: api modules routing');
-
+/**
+ * Initialize routes modules automatically by using filenames
+ * @date 20/09/2021 - 08:00:00
+ * @author cecric
+ *
+ * @export
+ * @async
+ * @param {Router} _router
+ * @param {string} [_path='']
+ * @returns {Promise<any>}
+ */
 export async function initializeRoutes (_router: Router, _path = ''): Promise<any> {
   const list = fs.readdirSync(__dirname + '/' + _path);
   for (let i = 0; i < list.length; i++) {
