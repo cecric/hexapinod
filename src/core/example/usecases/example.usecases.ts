@@ -5,7 +5,7 @@ import { RepositoriesService } from '@core/hexapinod/services/repositories.servi
 import { ServiceManager } from '@dependencies/hexapinod-framework/service-manager/servicemanager';
 import { ValidatorService } from '@core/hexapinod/services/validator.service';
 import { UseCases } from '@dependencies/hexapinod-framework/usecases/usecases';
-import ExampleListener from '../eventslisteners/examplelistener.event';
+import { ExampleListener } from '../eventslisteners/examplelistener.event';
 
 
 

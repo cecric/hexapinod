@@ -105,7 +105,9 @@ export class EventsManager {
         logger.info('Load listener ' + eventListenerSociete[i]);
         // const eventListenerSocieteName = eventListenerSociete[i].substr(0, eventListenerSociete[i].indexOf('.event'));
         const moduleEventListener = await import(__dirname + '/../../../core/' + _bundlePath + eventListenerSociete[i]);
-        const eventListener: BaseEventListener = new moduleEventListener.default();
+        const keyListeners = Object.keys(moduleEventListener);
+        const keyListener = keyListeners.length > 0 ? keyListeners[0] : 'default';
+        const eventListener: BaseEventListener = new moduleEventListener[keyListener]();
         for(const managedEvent of eventListener.getManagedEvents()){
           if (!this.globalEventsListener) {
             this.globalEventsListener = {} as Record<string,BaseEventListener[]>;

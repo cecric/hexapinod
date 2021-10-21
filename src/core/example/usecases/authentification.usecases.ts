@@ -1,4 +1,4 @@
-import AuthentificationListener from '@core/example/eventslisteners/authentificationlistener.event';
+import { AuthentificationListener } from '@core/example/eventslisteners/authentificationlistener.event';
 import { EventsManager } from '@dependencies/hexapinod-framework/events/eventsmanager';
 import { IUser } from '@core/example/interfaces/models/user.interface';
 import { logger } from '@dependencies/logger/logger';

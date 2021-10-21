@@ -6,7 +6,7 @@ import { EntityRepository, Repository } from 'typeorm';
 
 /**
  * Example Repository using typeORM
- * @date 19/10/2021 - 08:00:00
+ * @date 04/10/2021 - 08:00:00
  * @author cecric
  *
  * @export
@@ -18,6 +18,14 @@ import { EntityRepository, Repository } from 'typeorm';
 @EntityRepository(ExampleOrm)
 export class ExampleRepository extends Repository<ExampleOrm> implements IExampleOrm {
 
+  /**
+   * return the result of an example request
+   * @date 04/10/2021 - 08:00:00
+   * @author cecric
+   *
+   * @public
+   * @returns {Promise<ExampleOrm>}
+   */
   public getExample(): Promise<ExampleOrm> {
     const request = /*sql*/`
         SELECT 

@@ -16,6 +16,16 @@ import {DBManager} from '@dependencies/mysql-manager/dbmanager';
  */
 export class ExampleRepository extends DBManager implements IExample {
 
+
+  /**
+   * return the result of an example request
+   * @date 27/09/2021 - 08:00:00
+   * @author cecric
+   *
+   * @public
+   * @async
+   * @returns {Promise<Example>}
+   */
   public async getExample(): Promise<Example> {
     const request = /*sql*/`
       SELECT 
