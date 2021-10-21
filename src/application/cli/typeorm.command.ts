@@ -7,14 +7,40 @@ import { logger } from '@dependencies/logger/logger';
 import { ConfigurationReader } from '@dependencies/configuration-reader/configurationreader';
 import { execSync } from 'child_process';
 
-export default class TypeORMCommand extends BaseCommand {
+/**
+ * Command de wrap the CLI of TypeORM into the framework.
+ * It is usefull to ingretate it correctly with the path and configuration.
+ * @date 08/10/2021 - 08:00:00
+ * @author cecric
+ *
+ * @export
+ * @class TypeORMCommand
+ * @typedef {TypeORMCommand}
+ * @extends {BaseCommand}
+ */
+export class TypeORMCommand extends BaseCommand {
 
+  /**
+   * Creates an instance of TypeORMCommand.
+   * @date 08/10/2021 - 08:00:00
+   * @author cecric
+   *
+   * @constructor
+   */
   constructor() {
     super();
     this.name = 'typeorm';
     this.description = 'TypeORM from hexapinod.';
   }
 
+  /**
+   * @inheritdoc
+   * @date 08/10/2021 - 08:00:00
+   * @author cecric
+   *
+   * @protected
+   * @param {...any[]} args
+   */
   protected execute(...args: any[]): void {
     // Usage: cli.js <command> [options]
 
@@ -189,6 +215,15 @@ export default class TypeORMCommand extends BaseCommand {
     }
   }
 
+  /**
+   * @inheritdoc
+   * @date 08/10/2021 - 08:00:00
+   * @author cecric
+   *
+   * @public
+   * @param {Command} _instance
+   * @returns {Command}
+   */
   public initCommandParameters(_instance: Command): Command {
     return _instance.argument('<typeorm argument>', 'allowed values migration:generate')
       .option('-v, --verbose', 'verbose mode')
