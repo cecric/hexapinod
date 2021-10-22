@@ -18,7 +18,7 @@ module.exports = {
     __dirname: true
   },
   plugins: [
-    new webpack.IgnorePlugin(/\.(css|less)$/)
+    new webpack.IgnorePlugin({resourceRegExp: /\.(css|less)$/})
   ],
   resolve: {
     extensions: [ '.tsx', '.ts', '.js' ],
