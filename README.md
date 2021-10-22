@@ -54,14 +54,18 @@ The following commands are for linux debian, but it might work on Windows and Ma
 
 I didn't make an installer yet, so you have to pull the project in a temporary folder.
 ```
-cd /my/temporary/folder
+mkdir /tmp/mytemporaryfolder
+cd /tmp/mytemporaryfolder
 git clone https://github.com/cecric/hexapinod.git
 ```
 
-You can then extract into your project folder :
+You can then extract into your project folder (replace of course /my/project/folder by your destination for the project) :
 ```
+mkdir /my/project/folder
 cd ./hexapinod
-git archive main | tar -xzf /my/project/folder
+git archive --format=tar.gz v1.0.1 > hexapinod-1.0.1.tar.gz
+tar -xzf ./hexapinod-1.0.1.tar.gz -C /my/project/folder
+rm -rf /tmp/mytemporaryfolder
 cd /my/project/folder
 ```
 
