@@ -63,8 +63,8 @@ You can then extract into your project folder (replace of course /my/project/fol
 ```
 mkdir /my/project/folder
 cd ./hexapinod
-git archive --format=tar.gz v1.0.1 > hexapinod-1.0.1.tar.gz
-tar -xzf ./hexapinod-1.0.1.tar.gz -C /my/project/folder
+git archive --format=tar.gz v1.0.2 > hexapinod-1.0.2.tar.gz
+tar -xzf ./hexapinod-1.0.2.tar.gz -C /my/project/folder
 rm -rf /tmp/mytemporaryfolder
 cd /my/project/folder
 ```
@@ -139,11 +139,14 @@ Here you will find a list of the next features to include into the project and t
 - Add nosql (mongodb, redis and elasticsearch) support on native ORM.
 
 ## Upcoming release
+- v1.0.3 - Release: 
+  - Add API documentation system (OpenAPI and APIDocJS)
+  - Add Socket.IO full support
+
+## Releases
 - v1.0.2 - Pre-release: 
   - Add of TypeORM support and improvement of directory structure and documentation.
   - Add comments on published code (JSDoc)
-
-## Releases
 - v1.0.1 - Pre-release: fix a small issue on the first commit.
 - v1.0.0 - Pre-release: first release, includes the hexagonal architecture.
 
