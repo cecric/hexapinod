@@ -21,8 +21,28 @@ import { Example } from '../models/example';
  */
 export class ExampleTestUsecases extends UseCases {
 
+
   /**
-   * Test action example to test some services
+   * Test the validator service
+   * @date 22/10/2021 - 16:44:59
+   * @author cecric
+   *
+   * @public
+   * @static
+   * @async
+   * @returns {Promise<any>}
+   */
+  public static async testValidatorAction (): Promise<any> {
+    const ex = new Example();
+    ex.setExample('sample@example.fr');
+    ex.setDateExample(new Date());
+    const validatorService: ValidatorService = await ServiceManager.get<ValidatorService>(ValidatorService.name);
+    await validatorService.validate<Example>('example', ex.toObject());
+    return {'ok': true};
+  }
+
+  /**
+   * Test the orm services
    * @date 20/09/2021 - 08:00:00
    * @author cecric
    *
@@ -31,13 +51,7 @@ export class ExampleTestUsecases extends UseCases {
    * @async
    * @returns {Promise<any>}
    */
-  public static async testAction (): Promise<any> {
-    const ex = new Example();
-    ex.setExample('sample@example.fr');
-    ex.setDateExample(new Date());
-    const validatorService: ValidatorService = await ServiceManager.get<ValidatorService>(ValidatorService.name);
-    await validatorService.validate<Example>('example', ex.toObject());
-    logger.log('test something');
+  public static async testDatabaseRepositoriesAction (): Promise<any> {
     const repositoriesService: RepositoriesService = await ServiceManager.get<RepositoriesService>(RepositoriesService.name);
     const repo = await repositoriesService.getRepositoryByName('example') as IExample;
     const result = await repo.getExample();
