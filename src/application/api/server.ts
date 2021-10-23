@@ -1,8 +1,8 @@
 import express from 'express';
-import errorMiddleware from './rest/middlewares/error.middleware';
+import { errorMiddleware } from './rest/middlewares/error.middleware';
 import middlewares from './rest/middlewares';
 import { initializeRoutes } from './rest/routes';
-import terminal from '@dependencies/terminal/terminal';
+import { logger } from '@dependencies/logger/logger';
 import cluster from 'cluster';
 import fs from 'fs';
 import https from 'https';
@@ -13,28 +13,72 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import winston from 'winston';
 import expressWinston from 'express-winston';
-import ConfigurationReader from '@dependencies/configuration-reader/configurationreader';
+import { ConfigurationReader } from '@dependencies/configuration-reader/configurationreader';
 
-class App {
+/**
+ * Application server to launch http(s) server and load dynamically the corresponding routes
+ * @date 20/09/2021 - 08:00:00
+ * @author cecric
+ *
+ * @export
+ * @class ApplicationServer
+ * @typedef {ApplicationServer}
+ */
+export class ApplicationServer {
+
+  /**
+   * Express application server
+   * @date 20/09/2021 - 08:00:00
+   * @author cecric
+   *
+   * @public
+   * @type {express.Application}
+   */
   public app: express.Application;
+
+  /**
+   * Configuration server
+   * @date 20/09/2021 - 08:00:00
+   * @author cecric
+   *
+   * @protected
+   * @type {Record<string, unknown>}
+   */
   protected configuration: Record<string, unknown>;
 
+  /**
+   * Creates an instance of ApplicationServer.
+   * @date 20/09/2021 - 08:00:00
+   * @author cecric
+   *
+   * @constructor
+   */
   constructor() {
     this.app = express();
-    this.configuration = ConfigurationReader.getConfiguration('application/api/server');
+    this.configuration = ConfigurationReader.getConfiguration('application/api/server') as Record<string, unknown>;
   }
 
+  /**
+   * Initialize the configuration of routes and middleware for the server by using configuration
+   * @date 20/09/2021 - 08:00:00
+   * @author cecric
+   *
+   * @private
+   * @async
+   * @returns {Promise<void>}
+   */
   private async config(): Promise<void> {
+    // TODO pass the 2mb as a configuration parameter
     this.app.use(express.json({limit: '2mb'}));
     this.app.use(express.urlencoded({ extended: false }));
 
-
+    // TODO pass the rate limit as a configuration parameter
     const limiter = rateLimit({
       windowMs: 15 * 60 * 1000,
       max: 2000, // limit 2000 requests / 15min / ip (40 threads in production -store memmory used- => 320000/h/ip ==> 5333 /min/ip )
       message: 'Too many requests from this IP, please wait a moment.',
       onLimitReached: function (req) { // , res, options
-        terminal.warn(req.ip + ' rateLimit reached');
+        logger.warn(req.ip + ' rateLimit reached');
       }
     });
     this.app.use(limiter);
@@ -55,36 +99,47 @@ class App {
         return false;
       } // optional: allows to skip some log messages based on request and/or response
     }));
-    terminal.info ('init: ping');
+    // TODO pass the activation of ping a configuration parameter
+    logger.info ('init: ping');
     this.app.all( '/ping', function(req, res) {
       res.status(200).send({'status': 'pong'});
     });
-    terminal.info ('init: middleware');
+    logger.info ('init: middleware');
     this.app.use(middlewares);
 
     // Routes
-    terminal.info ('init: routes');
+    logger.info ('init: routes');
     const routerRoutes = express.Router();
     this.app.use(await initializeRoutes(routerRoutes));
 
     // Middleware de gestion des erreurs (mis en dernier pour gérer les 404)
-    terminal.info ('init: error management middleware');
+    logger.info ('init: error management middleware');
+    // Handle not found the path as a 404 HTTP
     this.app.all( '*', function(req, res) {
       res.status(404).send({'error': 'ressource not found'});
     });
     this.app.use(errorMiddleware);
   }
 
+  /**
+   * Public init and launch server routine
+   * @date 20/09/2021 - 08:00:00
+   * @author cecric
+   *
+   * @public
+   * @async
+   * @returns {Promise<void>}
+   */
   public async launch(): Promise<void> {
     if (this.configuration['clustering']) {
       if ((typeof cluster.isPrimary !== 'undefined' && cluster.isPrimary) || (typeof cluster.isMaster !== 'undefined' && cluster.isMaster)) {
-        terminal.log(`Master ${process.pid} is running`);
+        logger.log(`Master ${process.pid} is running`);
         const nbSubProcess = Math.max(1, Math.round(os.cpus().length / 2));
         for (let i = 0; i < nbSubProcess; i++) {
           cluster.fork();
         }
         cluster.on('exit', (worker, _code, _signal) => {
-          terminal.warn(`worker ${worker.process.pid} died`, _code, _signal);
+          logger.warn(`worker ${worker.process.pid} died`, _code, _signal);
         });
       } else {
         await this.config();
@@ -96,11 +151,28 @@ class App {
     }
   }
 
+
+  /**
+   * Handle the socket event for Socket.io
+   * @date 20/09/2021 - 08:00:00
+   * @author cecric
+   *
+   * @protected
+   * @param {unknown} _socket
+   */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected onSocketServer(_socket: any): void {
-    terminal.info('socket.io: socket connected');
+  protected onSocketServer(_socket: unknown): void {
+    logger.info('socket.io: socket connected');
+    // TODO handle the socket event
   }
 
+  /**
+   * Internal launch server routine
+   * @date 20/09/2021 - 08:00:00
+   * @author cecric
+   *
+   * @protected
+   */
   protected launchServer(): void {
     if (this.configuration['https'] && this.configuration['https']['activated']) {
       const privateKey = fs.readFileSync(this.configuration['https']['private_key_filepath'], 'utf8');
@@ -111,18 +183,15 @@ class App {
       ioServer.on('connection', this.onSocketServer );
       const port = this.configuration['port'] || 3443;
       httpsServer.listen(this.configuration['host'] ? {'port': port, 'host': this.configuration['host']} : port);
-      terminal.success(`API worker ${process.pid} listening on port ${port} (HTTPS)`);
+      logger.success(`API worker ${process.pid} listening on port ${port} (HTTPS)`);
     } else {
       const port = this.configuration['port'] || 3000;
-      // this.app.listen(port, () => terminal.success(`TRF api worker ${process.pid} listening on port ${port} (HTTP)`));
+      // this.app.listen(port, () => logger.success(`API worker ${process.pid} listening on port ${port} (HTTP)`));
       const httpServer = http.createServer(this.app);
       const ioServer = new Server(httpServer);
       ioServer.on('connection', this.onSocketServer );
       httpServer.listen(this.configuration['host'] ? {'port': port, 'host': this.configuration['host']} : port);
-      terminal.success(`API worker ${process.pid} listening on port ${port} (HTTP)`);
+      logger.success(`API worker ${process.pid} listening on port ${port} (HTTP)`);
     }
   }
 }
-
-
-export default new App();

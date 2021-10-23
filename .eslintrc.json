@@ -91,7 +91,7 @@
         "warn",
         {
           "selector": "CallExpression[callee.object.name='console']",
-          "message": "Please use the trf object 'terminal' for logging in production"
+          "message": "Please use the object 'logger' for logging in production"
         }
       ],
       "block-scoped-var": "error",

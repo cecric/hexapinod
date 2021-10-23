@@ -29,8 +29,10 @@ build/Release
 node_modules
 
 dist
-
 dist/*
+
+documentation
+documentation/*
 
 .env
 .env.test

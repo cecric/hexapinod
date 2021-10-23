@@ -1,15 +1,26 @@
 import { AccessDeniedException } from '@core/hexapinod/exceptions/accessdenied.exception';
 import { IUser } from '@core/example/interfaces/models/user.interface';
 import { AuthentificationUsecases } from '@core/example/usecases/authentification.usecases';
-import terminal from '@dependencies/terminal/terminal';
-import express from 'express';
+import { logger } from '@dependencies/logger/logger';
+import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 
+// TODO change it to a configuration and allow file
 const jwtKey = process.env.SECRET_KEY_JWT;
-const app = express.Router();
 
 
-app.use(function (_req, _res, _next) {
+/**
+ * Json Web Token Authentification middleware
+ * @date 20/09/2021 - 08:00:00
+ * @author cecric
+ *
+ * @export
+ * @param {Request} _req
+ * @param {Response} _res
+ * @param {Function} _next
+ */
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function jwtAuthMiddleware (_req: Request, _res: Response, _next: Function): void {
   const filter = true;
   if (!filter) {
     _next();
@@ -25,8 +36,8 @@ app.use(function (_req, _res, _next) {
         let user: IUser = null;
         try {
           _req['session'] = _decoded;
-          _req['session']['public_ip'] = (_req.ip || _req.socket.remoteAddress).replace('::ffff:','');
-          const networkInfo: Array<string> = [_req.ip || _req.socket.remoteAddress];
+          _req['session']['public_ip'] = (_req['ip'] || _req['socket'].remoteAddress).replace('::ffff:','');
+          const networkInfo: Array<string> = [_req['ip'] || _req['socket'].remoteAddress];
           if(_req.headers['origin'] && _req.headers['origin'].length>0){
             networkInfo.push(_req.headers['origin']);
           }
@@ -36,7 +47,7 @@ app.use(function (_req, _res, _next) {
           return;
         }
         if (user === null) {
-          terminal.error('Error while retrieving user');
+          logger.error('Error while retrieving user');
           _next(new AccessDeniedException('user doesn\'t exist anymore, abort request'));
         }
         _req['session']['user'] = user;
@@ -47,6 +58,4 @@ app.use(function (_req, _res, _next) {
     return;
   }
   _next(new AccessDeniedException('invalid token'));
-});
-
-export default app;
+}

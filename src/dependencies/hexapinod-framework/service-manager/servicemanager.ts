@@ -1,52 +1,102 @@
 import * as fs from 'fs';
-import terminal from '@dependencies/terminal/terminal';
+import { logger } from '@dependencies/logger/logger';
 import { Service } from './service';
 import { GenericException } from '@core/hexapinod/exceptions/generic.exception';
 
 /**
+ * Class to manage the services (load them, inject if needed other services)
+ * @date 22/09/2021 - 08:00:00
+ *
+ * @class ServiceManager
+ * @typedef {ServiceManager}
  */
-class ServiceManager {
+class ServiceManagerTool {
 
   /**
+   * The persisted instances managed
+   * @date 22/09/2021 - 08:00:00
+   *
+   * @protected
+   * @type {Record<string, unknown>}
    */
   protected persistentInstance: Record<string, unknown>;
-  protected static instance: ServiceManager;
 
+  /**
+   * The instance of singleton
+   * @date 22/09/2021 - 08:00:00
+   *
+   * @protected
+   * @static
+   * @type {ServiceManager}
+   */
+  protected static instance: ServiceManagerTool;
+
+  /**
+   * The loaded services to instanciates.
+   * @date 22/09/2021 - 08:00:00
+   *
+   * @protected
+   * @type {Array<Service>}
+   */
   protected services: Array<Service>;
 
 
-
+  /**
+   * Creates an instance of ServiceManager.
+   * @date 22/09/2021 - 08:00:00
+   *
+   * @constructor
+   * @protected
+   */
   protected constructor() {
     this.persistentInstance = {};
     this.initializeServiceBundle();
   }
 
   /**
-   * Gets instance
-   * @returns instance
+   * returns the instance of the singleton.
+   * @date 22/09/2021 - 08:00:00
+   *
+   * @public
+   * @static
+   * @returns {ServiceManager}
    */
-  public static getInstance (): ServiceManager {
-    if (!ServiceManager.instance) {
-      ServiceManager.instance = new ServiceManager();
+  public static getInstance (): ServiceManagerTool {
+    if (!ServiceManagerTool.instance) {
+      ServiceManagerTool.instance = new ServiceManagerTool();
     }
-    return ServiceManager.instance;
+    return ServiceManagerTool.instance;
   }
 
+  /**
+   * initialize and load the available services from the bundles.
+   * @date 22/09/2021 - 08:00:00
+   *
+   * @protected
+   * @async
+   * @returns {Promise<boolean>}
+   */
   protected async initializeServiceBundle (): Promise<boolean> {
-    terminal.info('[service manager] initialization services started');
+    logger.info('[service manager] initialization services started');
     const list = fs.readdirSync(__dirname + '/../../../core/', { withFileTypes: true });
     for (let i = 0; i < list.length; i++) {
       if (list[i].isDirectory()) {
-        terminal.info('load bundle ' + list[i].name + ' services' );
+        logger.info('load bundle ' + list[i].name + ' services' );
         await this.initializeServicesClass (list[i].name + '/services/');
       }
     }
-    terminal.success('[service manager] services successfully loaded');
+    logger.success('[service manager] services successfully loaded');
     return true;
   }
 
   /**
-   * @returns true if correctly init
+   * initialize the services from a bundle.
+   * @date 22/09/2021 - 08:00:00
+   *
+   * @protected
+   * @async
+   * @param {string} _directory
+   * @returns {Promise<boolean>}
    */
   protected async initializeServicesClass (_directory: string): Promise<boolean> {
     this.services = [];
@@ -55,7 +105,7 @@ class ServiceManager {
       if (list[i].indexOf('.ts') === -1 || list[i].indexOf('.service.ts') === -1) {
         continue;
       }
-      terminal.info('load service ' + list[i]);
+      logger.info('load service ' + list[i]);
       const service = await import(__dirname + '/../../../core/' + _directory + list[i]);
       const keyservices = Object.keys(service);
       const keyservice = keyservices.length > 0 ? keyservices[0] : 'default';
@@ -73,10 +123,15 @@ class ServiceManager {
 
   /**
    * Get service instance by its name
-   * @param name string of service
-   * @returns  the instance
+   * @date 22/09/2021 - 08:00:00
+   *
+   * @public
+   * @async
+   * @template T
+   * @param {string} _name name of service
+   * @returns {Promise<T>} the instance
    */
-  public get <T>(_name: string): T {
+  public async get <T>(_name: string): Promise<T> {
     let name: string = _name;
     if (name.endsWith('Service')) {
       name = name.replace(/Service$/g,'');
@@ -96,13 +151,14 @@ class ServiceManager {
       params.push(new this.services[name]['parameters'][i]());
     }
 
-
     /* eslint-disable */
     const inst:T = new this.services[name].service(...params);
     
     if (!(inst instanceof Service)) {
       throw new GenericException('invalid service loaded, should inherit from Service');
     }
+
+    await inst.initialization();
     /* eslint-enable */
     if (inst.isPersistent()) {
       this.persistentInstance[name] = inst;
@@ -112,4 +168,13 @@ class ServiceManager {
 
 }
 
-export default ServiceManager.getInstance();
+export type { ServiceManagerTool };
+
+
+/**
+ * Instance of service manager
+ * @date 20/10/2021 - 22:28:58
+ *
+ * @type {ServiceManagerTool}
+ */
+export const ServiceManager = ServiceManagerTool.getInstance();

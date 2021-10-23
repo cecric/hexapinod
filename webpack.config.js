@@ -18,7 +18,7 @@ module.exports = {
     __dirname: true
   },
   plugins: [
-    new webpack.IgnorePlugin(/\.(css|less)$/)
+    new webpack.IgnorePlugin({resourceRegExp: /\.(css|less)$/})
   ],
   resolve: {
     extensions: [ '.tsx', '.ts', '.js' ],
@@ -38,7 +38,7 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.md?$/,
+        test: /^.*\.((?![t|j]s)|(ts[^x]))[^.]*$/,
         use: 'null-loader',
         exclude: /node_modules/,
       }

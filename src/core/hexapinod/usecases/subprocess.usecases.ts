@@ -1,19 +1,37 @@
 import { Service } from '@dependencies/hexapinod-framework/service-manager/service';
-import servicemanager from '@dependencies/hexapinod-framework/service-manager/servicemanager';
+import { ServiceManager } from '@dependencies/hexapinod-framework/service-manager/servicemanager';
 import { UseCases } from '@dependencies/hexapinod-framework/usecases/usecases';
-import terminal from '@dependencies/terminal/terminal';
+import { logger } from '@dependencies/logger/logger';
 
 
 
+/**
+ * Class to handle subprocess use cases
+ * @date 20/09/2021 - 20:00:00
+ * @author cecric
+ *
+ * @export
+ * @class SubProcessUsecases
+ * @typedef {SubProcessUsecases}
+ * @extends {UseCases}
+ */
 export class SubProcessUsecases extends UseCases {
 
 
+  /**
+   * Start loop for sub process and call the corresponding service received by event
+   * @date 20/09/2021 - 20:00:00
+   * @author cecric
+   *
+   * @public
+   * @static
+   */
   public static start (): void {
 
-    terminal.log('start subprocess');
+    logger.log('start subprocess');
 
     const onError = function (_err) {
-      terminal.error('Closing subprocess', _err);
+      logger.error('Closing subprocess', _err);
       process.send({
         message :'end' ,
         result: JSON.stringify(_err)
@@ -32,13 +50,14 @@ export class SubProcessUsecases extends UseCases {
       try {
         if(_p['action'] === 'launch') {
           const parameters = JSON.parse(_p['parameters']);
-          terminal.log('launch subprocss for service ' + _p['classPath'], 'with parameters ', parameters);
-          result = await servicemanager.get<Service>(_p['classPath'].replace(/Service$/, '').toLowerCase()).execInSubProcess(parameters);
+          logger.log('launch subprocss for service ' + _p['classPath'], 'with parameters ', parameters);
+          const service = await ServiceManager.get<Service>(_p['classPath'].replace(/Service$/, '').toLowerCase());
+          result = await service.execInSubProcess(parameters);
           result = JSON.stringify(result);
         }
       } catch (e) {
         error = JSON.stringify(e);
-        terminal.error(e.message, e.stack);
+        logger.error(e.message, e.stack);
       }
       if(_p['action'] === 'launch') {
         setTimeout(() => {
