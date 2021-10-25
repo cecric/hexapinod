@@ -79,10 +79,8 @@ npm install
 While you developp, you can launch the server in debug mod with the following command :
 ```
 npm run serve
-```
-Or
-```
-npm run test
+# Or ->
+npm run dev
 ```
 
 If you want to launch the test :
@@ -124,6 +122,23 @@ It only support mariadb/mysql databases at this time (PostgreSQL will come soon)
 ```
 config/dependencies/mysql-manager.json
 ```
+
+### Documentation
+To generate the documentation from the code using Typedoc specification, use the following command:
+```
+npm run docs
+```
+it will generate in the folder documentation at the root of the project.
+
+### OpenAPI Swagger
+The generation of the documentation with the OpenAPI standard is based also on comments.
+
+### APIDocJS
+To generate the API Documentation using APIDocJS, use the following command:
+```
+npm run apidocs 
+```
+it will generate in the folder api-documentation at the root of the project.
 
 # Contributing
 Feel free to use it in your projects and to fix some issues you can find by submiting a pull requests. Please let me know if you have any suggestions to improve this framework structure or some features you want/need!
