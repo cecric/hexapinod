@@ -11,8 +11,38 @@ const jwtKey = process.env.SECRET_KEY_JWT;
 const tokenLifetime = '1h';
 const refreshTokenLifetime = '48h';
 
+/**
+ * Credentials Parameters Model
+ * @typedef {object} Credentials
+ * @property {string} email - The email of the user.
+ * @property {string} password - The password of the user.
+ */
 
+/**
+ * Refresh Token Parameters Model
+ * @typedef {object} RefreshToken
+ * @property {string} token - A refresh token to be used to refresh and get a new token without password.
+ */
 
+/**
+ * Token Result Model
+ * @typedef {object} Token
+ * @property {string} token - The main token to communicate
+ * @property {string} refresh_token - A refresh token to be used to refresh and get a new token without password.
+ */
+
+/**
+ * POST /authorize
+ * @tags JWTAuth
+ * @summary Authorize with the login/password
+ * @param {Credentials} request.body.required - credentials info to perform log-in - application/json
+ * @return {Token} 200 - success response - application/json
+ *
+ * @api {post} /authorize  Authorize with the login/password
+ * @apiName authorize
+ * @apiGroup JWTAuth
+ * @apiSuccess (200) {Token} the tokens
+ */
 router.post('/authorize', async function (_req, _res, _next) {
   try {
     let user: IUser = null;
@@ -48,6 +78,18 @@ router.post('/authorize', async function (_req, _res, _next) {
   }
 });
 
+/**
+ * POST /refresh
+ * @tags JWTAuth
+ * @summary Refresh authorization with the refresh_token
+ * @param {RefreshToken} request.body.required - refresh token info - application/json
+ * @return {Token} 200 - success response - application/json
+ *
+ * @api {post} /refresh Refresh authorization with the refresh_token
+ * @apiName refresh
+ * @apiGroup JWTAuth
+ * @apiSuccess (200) {Token} the tokens
+ */
 router.post('/refresh', function (_req, _res, _next) {
   if (_req.body && _req.body.token) {
     const networkInfo: Array<string> = [_req.ip || _req.socket.remoteAddress];

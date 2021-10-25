@@ -18,11 +18,11 @@ const router = express.Router();
  * @tags examples
  * @summary Example of path to be exported as OpenAPI documentation and as APIDocJS Documentation
  * @return {Example} 200 - success response - application/json
- * @api {get} /example example request
- * @apiName GetUser
+ *
+ * @api {get} /example  Example of request to be exported as OpenAPI documentation and as APIDocJS Documentation
+ * @apiName example
  * @apiGroup examples
- * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
+ * @apiSuccess (200) {Example} an Example object
  */
 router.get('/example', apiCallWrapper(async (_req, _res) => {
   const content: Example = await ExampleUsecases.exampleValidatorAction();
@@ -31,10 +31,10 @@ router.get('/example', apiCallWrapper(async (_req, _res) => {
 
 
 /**
- * @api {get} /second-example example request document with APIDocJS
- * @apiName /second-example
+ * @api {get} /second-example Example of request documented with APIDocJS
+ * @apiName second-example
  * @apiGroup examples
- * @apiSuccess (200) {Example} an occurence of Success
+ * @apiSuccess (200) {Example} an Example object
  */
 router.get('/second-example', apiCallWrapper(async (_req, _res) => {
   const content: Example = await ExampleUsecases.exampleValidatorAction();
@@ -43,7 +43,7 @@ router.get('/second-example', apiCallWrapper(async (_req, _res) => {
 
 /**
  * GET /protected-path/example
- * @summary Example of path to be exported as OpenAPI documentation
+ * @summary Example of request to be exported as OpenAPI documentation
  * @tags examples
  * @security bearerAuth
  * @return {Example} 200 - success response - application/json
