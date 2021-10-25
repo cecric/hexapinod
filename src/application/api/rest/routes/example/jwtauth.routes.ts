@@ -88,7 +88,7 @@ router.post('/authorize', async function (_req, _res, _next) {
  * @api {post} /refresh Refresh authorization with the refresh_token
  * @apiName refresh
  * @apiGroup JWTAuth
- * @apiSuccess (200) {Token} the tokens
+ * @apiSuccess (200) {Token} token the token
  */
 router.post('/refresh', function (_req, _res, _next) {
   if (_req.body && _req.body.token) {

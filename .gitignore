@@ -34,5 +34,8 @@ dist/*
 documentation
 documentation/*
 
+api-documentation
+api-documentation/*
+
 .env
 .env.test
