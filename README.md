@@ -138,8 +138,9 @@ Here you will find a list of the next features to include into the project and t
 
 ## Upcoming release
 - v1.0.3 - Release: 
-  - Add API documentation system (OpenAPI and APIDocJS)
+  - Add API documentation system ([OpenAPI](https://www.openapis.org/) and [APIDocJS](https://apidocjs.com/))
   - Add Socket.IO full support
+  - Add documentation to use it with [pm2](https://pm2.keymetrics.io/)
 
 ## Releases
 - v1.0.2 - Pre-release: 
