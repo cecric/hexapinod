@@ -223,6 +223,7 @@ export class ApplicationServer {
         for (let i = 0; i < nbSubProcess; i++) {
           cluster.fork();
         }
+        // this.launchServer(true);
         cluster.on('exit', (worker, _code, _signal) => {
           logger.warn(`worker ${worker.process.pid} died`, _code, _signal);
         });
@@ -245,12 +246,12 @@ export class ApplicationServer {
    *
    * @protected
    */
-  protected launchServer(): void {
+  protected launchServer(_isMaster = false): void {
     if (this.configuration['https'] && this.configuration['https']['activated']) {
       const privateKey = fs.readFileSync(this.configuration['https']['private_key_filepath'], 'utf8');
       const certificate = fs.readFileSync(this.configuration['https']['public_cert_filepath'], 'utf8');
       const credentials = {key: privateKey, cert: certificate};
-      const httpsServer = WebSocketServer.launchSocketServer(https.createServer(credentials, this.app));
+      const httpsServer = WebSocketServer.launchSocketServer(https.createServer(credentials, this.app), this.configuration['clustering'] as boolean, _isMaster);
 
       const port = this.configuration['port'] || 3443;
       httpsServer.listen(this.configuration['host'] ? {'port': port, 'host': this.configuration['host']} : port);

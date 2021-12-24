@@ -5,6 +5,8 @@ import https from 'https';
 import http from 'http';
 import { EventsManager } from '@dependencies/hexapinod-framework/events/eventsmanager';
 import { WebSocketsListener } from '@core/example/eventslisteners/websocketslistener.event';
+import { setupMaster, setupWorker } from '@socket.io/sticky';
+import { createAdapter, setupPrimary } from '@socket.io/cluster-adapter';
 
 
 class WSServer {
@@ -81,9 +83,28 @@ class WSServer {
     return this.ioServer.to(_roomName).emit(_message);
   }
 
-  public launchSocketServer (httpsServer: https.Server | http.Server): https.Server | http.Server {
-    this.ioServer = new Server(httpsServer);
-    this.ioServer.on('connection', this.onSocketServer );
+  public launchSocketServer (httpsServer: https.Server | http.Server, _isCluster = false, _isMaster = false): https.Server | http.Server {
+    if (_isCluster) {
+      if (_isMaster) {
+        // setup sticky sessions
+        setupMaster(httpsServer, {
+          loadBalancingMethod: 'least-connection',
+        });
+
+        // setup connections between the workers
+        setupPrimary();
+      } else {
+
+        // use the cluster adapter
+        this.ioServer.adapter(createAdapter());
+
+        // setup connection with the primary process
+        setupWorker(this.ioServer);
+      }
+    } else {
+      this.ioServer = new Server(httpsServer);
+      this.ioServer.on('connection', this.onSocketServer );
+    }
     return httpsServer;
   }
 }
