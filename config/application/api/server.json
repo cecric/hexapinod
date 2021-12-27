@@ -1,6 +1,6 @@
 {
   "https": {
-    "activated": false,
+    "enabled": false,
     "private_key_filepath": "",
     "public_cert_filepath": ""
   },
