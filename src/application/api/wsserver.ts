@@ -43,7 +43,7 @@ class WSServer {
    }
 
    protected constructor() {
-     this.configuration = ConfigurationReader.getConfiguration('application/api/server') as Record<string, unknown>;
+     this.configuration = ConfigurationReader.getConfiguration('application/api/wsserver') as Record<string, unknown>;
    }
 
    /**
@@ -104,8 +104,10 @@ class WSServer {
        const pubClient = createClient(redisConf);
        const subClient = pubClient.duplicate();
        this.ioServer.adapter(createAdapter(pubClient, subClient));
+       logger.info('websocket server link to redis initialized');
      }
      this.ioServer.on('connection', this.onSocketServer );
+     logger.info('websocket server initialized');
      return httpsServer;
    }
 }
