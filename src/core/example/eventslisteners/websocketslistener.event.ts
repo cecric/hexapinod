@@ -27,7 +27,11 @@ export class WebSocketsListener implements BaseEventListener {
     return [
       WebSocketsListener.EVENT_WSS_CONNECT_SOCKET,
       WebSocketsListener.EVENT_WSS_DISCONNECT_SOCKET,
-      WebSocketsListener.EVENT_WSS_SEND_MESSAGE_TO_SOCKET
+      WebSocketsListener.EVENT_WSS_SEND_MESSAGE_TO_SOCKET,
+      WebSocketsListener.EVENT_WSS_SEND_MESSAGE_TO_ALL,
+      WebSocketsListener.EVENT_WSS_SEND_MESSAGE_TO_ROOM,
+      WebSocketsListener.EVENT_WSS_SUBSCRIBE_TO_ROOM,
+      WebSocketsListener.EVENT_WSS_UNSUBSCRIBE_TO_ROOM
     ];
   }
 
@@ -55,6 +59,26 @@ export class WebSocketsListener implements BaseEventListener {
       WebSocketServer.sendMessageToSocket(_data['socket'], _data['message']);
       break;
     }
+    case WebSocketsListener.EVENT_WSS_SEND_MESSAGE_TO_ALL: {
+      logger.log('Event disconnect socket: ' , _data);
+      WebSocketServer.broadcastMessage(_data['message']);
+      break;
+    }
+    case WebSocketsListener.EVENT_WSS_SEND_MESSAGE_TO_ROOM: {
+      logger.log('Event disconnect socket: ' , _data);
+      WebSocketServer.sendMessageToRoom(_data['room'], _data['message']);
+      break;
+    }
+    case WebSocketsListener.EVENT_WSS_SUBSCRIBE_TO_ROOM: {
+      logger.log('Event disconnect socket: ' , _data);
+      WebSocketServer.subscribeToRoom(_data['socket'], _data['room']);
+      break;
+    }
+    case WebSocketsListener.EVENT_WSS_UNSUBSCRIBE_TO_ROOM: {
+      logger.log('Event disconnect socket: ' , _data);
+      WebSocketServer.unsubscribeFromRoom(_data['socket'], _data['room']);
+      break;
+    }
     default:
       break;
     }
@@ -76,7 +100,15 @@ export class WebSocketsListener implements BaseEventListener {
 
   public static EVENT_WSS_DISCONNECT_SOCKET = 'EVENT_WSS_DISCONNECT_SOCKET';
 
-  public static EVENT_WSS_SEND_MESSAGE_TO_SOCKET = 'EVENT_SEND_MESSAGE_TO_SOCKET';
+  public static EVENT_WSS_SEND_MESSAGE_TO_SOCKET = 'EVENT_WSS_SEND_MESSAGE_TO_SOCKET';
+
+  public static EVENT_WSS_SEND_MESSAGE_TO_ALL = 'EVENT_WSS_SEND_MESSAGE_TO_ALL';
+
+  public static EVENT_WSS_SEND_MESSAGE_TO_ROOM = 'EVENT_WSS_SEND_MESSAGE_TO_ROOM';
+
+  public static EVENT_WSS_SUBSCRIBE_TO_ROOM = 'EVENT_WSS_SUBSCRIBE_TO_ROOM';
+
+  public static EVENT_WSS_UNSUBSCRIBE_TO_ROOM = 'EVENT_WSS_UNSUBSCRIBE_TO_ROOM';
 
 
 

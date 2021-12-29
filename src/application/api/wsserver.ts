@@ -62,14 +62,21 @@ class WSServer {
        await EventsManager.asyncDispatch(WebSocketsListener.EVENT_WSS_DISCONNECT_SOCKET, {'socket': _socket});
 
      });
-     // TODO handle the socket event
    }
 
    public subscribeToRoom (_socket: Socket, _roomName: string): boolean {
      if (!this.ioServer) {
        return false;
      }
-     _socket.to(_roomName);
+     _socket.join(_roomName);
+     return true;
+   }
+
+   public unsubscribeFromRoom (_socket: Socket, _roomName: string): boolean {
+     if (!this.ioServer) {
+       return false;
+     }
+     _socket.leave(_roomName);
      return true;
    }
 
