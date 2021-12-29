@@ -146,6 +146,7 @@ And if you want [to buy me a coffee](https://www.buymeacoffee.com/cecric), I wil
 
 # Roadmap and upcoming releases
 Here you will find a list of the next features to include into the project and the upcoming development:
+- Switch the project from CommonJS to ESM, support of node 16 and node 17, and remove of ts-node and webpack tools
 - Add GraphQL requests
 - Add postgreSQL support on native ORM.
 - Add right management on serialization of models.
