@@ -59,7 +59,7 @@ cd /tmp/mytemporaryfolder
 git clone https://github.com/cecric/hexapinod.git
 ```
 
-You can then extract into your project folder (replace of course /my/project/folder by your destination for the project) :
+You can then extract into your project folder (replace of course /my/project/folder by your destination for the project):
 ```
 mkdir /my/project/folder
 cd ./hexapinod
@@ -76,7 +76,7 @@ npm install
 
 ## Usage
 
-While you developp, you can launch the server in debug mod with the following command :
+While you developp, you can launch the server in debug mod with the following command:
 ```
 npm run serve
 # Or ->
@@ -88,25 +88,44 @@ If you want to launch the test :
 npm run test
 ```
   
-If you want to launch the server in build mode, you have to compile first and the launch it with node :
+If you want to launch the server in build mode, you have to compile first and the launch it with node:
 ```
 npm run build
 node dist/bundle.js server
 ```
 
-You can launch other command line that you defined by using other parameters in your call, for example :
+You can launch other command line that you defined by using other parameters in your call, for example:
 ```
 node dist/bundle.js test
 ```
 
+To run it as a service and monitor it, we recommends to use [pm2](https://pm2.keymetrics.io/), which will launch as a daemon and centralize the monitoring. It helps also for log rotate.
+```
+# install it
+npm install pm2@latest -g
+
+# launch the service (you need to build it before)
+pm2 start --name my_app_name dist/bundle.js -- server
+
+# restart the service
+pm2 restart my_app_name
+
+# stop the service
+pm2 stop my_app_name
+
+# to see the logs
+pm2 logs
+```
+See the documentation to view all the features of pm2.
+
 ### ORM specifics
 #### TypeORM
-To perform ORM manipulation (in our case TypeORM), you can use the command line. To adapt to our specific directory structure, we wrapped the TypeORM CLI commands into a command line from the executable, like that :
+To perform ORM manipulation (in our case TypeORM), you can use the command line. To adapt to our specific directory structure, we wrapped the TypeORM CLI commands into a command line from the executable, like that:
 ```
 npm run cli typeorm 
 ```
 
-Or if you have already compiled the project :
+Or if you have already compiled the project:
 ```
 node dist/bundle.js typeorm <typeorm-command>...
 ```
@@ -130,10 +149,14 @@ npm run docs
 ```
 it will generate in the folder documentation at the root of the project.
 
-### OpenAPI Swagger
-The generation of the documentation with the OpenAPI standard is based also on comments.
+### API Documentation
+Built as an API framework, it was an obligation to integrate some tools to build a great API Documentation. OpenAPI has become a standard since a few years now. But most of times, it is used to generate the API Code.
+We believe it could be great to build documentation too from the code, so we embed a library that do it for us by reading the comments above the API Calls.
 
-### APIDocJS
+#### OpenAPI Swagger
+The generation of the documentation with the OpenAPI standard is based on comments.
+
+#### APIDocJS
 To generate the API Documentation using APIDocJS, use the following command:
 ```
 npm run apidocs 
@@ -155,7 +178,6 @@ Here you will find a list of the next features to include into the project and t
 - v1.0.3 - Release: 
   - Add API documentation system ([OpenAPI](https://www.openapis.org/) and [APIDocJS](https://apidocjs.com/))
   - Add Socket.IO full support
-  - Add documentation to use it with [pm2](https://pm2.keymetrics.io/)
 
 ## Releases
 - v1.0.2 - Pre-release: 
