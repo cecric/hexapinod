@@ -1,5 +1,6 @@
 {
   "enabled": true,
+  "path": "/socket.io",
   "redis": {
     "host": "localhost",
     "port": 6379
