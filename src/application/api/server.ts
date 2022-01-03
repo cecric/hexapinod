@@ -115,7 +115,7 @@ export class ApplicationServer {
       security: this.configurationOpenApi.security as Security,
       baseDir: new URL('.', import.meta.url).pathname,
       // Glob pattern to find your jsdoc files (multiple patterns can be added in an array)
-      filesPattern: './rest/routes/**/*.routes.ts',
+      filesPattern: './rest/routes/**/*.routes.js',
       // URL where SwaggerUI will be rendered
       swaggerUIPath: this.configurationOpenApi['swagger-ui-path'] as string,
       // Expose OpenAPI UI
