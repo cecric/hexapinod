@@ -59,12 +59,12 @@ cd /tmp/mytemporaryfolder
 git clone https://github.com/cecric/hexapinod.git
 ```
 
-You can then extract into your project folder (replace of course /my/project/folder by your destination for the project) :
+You can then extract into your project folder (replace of course /my/project/folder by your destination for the project):
 ```
 mkdir /my/project/folder
 cd ./hexapinod
-git archive --format=tar.gz v1.0.2 > hexapinod-1.0.2.tar.gz
-tar -xzf ./hexapinod-1.0.2.tar.gz -C /my/project/folder
+git archive --format=tar.gz v1.0.3 > hexapinod-1.0.3.tar.gz
+tar -xzf ./hexapinod-1.0.3.tar.gz -C /my/project/folder
 rm -rf /tmp/mytemporaryfolder
 cd /my/project/folder
 ```
@@ -76,13 +76,11 @@ npm install
 
 ## Usage
 
-While you developp, you can launch the server in debug mod with the following command :
+While you developp, you can launch the server in debug mod with the following command:
 ```
 npm run serve
-```
-Or
-```
-npm run test
+# Or ->
+npm run dev
 ```
 
 If you want to launch the test :
@@ -90,25 +88,44 @@ If you want to launch the test :
 npm run test
 ```
   
-If you want to launch the server in build mode, you have to compile first and the launch it with node :
+If you want to launch the server in build mode, you have to compile first and the launch it with node:
 ```
 npm run build
 node dist/bundle.js server
 ```
 
-You can launch other command line that you defined by using other parameters in your call, for example :
+You can launch other command line that you defined by using other parameters in your call, for example:
 ```
 node dist/bundle.js test
 ```
 
+To run it as a service and monitor it, we recommends to use [pm2](https://pm2.keymetrics.io/), which will launch as a daemon and centralize the monitoring. It helps also for log rotate.
+```
+# install it
+npm install pm2@latest -g
+
+# launch the service (you need to build it before)
+pm2 start --name my_app_name dist/bundle.js -- server
+
+# restart the service
+pm2 restart my_app_name
+
+# stop the service
+pm2 stop my_app_name
+
+# to see the logs
+pm2 logs
+```
+See the documentation to view all the features of pm2.
+
 ### ORM specifics
 #### TypeORM
-To perform ORM manipulation (in our case TypeORM), you can use the command line. To adapt to our specific directory structure, we wrapped the TypeORM CLI commands into a command line from the executable, like that :
+To perform ORM manipulation (in our case TypeORM), you can use the command line. To adapt to our specific directory structure, we wrapped the TypeORM CLI commands into a command line from the executable, like that:
 ```
 npm run cli typeorm 
 ```
 
-Or if you have already compiled the project :
+Or if you have already compiled the project:
 ```
 node dist/bundle.js typeorm <typeorm-command>...
 ```
@@ -125,6 +142,27 @@ It only support mariadb/mysql databases at this time (PostgreSQL will come soon)
 config/dependencies/mysql-manager.json
 ```
 
+### Documentation
+To generate the documentation from the code using Typedoc specification, use the following command:
+```
+npm run docs
+```
+it will generate in the folder documentation at the root of the project.
+
+### API Documentation
+Built as an API framework, it was an obligation to integrate some tools to build a great API Documentation. OpenAPI has become a standard since a few years now. But most of times, it is used to generate the API Code.
+We believe it could be great to build documentation too from the code, so we embed a library that do it for us by reading the comments above the API Calls.
+
+#### OpenAPI Swagger
+The generation of the documentation with the OpenAPI standard is based on comments.
+
+#### APIDocJS
+To generate the API Documentation using APIDocJS, use the following command:
+```
+npm run apidocs 
+```
+it will generate in the folder api-documentation at the root of the project.
+
 # Contributing
 Feel free to use it in your projects and to fix some issues you can find by submiting a pull requests. Please let me know if you have any suggestions to improve this framework structure or some features you want/need!
 And if you want [to buy me a coffee](https://www.buymeacoffee.com/cecric), I will be the most happy developper in the world.
@@ -137,11 +175,17 @@ Here you will find a list of the next features to include into the project and t
 - Add nosql (mongodb, redis and elasticsearch) support on native ORM.
 
 ## Upcoming release
-- v1.0.3 - Release: 
-  - Add API documentation system (OpenAPI and APIDocJS)
-  - Add Socket.IO full support
+- v1.1.0 - Release: 
+  - Switch the project from CommonJS to ESM
+  - Support of node 16 and node 17
+  - Remove the use of ts-node
+  - Remove Webpack
+  - Update libraries to their last versions
 
 ## Releases
+- v1.0.3 - Release: 
+  - Add API documentation system ([OpenAPI](https://www.openapis.org/) and [APIDocJS](https://apidocjs.com/))
+  - Add Socket.IO full support
 - v1.0.2 - Pre-release: 
   - Add of TypeORM support and improvement of directory structure and documentation.
   - Add comments on published code (JSDoc/Tsdoc)
