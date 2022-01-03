@@ -73,7 +73,7 @@ class EventsManagerTool {
    */
   protected async initializeListenersBundle (): Promise<boolean> {
     logger.info('[events manager] load events listeners...');
-    const list = fs.readdirSync(new URL('.', import.meta.url).pathname + '/../../../core/', { withFileTypes: true });
+    const list = fs.readdirSync(new URL('.', import.meta.url).pathname + '../../../core/', { withFileTypes: true });
     for (let i = 0; i < list.length; i++) {
       if (list[i].isDirectory()) {
         logger.info('load bundle ' + list[i].name + ' listeners' );
@@ -95,15 +95,15 @@ class EventsManagerTool {
    * @returns {Promise<void>}
    */
   protected async readPath (_bundlePath: string): Promise<void> {
-    if (!fs.existsSync(new URL('.', import.meta.url).pathname + '/../../../core/' + _bundlePath)) {
+    if (!fs.existsSync(new URL('.', import.meta.url).pathname + '../../../core/' + _bundlePath)) {
       return;
     }
-    const eventListenerSociete = fs.readdirSync(new URL('.', import.meta.url).pathname + '/../../../core/' + _bundlePath);
+    const eventListenerSociete = fs.readdirSync(new URL('.', import.meta.url).pathname + '../../../core/' + _bundlePath);
     for (let i = 0; i < eventListenerSociete.length; i++) {
-      if (eventListenerSociete[i].indexOf('.event') !== -1) {
+      if (eventListenerSociete[i].endsWith('.event.js') || eventListenerSociete[i].endsWith('.event.ts')) {
         logger.info('Load listener ' + eventListenerSociete[i]);
-        // const eventListenerSocieteName = eventListenerSociete[i].substr(0, eventListenerSociete[i].indexOf('.event'));
-        const moduleEventListener = await import(new URL('.', import.meta.url).pathname + '/../../../core/' + _bundlePath + eventListenerSociete[i]);
+        const pathOfModule = new URL('.', import.meta.url).pathname + '../../../core/' + _bundlePath + eventListenerSociete[i];
+        const moduleEventListener = await import(pathOfModule);
         const keyListeners = Object.keys(moduleEventListener);
         const keyListener = keyListeners.length > 0 ? keyListeners[0] : 'default';
         const eventListener: BaseEventListener = new moduleEventListener[keyListener]();

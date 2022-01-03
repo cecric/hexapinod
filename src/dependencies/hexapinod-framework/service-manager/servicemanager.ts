@@ -78,7 +78,7 @@ class ServiceManagerTool {
    */
   protected async initializeServiceBundle (): Promise<boolean> {
     logger.info('[service manager] initialization services started');
-    const list = fs.readdirSync(new URL('.', import.meta.url).pathname + '/../../../core/', { withFileTypes: true });
+    const list = fs.readdirSync(new URL('.', import.meta.url).pathname + '../../../core/', { withFileTypes: true });
     for (let i = 0; i < list.length; i++) {
       if (list[i].isDirectory()) {
         logger.info('load bundle ' + list[i].name + ' services' );
@@ -100,13 +100,13 @@ class ServiceManagerTool {
    */
   protected async initializeServicesClass (_directory: string): Promise<boolean> {
     this.services = [];
-    const list = fs.readdirSync(new URL('.', import.meta.url).pathname + '/../../../core/' + _directory);
+    const list = fs.readdirSync(new URL('.', import.meta.url).pathname + '../../../core/' + _directory);
     for (let i = 0; i < list.length; i++) {
-      if (list[i].indexOf('.ts') === -1 || list[i].indexOf('.service.ts') === -1) {
+      if (!list[i].endsWith('.service.ts') && !list[i].endsWith('.service.js')) {
         continue;
       }
       logger.info('load service ' + list[i]);
-      const service = await import(new URL('.', import.meta.url).pathname + '/../../../core/' + _directory + list[i]);
+      const service = await import(new URL('.', import.meta.url).pathname + '../../../core/' + _directory + list[i]);
       const keyservices = Object.keys(service);
       const keyservice = keyservices.length > 0 ? keyservices[0] : 'default';
       const servname = list[i].substr(0, list[i].indexOf('.service'));

@@ -102,12 +102,12 @@ export abstract class BaseCommand {
    * @returns {Promise<void>}
    */
   public static async importCommands (_cliinstance: Command): Promise<void> {
-    const list = fs.readdirSync('./src/application/cli');
+    const list = fs.readdirSync(new URL('.', import.meta.url).pathname);
     for (let i = 0; i < list.length; i++) {
-      if (list[i].indexOf('.ts') === -1 || list[i].indexOf('.command.ts') === -1) {
+      if (!list[i].endsWith('.command.ts') && !list[i].endsWith('.command.js')) {
         continue;
       }
-      const localcommand = await import(new URL('.', import.meta.url).pathname + '/' + list[i]);
+      const localcommand = await import(new URL('.', import.meta.url).pathname + list[i]);
       const keycommands = Object.keys(localcommand);
       const keycommand = keycommands.length > 0 ? keycommands[0] : 'default';
       const instcommand:BaseCommand = new localcommand[keycommand]();

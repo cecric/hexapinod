@@ -15,14 +15,14 @@ import fs from 'fs';
  * @returns {Promise<any>}
  */
 export async function initializeRoutes (_router: Router, _path = ''): Promise<any> {
-  const list = fs.readdirSync(new URL('.', import.meta.url).pathname + '/' + _path);
+  const list = fs.readdirSync(new URL('.', import.meta.url).pathname + _path);
   for (let i = 0; i < list.length; i++) {
     const curname = _path + '/' + list[i];
-    if (fs.existsSync(new URL('.', import.meta.url).pathname + '/' + curname) && fs.lstatSync(new URL('.', import.meta.url).pathname + '/' + curname).isDirectory()) {
+    if (fs.existsSync(new URL('.', import.meta.url).pathname + curname) && fs.lstatSync(new URL('.', import.meta.url).pathname + curname).isDirectory()) {
       await initializeRoutes(_router, curname);
       continue;
     }
-    if (list[i].indexOf('.ts') === -1 || list[i].indexOf('.routes.ts') === -1) {
+    if (!list[i].endsWith('.routes.ts') && !list[i].endsWith('.routes.js')) {
       continue;
     }
     logger.info('load route file ' + new URL('.', import.meta.url).pathname + curname);
