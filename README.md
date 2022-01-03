@@ -177,10 +177,10 @@ Here you will find a list of the next features to include into the project and t
 ## Upcoming release
 - v1.1.0 - Release: 
   - Switch the project from CommonJS to ESM
-  - Support of node 16 and node 17
-  - Remove the use of ts-node
-  - Remove Webpack
-  - Update libraries to their last versions
+  - Add support of node 16 and node 17
+  - Remove of ts-node
+  - Remove webpack tools
+  - Update libraries to their last version (to support node 16/17 and ESM)
 
 ## Releases
 - v1.0.3 - Release: 
