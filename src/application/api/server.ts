@@ -8,7 +8,6 @@ import fs from 'fs';
 import https from 'https';
 import http from 'http';
 import os from 'os';
-import { Server } from 'socket.io';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import winston from 'winston';
@@ -16,6 +15,7 @@ import expressWinston from 'express-winston';
 import { ConfigurationReader } from '@dependencies/configuration-reader/configurationreader';
 import expressJSDocSwagger from 'express-jsdoc-swagger';
 import { SwaggerUiOptions } from 'swagger-ui-express';
+import { WebSocketServer } from './wsserver';
 
 /**
  * Application server to launch http(s) server and load dynamically the corresponding routes
@@ -37,6 +37,7 @@ export class ApplicationServer {
    * @type {express.Application}
    */
   public app: express.Application;
+
 
   /**
    * Configuration server
@@ -236,19 +237,6 @@ export class ApplicationServer {
   }
 
 
-  /**
-   * Handle the socket event for Socket.io
-   * @date 20/09/2021 - 08:00:00
-   * @author cecric
-   *
-   * @protected
-   * @param {unknown} _socket
-   */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected onSocketServer(_socket: unknown): void {
-    logger.info('socket.io: socket connected');
-    // TODO handle the socket event
-  }
 
   /**
    * Internal launch server routine
@@ -258,22 +246,19 @@ export class ApplicationServer {
    * @protected
    */
   protected launchServer(): void {
-    if (this.configuration['https'] && this.configuration['https']['activated']) {
+    if (this.configuration['https'] && this.configuration['https']['enabled']) {
       const privateKey = fs.readFileSync(this.configuration['https']['private_key_filepath'], 'utf8');
       const certificate = fs.readFileSync(this.configuration['https']['public_cert_filepath'], 'utf8');
       const credentials = {key: privateKey, cert: certificate};
-      const httpsServer = https.createServer(credentials, this.app);
-      const ioServer = new Server(httpsServer);
-      ioServer.on('connection', this.onSocketServer );
+      const httpsServer = WebSocketServer.launchSocketServer(https.createServer(credentials, this.app));
+
       const port = this.configuration['port'] || 3443;
       httpsServer.listen(this.configuration['host'] ? {'port': port, 'host': this.configuration['host']} : port);
       logger.success(`API worker ${process.pid} listening on port ${port} (HTTPS)`);
     } else {
       const port = this.configuration['port'] || 3000;
       // this.app.listen(port, () => logger.success(`API worker ${process.pid} listening on port ${port} (HTTP)`));
-      const httpServer = http.createServer(this.app);
-      const ioServer = new Server(httpServer);
-      ioServer.on('connection', this.onSocketServer );
+      const httpServer = WebSocketServer.launchSocketServer(http.createServer(this.app));
       httpServer.listen(this.configuration['host'] ? {'port': port, 'host': this.configuration['host']} : port);
       logger.success(`API worker ${process.pid} listening on port ${port} (HTTP)`);
     }

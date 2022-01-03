@@ -8,6 +8,7 @@
     "lib": "lib"
   },
   "dependencies": {
+    "@socket.io/redis-adapter": "^7.1.0",
     "ajv": "^8.6.2",
     "ajv-errors": "^3.0.0",
     "ajv-formats": "^2.1.1",
@@ -33,6 +34,7 @@
     "luxon": "^2.0.2",
     "mysql": "^2.17.1",
     "public-ip": "^4.0.2",
+    "redis": "^4.0.1",
     "reflect-metadata": "^0.1.13",
     "socket.io": "^4.2.0",
     "typeorm": "^0.2.38",
