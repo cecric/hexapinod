@@ -45,7 +45,7 @@ class ConfigurationReaderTool {
    */
   public static getInstance (): ConfigurationReaderTool {
     if (!ConfigurationReaderTool.instance) {
-      ConfigurationReaderTool.instance = new ConfigurationReaderTool(__dirname + '/../../../config/');
+      ConfigurationReaderTool.instance = new ConfigurationReaderTool(new URL('.', import.meta.url).pathname + '/../../../config/');
     }
     return ConfigurationReaderTool.instance;
   }
@@ -60,7 +60,7 @@ class ConfigurationReaderTool {
    * @param {string} _configurationDirectory
    */
   protected constructor(_configurationDirectory: string) {
-    // const confpath = __dirname + '/../../config/lib/mysql-manager.json';
+    // const confpath = new URL('.', import.meta.url).pathname + '/../../config/lib/mysql-manager.json';
     this.configurationDirectory = _configurationDirectory;
   }
 

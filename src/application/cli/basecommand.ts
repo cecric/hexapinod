@@ -107,7 +107,7 @@ export abstract class BaseCommand {
       if (list[i].indexOf('.ts') === -1 || list[i].indexOf('.command.ts') === -1) {
         continue;
       }
-      const localcommand = await import(__dirname + '/' + list[i]);
+      const localcommand = await import(new URL('.', import.meta.url).pathname + '/' + list[i]);
       const keycommands = Object.keys(localcommand);
       const keycommand = keycommands.length > 0 ? keycommands[0] : 'default';
       const instcommand:BaseCommand = new localcommand[keycommand]();

@@ -70,21 +70,21 @@ export class ValidatorService extends Service {
       addKeywords(this.instance);
       addErrors(this.instance);
       logger.info('[service manager] initialization validators');
-      const bundles = fs.readdirSync(__dirname + '/../../', { withFileTypes: true });
+      const bundles = fs.readdirSync(new URL('.', import.meta.url).pathname + '/../../', { withFileTypes: true });
       for (let i = 0; i < bundles.length; i++) {
         if (bundles[i].isDirectory()) {
           logger.info('load bundle ' + bundles[i].name + ' validators' );
-          if (!fs.existsSync(__dirname + '/../../' + bundles[i].name + '/services/validator')) {
-            logger.warn('path does\'t exists, no validator available for bundle: ' + __dirname + '/../../' + bundles[i].name + '/services/validator');
+          if (!fs.existsSync(new URL('.', import.meta.url).pathname + '/../../' + bundles[i].name + '/services/validator')) {
+            logger.warn('path does\'t exists, no validator available for bundle: ' + new URL('.', import.meta.url).pathname + '/../../' + bundles[i].name + '/services/validator');
             continue;
           }
-          const list = fs.readdirSync(__dirname + '/../../' + bundles[i].name + '/services/validator');
+          const list = fs.readdirSync(new URL('.', import.meta.url).pathname + '/../../' + bundles[i].name + '/services/validator');
           for (let j = 0; j < list.length; j++) {
             if (list[j].indexOf('.ts') === -1 || list[j].indexOf('.schema.ts') === -1) {
               continue;
             }
             try {
-              const schema = await import(__dirname + '/../../' + bundles[i].name + '/services/validator/' + list[j]);
+              const schema = await import(new URL('.', import.meta.url).pathname + '/../../' + bundles[i].name + '/services/validator/' + list[j]);
               const keyschemas = Object.keys(schema);
               const keyschema = keyschemas.length > 0 ? keyschemas[0] : 'default';
               this.instance.addSchema(schema[keyschema], list[j].substr(0, list[j].indexOf('.schema')));
