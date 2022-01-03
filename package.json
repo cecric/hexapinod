@@ -73,9 +73,9 @@
     "test": "npm run test-lint && npm run test-unit",
     "test-lint": "npx eslint . --ignore-pattern 'apidoc/' --ignore-pattern 'documentation/' --ignore-pattern 'dist/' ; EXIT_STATUS=$? ; jsonlint -q ./config/**/*.json ./src/**/*.json ; EXIT_STATUS=$? ; exit $EXIT_STATUS ; ",
     "test-unit": "npx mocha -r ts-node/register -r tsconfig-paths/register src/application/tests/**/*.test.ts",
-    "serve": "npx nodemon --watch src/ -e ts --ignore 'src/**/*.spec.ts' --exec 'ts-node' -r tsconfig-paths/register --project tsconfig.json app.ts server",
+    "serve": "npx nodemon --watch src/ -e ts --ignore 'src/**/*.spec.ts' --exec 'npx tsc --project tsconfig.json --skipLibCheck && tsc-alias -p tsconfig.json -f && node --enable-source-maps  ./dist/app.js server'",
     "dev": "npm run serve",
-    "cli": "npx ts-node -r tsconfig-paths/register ./app.ts",
+    "cli": "npx tsc --project tsconfig.json --skipLibCheck && tsc-alias -p tsconfig.json -f && node --enable-source-maps  ./dist/app.js",
     "build": "npx tsc --project tsconfig.json && npx tsc-alias -p tsconfig.json -f"
   },
   "repository": {
