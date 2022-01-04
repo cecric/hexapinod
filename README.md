@@ -63,8 +63,8 @@ You can then extract into your project folder (replace of course /my/project/fol
 ```
 mkdir /my/project/folder
 cd ./hexapinod
-git archive --format=tar.gz v1.0.3 > hexapinod-1.0.3.tar.gz
-tar -xzf ./hexapinod-1.0.3.tar.gz -C /my/project/folder
+git archive --format=tar.gz v1.1.0 > hexapinod-1.1.0.tar.gz
+tar -xzf ./hexapinod-1.1.0.tar.gz -C /my/project/folder
 rm -rf /tmp/mytemporaryfolder
 cd /my/project/folder
 ```
@@ -170,19 +170,21 @@ And if you want [to buy me a coffee](https://www.buymeacoffee.com/cecric), I wil
 # Roadmap and upcoming releases
 Here you will find a list of the next features to include into the project and the upcoming development:
 - Add GraphQL requests
-- Add postgreSQL support on native ORM.
+- Add pipeline (RabbitMQ/Kafka supports)
 - Add right management on serialization of models.
-- Add nosql (mongodb, redis and elasticsearch) support on native ORM.
 
 ## Upcoming release
+- v1.1.1 - Release: 
+  - Add postgreSQL support on native ORM.
+  - Add nosql (mongodb, redis and elasticsearch) support on native ORM.
+
+## Releases
 - v1.1.0 - Release: 
   - Switch the project from CommonJS to ESM
   - Add support of node 16 and node 17
   - Remove of ts-node
   - Remove webpack tools
   - Update libraries to their last version (to support node 16/17 and ESM)
-
-## Releases
 - v1.0.3 - Release: 
   - Add API documentation system ([OpenAPI](https://www.openapis.org/) and [APIDocJS](https://apidocjs.com/))
   - Add Socket.IO full support
