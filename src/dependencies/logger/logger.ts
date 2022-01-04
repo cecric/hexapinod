@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import flatted from 'flatted';
+import * as flatted from 'flatted';
 
 
 /**

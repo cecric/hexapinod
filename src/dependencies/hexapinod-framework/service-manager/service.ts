@@ -88,7 +88,7 @@ export abstract class Service {
       } else {
         logger.info('Launch subprocess with nodejs');
         const inspector = { 'execArgv': [], 'env': process.env }; //  --inspect-brk
-        forkedProcess = fork('dist/bundle.js', ['subprocess'], inspector);
+        forkedProcess = fork('dist/app.js', ['subprocess'], inspector);
       }
       const pid = forkedProcess.pid; // + '_' + Date.now();
       let result = undefined;

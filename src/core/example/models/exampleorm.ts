@@ -1,5 +1,7 @@
 import { Model } from '@dependencies/hexapinod-framework/model/model';
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+// issue with ESM project: https://github.com/typeorm/typeorm/issues/8418
+// import { Column, Entity, PrimaryColumn } from 'typeorm';
+import TypeORM from 'typeorm';
 
 /**
  * Example of model entity class using typeORM
@@ -11,7 +13,7 @@ import { Column, Entity, PrimaryColumn } from 'typeorm';
  * @typedef {ExampleOrm}
  * @extends {Model}
  */
-@Entity()
+@TypeORM.Entity()
 export class ExampleOrm extends Model {
 
     /**
@@ -22,7 +24,7 @@ export class ExampleOrm extends Model {
      * @protected
      * @type {number}
      */
-    @PrimaryColumn()
+    @TypeORM.PrimaryColumn()
     protected id: number;
 
     /**
@@ -33,7 +35,7 @@ export class ExampleOrm extends Model {
      * @protected
      * @type {string}
      */
-    @Column()
+    @TypeORM.Column()
     protected example: string;
 
     /**
@@ -44,7 +46,7 @@ export class ExampleOrm extends Model {
      * @protected
      * @type {Date}
      */
-    @Column()
+    @TypeORM.Column()
     protected dateExample: Date;
 
     /**

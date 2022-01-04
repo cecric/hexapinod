@@ -1,6 +1,8 @@
 import { IExampleOrm } from '@core/example/interfaces/repositories/exampleorm.interface';
 import { ExampleOrm } from '@core/example/models/exampleorm';
-import { EntityRepository, Repository } from 'typeorm';
+// issue with ESM project: https://github.com/typeorm/typeorm/issues/8418
+// import { EntityRepository, Repository } from 'typeorm';
+import TypeORM from 'typeorm';
 
 
 
@@ -15,8 +17,8 @@ import { EntityRepository, Repository } from 'typeorm';
  * @extends {Repository<ExampleOrm>}
  * @implements {IExampleOrm}
  */
-@EntityRepository(ExampleOrm)
-export class ExampleRepository extends Repository<ExampleOrm> implements IExampleOrm {
+@TypeORM.EntityRepository(ExampleOrm)
+export class ExampleRepository extends TypeORM.Repository<ExampleOrm> implements IExampleOrm {
 
   /**
    * return the result of an example request
