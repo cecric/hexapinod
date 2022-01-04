@@ -47,7 +47,7 @@ I added a wrapper to call command line from typeOrm directly with the framework.
 
 ## Prerequisites
 
-NodeJS v12 or above (it could also works on lower version of node, but we did not test it), and that's it.
+NodeJS v14 or above, and that's it.
 The following commands are for linux debian, but it might work on Windows and MacOS too.
 
 ## Installation
