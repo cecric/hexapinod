@@ -4,7 +4,7 @@
     "swagger-ui-path": "/api-docs",
     "swagger-json-path": "/v3/api-docs",
     "info": {
-        "version": "1.0.3",
+        "version": "1.1.0",
         "title": "Hexapinod Server",
         "description": "Hexagonal Architecture API Framework/Skeleton in TypeScript and using nodeJS with expressJS",
         "license": {
