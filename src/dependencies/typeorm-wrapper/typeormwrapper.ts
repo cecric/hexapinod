@@ -1,7 +1,9 @@
 import { IRepository } from '@core/hexapinod/interfaces/repositories/repository.interface';
 import { ConfigurationReader } from '@dependencies/configuration-reader/configurationreader';
 import { OrmWrapper } from '@dependencies/hexapinod-framework/model/ormwrapper';
-import { Connection, createConnections, ObjectType } from 'typeorm';
+// issue with ESM project: https://github.com/typeorm/typeorm/issues/8418
+// import { Connection, createConnections, ObjectType } from 'typeorm';
+import TypeORM from 'typeorm';
 
 
 /**
@@ -36,7 +38,7 @@ export class TypeOrmWrapper extends OrmWrapper {
    * @protected
    * @type {Array<Connection>}
    */
-  protected connections: Array<Connection>;
+  protected connections: Array<TypeORM.Connection>;
 
   /**
    * Initialize the ORM (load the databases configuration with the configuration reader)
@@ -48,7 +50,7 @@ export class TypeOrmWrapper extends OrmWrapper {
    */
   async initialization (): Promise<void> {
     const dbconfs: any = ConfigurationReader.getConfiguration('dependencies/typeorm');
-    this.connections = await createConnections(dbconfs);
+    this.connections = await TypeORM.createConnections(dbconfs);
   }
 
 
@@ -64,7 +66,7 @@ export class TypeOrmWrapper extends OrmWrapper {
    */
   // eslint-disable-next-line @typescript-eslint/ban-types
   public getRepository (_entityModel: Function & IRepository, _connectionName?:string): IRepository {
-    return (_connectionName ? this.connections.find(val => val['name'] === _connectionName) : this.connections[0]).getCustomRepository(_entityModel as ObjectType<IRepository>) as IRepository;
+    return (_connectionName ? this.connections.find(val => val['name'] === _connectionName) : this.connections[0]).getCustomRepository(_entityModel as TypeORM.ObjectType<IRepository>) as IRepository;
   }
 
 }
