@@ -91,12 +91,12 @@ npm run test
 If you want to launch the server in build mode, you have to compile first and the launch it with node:
 ```
 npm run build
-node dist/bundle.js server
+node dist/app.js server
 ```
 
 You can launch other command line that you defined by using other parameters in your call, for example:
 ```
-node dist/bundle.js test
+node dist/app.js test
 ```
 
 To run it as a service and monitor it, we recommends to use [pm2](https://pm2.keymetrics.io/), which will launch as a daemon and centralize the monitoring. It helps also for log rotate.
@@ -105,7 +105,7 @@ To run it as a service and monitor it, we recommends to use [pm2](https://pm2.ke
 npm install pm2@latest -g
 
 # launch the service (you need to build it before)
-pm2 start --name my_app_name dist/bundle.js -- server
+pm2 start --name my_app_name dist/app.js -- server
 
 # restart the service
 pm2 restart my_app_name
@@ -127,7 +127,7 @@ npm run cli typeorm
 
 Or if you have already compiled the project:
 ```
-node dist/bundle.js typeorm <typeorm-command>...
+node dist/app.js typeorm <typeorm-command>...
 ```
 
 Before starting anything with the ORM, you have to update the configurations with your needs into the folder:
