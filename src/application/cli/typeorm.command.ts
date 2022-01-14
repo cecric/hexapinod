@@ -102,11 +102,10 @@ export class TypeORMCommand extends BaseCommand {
     const tmpConfigurationPath = fs.mkdtempSync(path.join(os.tmpdir(), 'hexapinod'));
     const relativeConfigurationPath = path.relative(process.cwd(), tmpConfigurationPath);
     try {
-      fs.mkdirSync(tmpConfigurationPath);
       const dbconfs: any = ConfigurationReader.getConfiguration('dependencies/typeorm');
       const data = JSON.stringify(dbconfs);
       fs.writeFileSync(tmpConfigurationPath + '/typeorm.json', data);
-      let command = 'node ' + new URL('.', import.meta.url).pathname + '../../../node_modules/typeorm/cli.js';
+      let command = 'node ' + new URL('.', import.meta.url).pathname + '../../../../node_modules/typeorm/cli.js';
 
       switch (argument) {
       case 'version':
@@ -207,7 +206,7 @@ export class TypeORMCommand extends BaseCommand {
     } finally {
       try {
         if (tmpConfigurationPath) {
-          fs.rmdirSync(tmpConfigurationPath, { recursive: true });
+          fs.rmSync(tmpConfigurationPath, { recursive: true });
         }
       } catch (e) {
         logger.error(`An error has occurred while removing the temporary folder at ${tmpConfigurationPath}. Error: ${e}`);
