@@ -172,12 +172,12 @@ Here you will find a list of the next features to include into the project and t
 - Add GraphQL requests
 - Add pipeline (RabbitMQ/Kafka supports)
 - Add right management on serialization of models.
-- Add cache system
 
 ## Upcoming release
 - v1.1.1 - Release: 
   - Add postgreSQL support on native ORM.
   - Add nosql (mongodb, redis and elasticsearch) support on native ORM.
+  - Add cache system
 
 ## Releases
 - v1.1.0 - Release: 
