@@ -6,5 +6,14 @@
   },
   "port": 3000,
   "host": null,
-  "clustering": true
+  "clustering": true,
+  "json_body": {
+    "max_size": "2mb"
+  },
+  "rate_limiter": {
+    "enabled": true,
+    "window_ms": 900000,
+    "max_requests_per_window": 2000,
+    "block_message": "Too many requests from this IP, please wait a moment."
+  }
 }

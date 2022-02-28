@@ -146,18 +146,20 @@ export class ApplicationServer {
    */
   private async config(): Promise<void> {
     // TODO pass the 2mb as a configuration parameter
-    this.app.use(express.json({limit: '2mb'}));
+    this.app.use(express.json({limit: this.configuration['json_body'] && this.configuration['json_body']['max_size'] ? this.configuration['json_body']['max_size'] : '2mb'}));
     this.app.use(express.urlencoded({ extended: false }));
 
-    // TODO pass the rate limit as a configuration parameter
-    const limiter = rateLimit({
-      windowMs: 15 * 60 * 1000,
-      max: 2000, // limit 2000 requests / 15min / ip (40 threads in production -store memmory used- => 320000/h/ip ==> 5333 /min/ip )
-      message: 'Too many requests from this IP, please wait a moment.',
-      onLimitReached: function (req) { // , res, options
-        logger.warn(req.ip + ' rateLimit reached');
-      }
-    });
+    if (this.configuration['rate_limiter'] && this.configuration['rate_limiter']['enabled']) {
+      const limiter = rateLimit({
+        windowMs: this.configuration['rate_limiter']['window_ms'] || (15 * 60 * 1000), // default : window of 15mn (900000ms)
+        max: this.configuration['rate_limiter']['max_requests_per_window'] || 2000, // limit 2000 requests / 15min / ip (40 threads in production -store memmory used- => 320000/h/ip ==> 5333 /min/ip )
+        message: this.configuration['rate_limiter']['block_message'] || 'Too many requests from this IP, please wait a moment.',
+        onLimitReached: function (req) { // , res, options
+          logger.warn(req.ip + ' rateLimit reached');
+        }
+      });
+      this.app.use(limiter);
+    }
     if (this.configurationOpenApi['swagger-json'] || this.configurationOpenApi['swagger-ui']) {
       logger.info('init: OpenAPI Swagger...');
       expressJSDocSwagger(this.app)(this.getOpenApiConfiguration());
@@ -166,7 +168,6 @@ export class ApplicationServer {
     } else {
       logger.info('disabled: OpenAPI Swagger');
     }
-    this.app.use(limiter);
     this.app.use(helmet());
     this.app.use(expressWinston.logger({
       transports: [
