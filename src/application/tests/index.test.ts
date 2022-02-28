@@ -1,6 +1,6 @@
 import * as dotenv from 'dotenv';
 import { expect } from 'chai';
-dotenv.config({ path: new URL('.', import.meta.url).pathname + '../../../.env.test' });
+dotenv.config({ path: decodeURI(new URL('.', import.meta.url).pathname) + '../../../.env.test' });
 
 
 /**

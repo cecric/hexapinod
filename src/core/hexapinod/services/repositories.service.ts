@@ -57,10 +57,10 @@ export class RepositoriesService extends Service {
       return this.repositories[_className];
     }
     const reponame = _className.toLowerCase() + '.repo';
-    if (!fs.existsSync(new URL('.', import.meta.url).pathname + '../../../infrastructure/repositories/' + (process.env.SERVICE_REPOSITORY_FOLDERS ? process.env.SERVICE_REPOSITORY_FOLDERS + '/' : '') + reponame + '.ts') && !fs.existsSync(new URL('.', import.meta.url).pathname + '../../../infrastructure/repositories/' + (process.env.SERVICE_REPOSITORY_FOLDERS ? process.env.SERVICE_REPOSITORY_FOLDERS + '/' : '') + reponame + '.js')) {
-      throw new GenericException('repository not found: ' + reponame + ' (' + _className + ') in directory ' + new URL('.', import.meta.url).pathname + '../../../infrastructure/repositories/' + (process.env.SERVICE_REPOSITORY_FOLDERS ? process.env.SERVICE_REPOSITORY_FOLDERS + '/': ''));
+    if (!fs.existsSync(decodeURI(new URL('.', import.meta.url).pathname) + '../../../infrastructure/repositories/' + (process.env.SERVICE_REPOSITORY_FOLDERS ? process.env.SERVICE_REPOSITORY_FOLDERS + '/' : '') + reponame + '.ts') && !fs.existsSync(decodeURI(new URL('.', import.meta.url).pathname) + '../../../infrastructure/repositories/' + (process.env.SERVICE_REPOSITORY_FOLDERS ? process.env.SERVICE_REPOSITORY_FOLDERS + '/' : '') + reponame + '.js')) {
+      throw new GenericException('repository not found: ' + reponame + ' (' + _className + ') in directory ' + decodeURI(new URL('.', import.meta.url).pathname) + '../../../infrastructure/repositories/' + (process.env.SERVICE_REPOSITORY_FOLDERS ? process.env.SERVICE_REPOSITORY_FOLDERS + '/': ''));
     }
-    const paramRepo = await import(new URL('.', import.meta.url).pathname + '../../../infrastructure/repositories/' + (process.env.SERVICE_REPOSITORY_FOLDERS ? process.env.SERVICE_REPOSITORY_FOLDERS + '/': '') + reponame + '.js');
+    const paramRepo = await import(decodeURI(new URL('.', import.meta.url).pathname) + '../../../infrastructure/repositories/' + (process.env.SERVICE_REPOSITORY_FOLDERS ? process.env.SERVICE_REPOSITORY_FOLDERS + '/': '') + reponame + '.js');
     const keyRepositories = Object.keys(paramRepo);
     const keyRepository = keyRepositories.length > 0 ? keyRepositories[0] : 'default';
     const repository = paramRepo[keyRepository];

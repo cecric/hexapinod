@@ -105,7 +105,7 @@ export class TypeORMCommand extends BaseCommand {
       const dbconfs: any = ConfigurationReader.getConfiguration('dependencies/typeorm');
       const data = JSON.stringify(dbconfs);
       fs.writeFileSync(tmpConfigurationPath + '/typeorm.json', data);
-      let command = 'node ' + new URL('.', import.meta.url).pathname + '../../../../node_modules/typeorm/cli.js';
+      let command = 'node ' + decodeURI(new URL('.', import.meta.url).pathname) + '../../../../node_modules/typeorm/cli.js';
 
       switch (argument) {
       case 'version':

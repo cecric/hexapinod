@@ -113,7 +113,7 @@ export class ApplicationServer {
     return {
       info: this.configurationOpenApi.info as InfoObject,
       security: this.configurationOpenApi.security as Security,
-      baseDir: new URL('.', import.meta.url).pathname,
+      baseDir: decodeURI(new URL('.', import.meta.url).pathname),
       // Glob pattern to find your jsdoc files (multiple patterns can be added in an array)
       filesPattern: './rest/routes/**/*.routes.js',
       // URL where SwaggerUI will be rendered
