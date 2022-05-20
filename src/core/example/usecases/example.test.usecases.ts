@@ -4,7 +4,7 @@ import { ServiceManager } from '@dependencies/hexapinod-framework/service-manage
 import { logger } from '@dependencies/logger/logger';
 import { UseCases } from '@dependencies/hexapinod-framework/usecases/usecases';
 import { OrmRepositoriesService } from '@core/hexapinod/services/ormrepositories.service';
-import { ExampleOrm } from '../models/exampleorm';
+import { ExampleOrm } from '../models/exampletypeorm';
 import { IExampleOrm } from '../interfaces/repositories/exampleorm.interface';
 import { ValidatorService } from '@core/hexapinod/services/validator.service';
 import { Example } from '../models/example';
@@ -58,8 +58,8 @@ export class ExampleTestUsecases extends UseCases {
     logger.log(result.toObject());
     const ormrepositoriesService: OrmRepositoriesService = await ServiceManager.get<OrmRepositoriesService>(OrmRepositoriesService.name);
     const repo2 = await ormrepositoriesService.getRepository(ExampleOrm) as IExampleOrm;
-    const result2 = await repo2.getExample();
-    logger.log(result2.toObject());
+    const result2 = await repo2.getExamples();
+    logger.log(result2.map(val => val.toObject()));
     return {'ok': true};
   }
 

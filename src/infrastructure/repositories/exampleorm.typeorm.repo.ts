@@ -1,8 +1,6 @@
 import { IExampleOrm } from '@core/example/interfaces/repositories/exampleorm.interface';
-import { ExampleOrm } from '@core/example/models/exampleorm';
-// issue with ESM project: https://github.com/typeorm/typeorm/issues/8418
-// import { EntityRepository, Repository } from 'typeorm';
-import TypeORM from 'typeorm';
+import { ExampleMikroOrm } from '@core/example/models/examplemikroorm';
+import { EntityRepository } from '@mikro-orm/mariadb';
 
 
 
@@ -17,8 +15,7 @@ import TypeORM from 'typeorm';
  * @extends {Repository<ExampleOrm>}
  * @implements {IExampleOrm}
  */
-@TypeORM.EntityRepository(ExampleOrm)
-export class ExampleRepository extends TypeORM.Repository<ExampleOrm> implements IExampleOrm {
+export class ExampleRepository extends EntityRepository<ExampleMikroOrm> implements IExampleOrm {
 
   /**
    * return the result of an example request
@@ -28,13 +25,10 @@ export class ExampleRepository extends TypeORM.Repository<ExampleOrm> implements
    * @public
    * @returns {Promise<ExampleOrm>}
    */
-  public getExample(): Promise<ExampleOrm> {
-    const request = /*sql*/`
-        SELECT 
-          1 AS example
-        ;
-      `;
-    return this.query(request);
+  public getExamples(): Promise<ExampleMikroOrm[]> {
+    return this.createQueryBuilder('a')
+      .select('*')
+      .getResultList();
   }
 
 }

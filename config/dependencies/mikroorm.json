@@ -1,0 +1,19 @@
+{
+    "type": "mysql",
+    "dbName": "{{process.env.DB_MAIN_PWD}}",
+    "user": "{{process.env.DB_MAIN_USER}}",
+    "host": "{{process.env.DB_MAIN_HOST}}",
+    "port": "{{process.env.DB_MAIN_PORT}}",
+    "debug": true,
+    "entities": [
+        "./dist/src/core/example/models"
+    ],
+    "entitiesTs": [
+        "./src/core/example/models"
+    ],
+    "migrations": {
+        "tableName": "mikro_orm_migrations",
+        "path": "./src/infrastructure/migrations",
+        "transactional": true
+    }
+}

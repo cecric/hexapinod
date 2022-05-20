@@ -1,4 +1,4 @@
-import { ExampleOrm } from '@core/example/models/exampleorm';
+import { ExampleMikroOrm } from '@core/example/models/examplemikroorm';
 import { IRepository } from '@core/hexapinod/interfaces/repositories/repository.interface';
 
 /**
@@ -20,5 +20,5 @@ export interface IExampleOrm extends IRepository {
      *
      * @returns {Promise<ExampleOrm>}
      */
-    getExample(): Promise<ExampleOrm> ;
+    getExamples(): Promise<ExampleMikroOrm[]> ;
 }

@@ -1,7 +1,7 @@
 import { IRepository } from '@core/hexapinod/interfaces/repositories/repository.interface';
 import { Service } from '@dependencies/hexapinod-framework/service-manager/service';
 import { OrmWrapper } from '@dependencies/hexapinod-framework/model/ormwrapper';
-import { TypeOrmWrapper } from '@dependencies/typeorm-wrapper/typeormwrapper';
+import { MikroOrmWrapper } from '@dependencies/mikroorm-wrapper/mikroormwrapper';
 
 
 /**
@@ -62,7 +62,7 @@ export class OrmRepositoriesService extends Service {
    * @returns {Promise<void>}
    */
   public async initialization(): Promise<void> {
-    this.entityManagerWrapped = new TypeOrmWrapper();
+    this.entityManagerWrapped = new MikroOrmWrapper();
     await this.entityManagerWrapped.initialization();
   }
 
